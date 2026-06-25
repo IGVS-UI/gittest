@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vr Explore</title>
+    <link rel="stylesheet" href="pt.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <nav-bar>
+            <div class="nav-left">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <h1>Vr<p class="sub-title">Explore</p></h1>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-center">
+                <img src="/img/Group51(1).png" alt="logo" class="logo">
+            </div>
+            <div class="nav-right">
+                <button class="nav-btn">Login</button>
+                <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            </div>
+        </nav-bar>
+    </header>
+
+    <!-- MENU OVERLAY -->
+    <div id="menu-overlay" class="menu-overlay">
+        <canvas id="wc" class="menu-canvas"></canvas>
+        <div class="menu-overlay-content">
+            <div class="menu-header">
+                <a href="#"><h1>Vr<p class="sub-title">Explore</p></h1></a>
+                <button class="close-btn" onclick="toggleMenu()">&#x2715;</button>
+            </div>
+            <div class="menu-body">
+                <div class="menu-cards-section">
+                    <div class="menu-card">
+                        <h3>Explorar</h3>
+                        <p>Descubra mundos imersivos</p>
+                    </div>
+                    <div class="menu-card2">
+                        <h3>Experiências</h3>
+                        <p>Viva novas aventuras</p>
+                    </div>
+                    <div class="menu-card3">
+                        <h3>Jogos</h3>
+                        <p>Divirta-se em VR</p>
+                    </div>
+                    <div class="menu-card">
+                        <h3>Comunidade</h3>
+                        <p>Conecte-se com outros</p>
+                    </div>
+                </div>
+
+                <nav class="menu-nav">
+                    <a href="#" class="menu-nav-item">
+                        <span class="text-wrapper">
+                            <span class="text top">HOME</span>
+                            <span class="text bottom">HOME</span>
+                        </span>
+                    </a>
+                    <a href="#" class="menu-nav-item">
+                        <span class="text-wrapper">
+                            <span class="text top">TECNOLOGIAS</span>
+                            <span class="text bottom">TECNOLOGIAS</span>
+                        </span>
+                    </a>
+                    <a href="#" class="menu-nav-item">
+                        <span class="text-wrapper">
+                            <span class="text top">EXPLORE</span>
+                            <span class="text bottom">EXPLORE</span>
+                        </span>
+                    </a>
+                    <a href="#" class="menu-nav-item">
+                        <span class="text-wrapper">
+                            <span class="text top">INTERAÇÕES</span>
+                            <span class="text bottom">INTERAÇÕES</span>
+                        </span>
+                    </a>
+                    <img src="./img/Group 51.png" alt="logo" class="section-logo">
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO - efeito máscara -->
+    <main class="main-content">
+        <section class="hero-section">
+            <canvas id="hero-canvas"></canvas>
+        </section>
+
+        <div class="container-vr">
+            <h1>VR Explore</h1>
+
+        </div>
+        
+    </main>
+
+    <!-- FOOTER MELHORADO -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section footer-about">
+                <h3>VR Explore</h3>
+                <p>Descubra mundos imersivos e experiências inovadoras através da realidade virtual.</p>
+                <div class="social-links">
+                    <a href="#" class="social-icon">🎮</a>
+                    <a href="#" class="social-icon">📱</a>
+                    <a href="#" class="social-icon">🌐</a>
+                    <a href="#" class="social-icon">📧</a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h4>Navegação</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Explorar</a></li>
+                    <li><a href="#">Experiências</a></li>
+                    <li><a href="#">Jogos</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Recursos</h4>
+                <ul>
+                    <li><a href="#">Tecnologias</a></li>
+                    <li><a href="#">Documentação</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Suporte</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacidade</a></li>
+                    <li><a href="#">Termos</a></li>
+                    <li><a href="#">Cookies</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section footer-newsletter">
+                <h4>Newsletter</h4>
+                <p>Receba novidades sobre experiências VR</p>
+                <form class="newsletter-form" onsubmit="return false;">
+                    <input type="email" placeholder="Seu email" required>
+                    <button type="submit">Inscrever</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 VR Explore. Todos os direitos reservados.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Human Form</a>
+                <span>•</span>
+                <a href="#">Machine Logic</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Three.js local — sem dependencia de CDN externo -->
+    <script src="three.min.js"></script>
+
+    <!-- Scripts do projeto -->
+    <script src="pt.js"></script>
+    <script src="back_menu.js"></script>
+    <script src="hero_mask.js"></script>
+</body>
+</html>
