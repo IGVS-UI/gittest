@@ -3,7 +3,7 @@ import {
 vertexShader,
 fluidFragmentShader,
 displayFragmentShader,
-} from "./shaders.js";
+} from "./pagina__princiapl/js/shaders.js";
 
 window.addEventListener("load", init);
 
