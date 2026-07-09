@@ -225,7 +225,7 @@ function init() {
     simScene.add(new THREE.Mesh(geo, trailsMaterial));
     scene.add(new THREE.Mesh(geo, displayMaterial));
 
-    loadImg('../img/portrait_top.png',    'top',    topSz, refSz);
+    loadImg('../img/portrait_top (1).png',    'top',    topSz, refSz);
     loadImg('../img/portrait_bottom.png', 'bottom', botSz, refSz);
 
     window.addEventListener('mousemove', onMove);
