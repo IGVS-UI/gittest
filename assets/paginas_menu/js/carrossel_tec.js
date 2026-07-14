@@ -65,60 +65,38 @@ document.addEventListener('DOMContentLoaded', () => {
     const inlineWrapper = document.getElementById('carouselInline');
     const inlineTrack = document.getElementById('carouselInlineTrack');
     if (inlineWrapper && inlineTrack) {
-        const inlineSlides = Array.from(inlineTrack.children);
-        const count = inlineSlides.length;
-        let idx = 0;
-        const interval = 2500; // 2.5s
-        let t = null;
+        const baseSlides = Array.from(inlineTrack.children).map(slide => slide.cloneNode(true));
+        if (!baseSlides.length) return;
 
-        // measure widths and set consistent slide width
-        function setupInline() {
-            // reset any previously set widths
-            inlineSlides.forEach(s => {
-                s.style.minWidth = '';
-            });
-
-            // measure each
-            const widths = inlineSlides.map(s => Math.ceil(s.getBoundingClientRect().width));
-            const maxW = Math.max(...widths, 20);
-
-            // set wrapper width to maxW so only one slide shows
-            inlineWrapper.style.width = `${maxW}px`;
-            inlineWrapper.style.display = 'inline-block';
-            inlineWrapper.style.overflow = 'hidden';
-
-            // make each slide occupy the same width
-            inlineSlides.forEach(s => s.style.minWidth = `${maxW}px`);
-
-            inlineTrack.style.display = 'flex';
-            inlineTrack.style.width = `${maxW * count}px`;
-            inlineTrack.style.transition = 'transform 0.35s ease';
+        function appendSlides(group) {
+            baseSlides.forEach(slide => group.appendChild(slide.cloneNode(true)));
         }
 
-        function go(i) {
-            const slideWidth = inlineSlides[0].getBoundingClientRect().width;
-            inlineTrack.style.transform = `translateX(-${i * slideWidth}px)`;
+        function buildInfiniteMarquee() {
+            inlineTrack.innerHTML = '';
+
+            const group = document.createElement('span');
+            group.className = 'carousel-inline-group';
+            appendSlides(group);
+            inlineTrack.appendChild(group);
+
+            while (group.scrollWidth < window.innerWidth * 1.5) {
+                appendSlides(group);
+                if (group.children.length > 20) break;
+            }
+
+            const clone = group.cloneNode(true);
+            clone.setAttribute('aria-hidden', 'true');
+            inlineTrack.appendChild(clone);
+
+            const distance = group.scrollWidth;
+            const duration = Math.max(12, distance / 90);
+            inlineTrack.style.setProperty('--carousel-distance', `${distance}px`);
+            inlineTrack.style.setProperty('--carousel-duration', `${duration}s`);
+            inlineTrack.classList.add('is-marquee');
         }
 
-        function nxt() {
-            idx = (idx + 1) % count;
-            go(idx);
-        }
-
-        inlineWrapper.addEventListener('mouseenter', () => clearInterval(t));
-        inlineWrapper.addEventListener('mouseleave', () => { clearInterval(t); t = setInterval(nxt, interval); });
-
-        // initialize and start
-        setupInline();
-        go(0);
-        t = setInterval(nxt, interval);
-
-        // recompute on resize
-        window.addEventListener('resize', () => {
-            clearInterval(t);
-            setupInline();
-            go(idx);
-            t = setInterval(nxt, interval);
-        });
+        buildInfiniteMarquee();
+        window.addEventListener('resize', buildInfiniteMarquee);
     }
 });

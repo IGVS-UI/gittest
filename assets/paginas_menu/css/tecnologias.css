@@ -276,6 +276,8 @@ img { display: block; max-width: 100%; }
     display: flex;
     flex-direction: column;
     gap: 32px;
+    grid-column: 1 / -1;
+    width: 100%;
 }
 
 .hero-tec-text {
@@ -286,8 +288,9 @@ img { display: block; max-width: 100%; }
     display: flex;
     align-items: center;
     position: relative;
-    right:-5vw;
     justify-content: center;
+    width: 100vw;
+    margin-left: 0;
     font-family: 'Orbitron', sans-serif;
     font-size: clamp(3rem, 10vw, 20rem);
     font-weight: 1000;
@@ -297,6 +300,18 @@ img { display: block; max-width: 100%; }
     color: #5f00f7;
 
 
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
 .hero-title .italic-light {
@@ -380,9 +395,10 @@ img { display: block; max-width: 100%; }
 
 /* Inline carousel inside the hero title span */
 .carousel-inline {
-    display: inline-block;
+    display: block;
     vertical-align: middle;
     overflow: hidden;
+    width: 100vw;
     height: 1.1em; /* matches the line-height of the title */
     position: relative;
 }
@@ -390,18 +406,34 @@ img { display: block; max-width: 100%; }
 .carousel-inline-track {
     display: flex;
     align-items: center;
-    transition: transform 0.4s ease;
+    width: max-content;
     will-change: transform;
+}
+
+.carousel-inline-track.is-marquee {
+    animation: tecnologiasMarquee var(--carousel-duration, 18s) linear infinite;
+}
+
+.carousel-inline-group {
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
 }
 
 .carousel-inline-slide {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0 6px;
+    flex: 0 0 auto;
+    padding: 0 clamp(1.5rem, 4vw, 5rem);
     box-sizing: border-box;
     white-space: nowrap;
     line-height: 1.1em;
+}
+
+@keyframes tecnologiasMarquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(var(--carousel-distance, 50%) * -1)); }
 }
 
 .tag-title {
