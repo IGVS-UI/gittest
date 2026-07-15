@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function buildInfiniteMarquee() {
+            inlineTrack.classList.remove('is-marquee');
             inlineTrack.innerHTML = '';
 
             const group = document.createElement('span');
@@ -93,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const duration = Math.max(12, distance / 90);
             inlineTrack.style.setProperty('--carousel-distance', `${distance}px`);
             inlineTrack.style.setProperty('--carousel-duration', `${duration}s`);
+            inlineTrack.offsetHeight;
             inlineTrack.classList.add('is-marquee');
         }
 

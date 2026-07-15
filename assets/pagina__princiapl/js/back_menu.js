@@ -1,6 +1,8 @@
 const canvas = document.getElementById('wc');
-const ctx = canvas.getContext('2d');
 const menuOverlay = document.getElementById('menu-overlay');
+const ctx = canvas ? canvas.getContext('2d') : null;
+
+if (canvas && ctx && menuOverlay) {
 
 function resize() {
     // força dimensoes fisicas do canvas usando a janela (menu e fullscreen)
@@ -90,3 +92,4 @@ observer.observe(menuOverlay, { attributes: true, attributeFilter: ['class'] });
 window.addEventListener('resize', () => {
     if (menuOverlay.classList.contains('active')) resize();
 });
+}
