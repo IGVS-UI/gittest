@@ -2,6 +2,22 @@ const canvas = document.getElementById('wc');
 const menuOverlay = document.getElementById('menu-overlay');
 const ctx = canvas ? canvas.getContext('2d') : null;
 
+function toggleMenu() {
+    if (!menuOverlay) return;
+
+    if (menuOverlay.classList.contains('active')) {
+        menuOverlay.classList.add('closing');
+        setTimeout(() => {
+            menuOverlay.classList.remove('active');
+            menuOverlay.classList.remove('closing');
+        }, 300);
+    } else {
+        menuOverlay.classList.add('active');
+    }
+}
+
+window.toggleMenu = toggleMenu;
+
 if (canvas && ctx && menuOverlay) {
 
 function resize() {
@@ -86,6 +102,16 @@ const observer = new MutationObserver(() => {
 });
 
 observer.observe(menuOverlay, { attributes: true, attributeFilter: ['class'] });
+
+menuOverlay.addEventListener('click', function (e) {
+    if (e.target === menuOverlay) toggleMenu();
+});
+
+document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && menuOverlay.classList.contains('active')) {
+        toggleMenu();
+    }
+});
 
 window.addEventListener('resize', () => {
     if (menuOverlay.classList.contains('active')) resize();
