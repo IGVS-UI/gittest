@@ -32,4 +32,19 @@ document.addEventListener('DOMContentLoaded', function () {
     }, { threshold: 0.12 });
 
     reveals.forEach(function (el) { observer.observe(el); });
+
+    // ── FOOTER APPEAR / DISAPPEAR ──────────────────────
+    var footer = document.querySelector('footer.footer.reveal');
+    if (footer) {
+        var footerObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
+                }
+            });
+        }, { threshold: 0.12 });
+        footerObserver.observe(footer);
+    }
 });
