@@ -11,7 +11,7 @@ background-color: #111112;
 }
 
   .navbar {
-            position: absolute;
+            position: fixed;
             top: 0; left: 0;
             width: 100%;
             z-index: 100;
@@ -282,7 +282,9 @@ background-color: #111112;
             opacity: 0.45;
         }
 /* main-principal*/
-
-main{
-    display: flex;
+.tec-tetx{
+            min-height: 100vh;
+            padding-top: 80px;;
+            align-items: start;
+          
 }
