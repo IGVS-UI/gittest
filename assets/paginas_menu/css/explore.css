@@ -11,7 +11,7 @@ background-color: #111112;
 }
 
   .navbar {
-            position: absolute;
+            position: fixed;
             top: 0; left: 0;
             width: 100%;
             z-index: 100;
@@ -286,3 +286,157 @@ background-color: #111112;
 main{
     display: flex;
 }
+/* SEÇÃO  HERO-EXPLORE-TEC*/
+.hero-explore{
+       min-height: 100vh;
+       padding-top: 80px;
+       display: grid;
+       grid-template-columns: 1fr 1fr;
+       align-items: start;
+       overflow: visible;
+}
+.hero-explore-text {
+            padding: 60px 60px 60px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            grid-column: 1 / -1;
+            width: 100%;
+            height: auto;
+        }
+        .hero-explore-text {
+        align-items: center; /* centraliza horizontalmente os elementos dentro da coluna */
+        }
+
+        .hero-title {
+            display: flex;
+            align-items: center;
+            position: relative;
+            justify-content: center;
+            width: 100vw;
+            margin-left: 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(3rem, 10vw, 20rem);
+            font-weight: 1000;
+            line-height: 0.95;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            color: #ffffff;
+
+
+        }
+          .hero-title .italic-light {
+            overflow: visible;
+            font-family: "Condiment", cursive;
+            font-size: 15rem;
+            font-weight: 400;
+            font-style: normal;
+            color: #B16FF1;
+        }
+     
+         .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+         
+
+
+
+
+
+
+          /* Carousel styles for hero summary */
+        .hero-tec-desc {
+            overflow: hidden;
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.6s ease;
+            will-change: transform;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            padding: 14px 12px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .carousel-dots {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        .carousel-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .carousel-dot.active {
+            background: var(--purple);
+        }
+
+
+
+
+      /* Inline carousel inside the hero title span */
+        .carousel-inline {
+            display: block;
+            overflow: hidden;
+            width: 100vw;
+            height: 1.1em; /* matches the line-height of the title */
+            position: relative;
+        }
+
+        .carousel-inline-track {
+            display: flex;
+            align-items: center;
+            width: max-content;
+            will-change: transform;
+        }
+
+        .carousel-inline-track.is-marquee {
+            animation: tecnologiasMarquee var(--carousel-duration, 18s) linear infinite;
+        }
+
+         .carousel-inline-group {
+            display: flex;
+            align-items: center;
+            flex: 0 0 auto;
+        }
+         .carousel-inline-slide {
+            overflow: visible; 
+        }
+
+
+       
+
+        @keyframes tecnologiasMarquee {
+            from { transform: translateX(0); }
+            to { transform: translateX(calc(var(--carousel-distance, 50%) * -1)); }
+        }
