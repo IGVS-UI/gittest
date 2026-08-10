@@ -282,9 +282,7 @@ background-color: #111112;
             opacity: 0.45;
         }
 /* main-principal*/
-.tec-tetx{
-            min-height: 100vh;
-            padding-top: 80px;;
-            align-items: start;
-          
+
+main{
+    display: flex;
 }
