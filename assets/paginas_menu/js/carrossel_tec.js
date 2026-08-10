@@ -61,10 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
         timer = setInterval(next, intervalTime);
     }
 
-    // Inline horizontal carousel for the title span
-    const inlineWrapper = document.getElementById('carouselInline');
-    const inlineTrack = document.getElementById('carouselInlineTrack');
-    if (inlineWrapper && inlineTrack) {
+    // Inline horizontal carousel for title spans
+    const inlineCarousels = document.querySelectorAll('.carousel-inline');
+    inlineCarousels.forEach((inlineWrapper) => {
+        const inlineTrack = inlineWrapper.querySelector('.carousel-inline-track');
+        if (!inlineTrack) return;
+
         const baseSlides = Array.from(inlineTrack.children).map(slide => slide.cloneNode(true));
         if (!baseSlides.length) return;
 
@@ -100,5 +102,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
         buildInfiniteMarquee();
         window.addEventListener('resize', buildInfiniteMarquee);
-    }
+    });
 });
