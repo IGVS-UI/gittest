@@ -295,7 +295,7 @@
         .menu-nav-item:hover .text.bottom { transform: translateY(-100%); }
 
         .section-logo {
-             position: relative;
+            position: relative;
             right: -100px;
             width: 50px;
             height: auto;
