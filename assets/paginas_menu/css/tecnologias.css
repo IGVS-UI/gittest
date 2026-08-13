@@ -295,10 +295,10 @@
         .menu-nav-item:hover .text.bottom { transform: translateY(-100%); }
 
         .section-logo {
-            margin-top: 24px;
-            width: 44px;
+             position: relative;
+            right: -100px;
+            width: 50px;
             height: auto;
-            opacity: 0.45;
         }
 
         /* ══════════════════════════════════════════════════════

@@ -1,0 +1,68 @@
+.explore-title-reveal,
+.vr-model-reveal,
+.vr-copy-panel {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.explore-title-reveal.show,
+.vr-copy-panel.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.vr-model-reveal {
+    transform: translateY(40px) scale(0.94);
+    transition-duration: 1s;
+}
+
+.vr-model-reveal.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.vr-intro-text h2 span,
+.vr-intro-text p {
+    opacity: 0;
+    transform: translateY(22px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.vr-intro-text.show h2 span,
+.vr-intro-text.show p {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.vr-intro-text.show h2 span:nth-of-type(1) {
+    transition-delay: 0.1s;
+}
+
+.vr-intro-text.show h2 span:nth-of-type(2) {
+    transition-delay: 0.2s;
+}
+
+.vr-intro-text.show h2 span:nth-of-type(3) {
+    transition-delay: 0.3s;
+}
+
+.vr-intro-text.show h2 span:nth-of-type(4),
+.vr-intro-text.show p {
+    transition-delay: 0.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .explore-title-reveal,
+    .explore-title-reveal.show,
+    .vr-model-reveal,
+    .vr-model-reveal.show,
+    .vr-copy-panel,
+    .vr-copy-panel.show,
+    .vr-intro-text h2 span,
+    .vr-intro-text p {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}

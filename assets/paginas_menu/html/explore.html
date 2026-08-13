@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explorar — VR Explore</title>
     <link rel="stylesheet" href="../css/explore.css">
+    <link rel="stylesheet" href="../css/animations/explore_animations.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Condiment&display=swap" rel="stylesheet">
@@ -15,7 +16,7 @@
 <body>
     <header class="navbar">
         <div class="nav-left">
-            <a href="../pt.html" class="nav-logo">VR<br><span>EXPLORE</span></a>
+            <a href="../../pagina__princiapl/html/index.html" class="nav-logo">VR<br><span>EXPLORE</span></a>
         </div>
         <div class="nav-center">
             <a href="../../pagina__princiapl/html/index.html"><img src="../img/Group 51 (2).png" alt="logo" class="nav-icon"></a>
@@ -53,15 +54,15 @@
                     <a href="interaçoes.html" class="menu-nav-item">
                         <span class="text-wrapper"><span class="text top">INTERAÇOES</span><span class="text bottom">INTERAÇOES</span></span>
                     </a>
-                    <img src="../img/Group51(1).png" alt="logo" class="section-logo">
+                    <img src="../img/Group 51 (2).png" alt="logo" class="section-logo">
                 </nav>
             </div>
         </div>
     </div>
-    
+  
     <section class="hero-explore">
            <div class="hero-explore-text">
-            <h1 class="hero-title">
+            <h1 class="hero-title scroll-reveal explore-title-reveal">
                 <span class="carousel-inline" aria-hidden="true">
                     <span class="carousel-inline-track">
                         <span class="carousel-inline-slide"><span class="italic-light">EX</span>plore</span>
@@ -72,8 +73,60 @@
         </div>
     </section>
 
+<main>
+    <section class="vr-intro">
+
+        <!-- Modelo 3D do visor VR -->
+        <div class="vr-model-area scroll-reveal vr-model-reveal">
+            <model-viewer
+            id="vr-model"
+            class="vr-model"
+            src="../models/source/Quest3.glb"
+            alt="Modelo 3D do Meta Quest 3"
+            auto-rotate
+            auto-rotate-delay="0"
+            rotation-per-second="20deg"
+            camera-orbit="0deg 75deg 105%"
+            environment-image="neutral"
+            shadow-intensity="1"
+            interaction-prompt="none"
+            loading="eager">
+           </model-viewer>
+
+
+            <p id="vr-loading-message" class="vr-loading-message">
+                Carregando modelo 3D...
+            </p>
+         </div>
+
+        <!-- Texto ao lado do modelo -->
+        <div class="vr-intro-text scroll-reveal vr-copy-panel">
+            
+            <h2>
+                <span>Explore </span><br>
+                <span class="destaque">o Mundo</span><br>
+                <span class="on">Sem Sair</span>
+                <span>de Casa</span>       
+            </h2>
+            <p>
+                Conheça lugares incríveis e viva experiências imersivas através da realidade virtual.
+            </p>
+      </div>
+
+    </section>
+</main>
+
+   
+
+    <script
+        type="module"
+        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js">
+    </script>
+
+
     <script src="../js/back_menu.js"></script>
-    <script src="../js/scroll.js"></script>
+    <script src="../js/animations/scrollex.js"></script>
     <script src="../js/carrossel_tec.js"></script>
+    <script src="../js/model/modelo_3d.js"></script>
 </body>
 </html>
