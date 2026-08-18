@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha conta - VR Explore</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/dados.css">
+</head>
+<body>
+    <header class="account-header">
+        <a class="account-brand" href="../../../index.html" aria-label="Ir para a p&aacute;gina inicial">
+            <strong>VR</strong>
+            <span>EXPLORE</span>
+        </a>
+
+        <a class="back-link" href="../../../index.html">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m15 18-6-6 6-6"></path>
+            </svg>
+            Voltar ao site
+        </a>
+    </header>
+
+    <main class="account-main" aria-live="polite">
+        <section class="profile-summary" aria-labelledby="account-title">
+            <div class="profile-avatar" aria-hidden="true">
+                <img id="account-photo" alt="" hidden>
+                <span id="account-initials">--</span>
+            </div>
+
+            <div class="profile-heading">
+                <p class="eyebrow">Minha conta</p>
+                <h1 id="account-title">Carregando...</h1>
+                <p id="account-email">Aguarde enquanto buscamos seus dados.</p>
+            </div>
+
+            <span class="verification-status" id="verification-status">Verificando</span>
+        </section>
+
+        <section class="account-details" aria-labelledby="details-title">
+            <div class="section-heading">
+                <p class="eyebrow">Cadastro e acesso</p>
+                <h2 id="details-title">Informa&ccedil;&otilde;es da conta</h2>
+            </div>
+
+            <dl class="details-list">
+                <div class="detail-row">
+                    <dt>Nome</dt>
+                    <dd id="detail-name">-</dd>
+                </div>
+                <div class="detail-row">
+                    <dt>Email</dt>
+                    <dd id="detail-email">-</dd>
+                </div>
+                <div class="detail-row">
+                    <dt>M&eacute;todo de login</dt>
+                    <dd id="detail-provider">-</dd>
+                </div>
+                <div class="detail-row">
+                    <dt>Conta criada em</dt>
+                    <dd id="detail-created">-</dd>
+                </div>
+                <div class="detail-row">
+                    <dt>&Uacute;ltimo login</dt>
+                    <dd id="detail-last-login">-</dd>
+                </div>
+                <div class="detail-row detail-id-row">
+                    <dt>ID da conta</dt>
+                    <dd id="detail-id">-</dd>
+                </div>
+            </dl>
+        </section>
+
+        <section class="account-actions" aria-label="A&ccedil;&otilde;es da conta">
+            <p id="account-status" role="status"></p>
+            <button class="logout-button" id="btnLogout" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M10 17l5-5-5-5"></path>
+                    <path d="M15 12H3"></path>
+                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                </svg>
+                Sair da conta
+            </button>
+        </section>
+    </main>
+
+    <script type="module" src="../js/dados.js"></script>
+</body>
+</html>
