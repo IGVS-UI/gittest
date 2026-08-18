@@ -1,7 +1,5 @@
 // auth.js - login + cadastro + social + logout + proteção de rota
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import {
-  getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
@@ -14,6 +12,8 @@ import {
   linkWithCredential
 } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
+import { auth } from "./firebase.js";
+
 import {
   getCurrentPage,
   redirectTo,
@@ -22,19 +22,6 @@ import {
   isAuthPage,
   protectRoute
 } from "./routes.js";
-
-const firebaseConfig = {
-  apiKey: "AIzaSyCOfHsJq2lBKq87n4PYL1aq1cLrhkC0wIg",
-  authDomain: "tcc-7491c.firebaseapp.com",
-  projectId: "tcc-7491c",
-  storageBucket: "tcc-7491c.firebasestorage.app",
-  messagingSenderId: "626560679583",
-  appId: "1:626560679583:web:9514f3b9c9a4c1fa26acaa",
-  measurementId: "G-Y76EJYVFMN"
-};
-
-const app  = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
 // ── Detectar página atual ──────────────────────────────────
 const currentPage  = getCurrentPage();

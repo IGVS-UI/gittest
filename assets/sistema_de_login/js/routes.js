@@ -3,12 +3,7 @@ export function getCurrentPage() {
   return path.split('/').pop() || 'index.html';
 }
 
-function isWithin(pathname, segment) {
-  return pathname.includes(`/${segment}/`);
-}
-
 function resolveTarget(target) {
-  const pathname = window.location.pathname.replace(/\\/g, '/');
   const normalizedTarget = (target || 'index.html').trim();
 
   if (/^(https?:)?\/\//.test(normalizedTarget) || normalizedTarget.startsWith('/')) {
@@ -16,24 +11,15 @@ function resolveTarget(target) {
   }
 
   if (normalizedTarget === 'index.html') {
-    if (isWithin(pathname, 'sistema_de_login')) {
-      return '../../pagina__princiapl/html/index.html';
-    }
-    return './index.html';
+    return new URL('../../../index.html', import.meta.url).href;
   }
 
   if (normalizedTarget === 'login.html') {
-    if (isWithin(pathname, 'pagina__princiapl')) {
-      return '../../sistema_de_login/html/login.html';
-    }
-    return './login.html';
+    return new URL('../html/login.html', import.meta.url).href;
   }
 
   if (normalizedTarget === 'cadastro.html') {
-    if (isWithin(pathname, 'pagina__princiapl')) {
-      return '../../sistema_de_login/html/cadastro.html';
-    }
-    return './cadastro.html';
+    return new URL('../html/cadastro.html', import.meta.url).href;
   }
 
   return normalizedTarget;
