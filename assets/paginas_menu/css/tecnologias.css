@@ -311,20 +311,15 @@
             justify-content: center;
             align-items: center;
             padding: 80px 40px;
-            gap: 60px;
+            gap: 100px;
         }
 
         .vr > div:first-child {
-            width: 500px;
-            height: 500px;
+            width: 800px;
+            height: 800px;
             flex-shrink: 0;
         }
 
-        .vr > div:first-child img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
 
         .vr .vr-model-card {
             position: relative;
@@ -353,7 +348,7 @@
 
         .vr .caixa_de_texto h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2rem, 5vw, 4.5rem);
+            font-size: clamp(2rem, 5vw, 4rem);
             font-weight: 900;
             line-height: 1.05;
             text-align: left;
@@ -386,6 +381,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            
         }
 
 
@@ -449,7 +445,6 @@
 
         .vr-text {
             flex: 1;
-
             padding: 15px 20px;
         }
     
@@ -457,7 +452,6 @@
             font-size: 15px;
             line-height: 1.4;
             font-weight: 500;
-
             text-align: left;
         }
         .texto_pequeno{
