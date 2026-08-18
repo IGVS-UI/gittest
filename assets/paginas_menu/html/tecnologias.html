@@ -5,24 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tecnologias — VR Explore</title>
     <link rel="stylesheet" href="../css/tecnologias.css">
+    <link rel="stylesheet" href="../css/rep/menu_overlay.css">
+    <link rel="stylesheet" href="../css/rep/nav_bar_white.css">
+    <link rel="stylesheet" href="../../sistema_de_login/css/auth-nav.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
 </head>
 <body>
 
     <!-- ── NAVBAR ─────────────────────────────────────────── -->
-    <header class="navbar">
-        <div class="nav-left">
-            <a href="../../pagina__princiapl/html/index.html" class="nav-logo" class="nav-logo">VR<br><span>EXPLORE</span></a>
-        </div>
-        <div class="nav-center">
-           <a href="../../pagina__princiapl/html/index.html"><img src="../img/Group51(1).png" alt="logo" class="nav-icon"></a> 
-        </div>
-        <div class="nav-right">
-            <button class="btn-login">⬆ LOGIN</button>
-            <button class="btn-menu" onclick="toggleMenu()">☰</button>
-        </div>
+
+    <!-- HEADER -->
+    <header>
+        <nav-bar>
+            <div class="nav-left">
+                <ul>
+                    <li>
+                        <a href="../../pagina__princiapl/html/index.html">
+                            <h1>Vr<p class="sub-title">Explore</p></h1>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-center">
+               <a href="../../pagina__princiapl/html/index.html"> <img src="../img/Group51(1).png" alt="logo" class="logo"></a>
+            </div>
+            <div class="nav-right">
+                <a class="auth-nav-link" data-auth-nav href="../../sistema_de_login/html/login.html" aria-label="Fazer login">
+                    <span class="auth-nav-login">Login</span>
+                    <span class="auth-nav-account" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img">
+                            <circle cx="12" cy="8" r="5"></circle>
+                            <path d="M4 21a8 8 0 0 1 16 0"></path>
+                        </svg>
+                    </span>
+                </a>
+                <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            </div>
+        </nav-bar>
     </header>
 
     <!-- ── MENU OVERLAY (mesmo do pt.html) ───────────────── -->
@@ -53,7 +80,7 @@
                     <a href="../html/interaçoes.html" class="menu-nav-item">
                         <span class="text-wrapper"><span class="text top">INTERAÇOES</span><span class="text bottom">INTERAÇOES</span></span>
                     </a>
-                    <img src="../img/" alt="logo" class="section-logo">
+                    <img src="../img/Group 51 (2).png" alt="logo" class="section-logo">
                 </nav>
             </div>
         </div>
@@ -108,8 +135,24 @@
     <!-- ══════════════════════════════════════════════════════
          SEÇÃO — REALIDADE VIRTUAL (VR)
     ══════════════════════════════════════════════════════ -->
-    <section class="vr">
-        <div class="vr-image" data-aos="zoom-in-right"> <img src="../img/oculos_vr.png" alt="Oculos vr"></div>
+    <section class="vr">    
+        <div class="vr-image vr-model-card" data-aos="zoom-in-right">
+            <model-viewer
+                class="tech-vr-model"
+                src="../models/source/apple_vision_pro(2)(1).glb"
+                alt="Modelo 3D do Apple Vision Pro"
+                auto-rotate
+                auto-rotate-delay="0"
+                rotation-per-second="18deg"
+                camera-controls
+                camera-orbit="0deg 72deg 115%"
+                environment-image="neutral"
+                shadow-intensity="1"
+                exposure="1"
+                interaction-prompt="none"
+                loading="eager">
+            </model-viewer>
+        </div>
         <div class="caixa_de_texto">
           <h1>Realidade Virtual (VR)</h1>
           <p> A <span class="texto_destacado">RealidadeVirtual </span>
@@ -254,15 +297,15 @@
        
         <div class="holograma"><img src="../img/img.png" alt=""></div>
 
-             <section id="frase-destaque" class="frase-destaque reveal">
+             <section id="frase-destaque" class="frase-destaque2 reveal">
         <h2>
-            <span  class="fd-normal">Objetos</span><br>
-            <span  class="fd-italic">Digitais</span><br>
-            <span  class="fd-normal">Entendem e </span><br>
-            <span  class="fd-normal">Respondem</span><br>
-            <span  class="fd-normal">AO</span><br>
-            <span  class="fd-normal">AMBIENTE</span><br>
-            <span  class="fd-italic">Fisíco.</span>
+            <span  class="fd-normal2">Objetos</span>
+            <span  class="fd-italic2">Digitais</span>
+            <span  class="fd-normal2">Entendem e </span>
+            <span  class="fd-normal2">Respondem</span>
+            <span  class="fd-normal2">AO</span>
+            <span  class="fd-normal2">AMBIENTE</span>
+            <span  class="fd-italic2">Fisíco.</span>
         </h2>
     </section>
     </section>
@@ -328,7 +371,7 @@
         </div>
 
         <div class="footer-bottom">
-            <p>&copy; 2024 VR Explore. Todos os direitos reservados.</p>
+            <p>&copy; 2026 VR Explore. Todos os direitos reservados.</p>
             <div class="footer-bottom-links">
                 <a href="#">Human Form</a>
                 <span>•</span>
@@ -338,11 +381,16 @@
     </footer>
 
     <!-- ── SCRIPTS ────────────────────────────────────────── -->
+    <script
+        type="module"
+        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js">
+    </script>
     <script src="../js/back_menu.js"></script>
     <script src="../js/tecnologias.js"></script>
     <script src="../js/carrossel_tec.js"></script>
     <script src="../js/reveal.js"></script>
     <script src="../js/animations/scroll.js"></script>
+    <script type="module" src="../../sistema_de_login/js/auth-nav.js"></script>
 </body>
 </html>
  

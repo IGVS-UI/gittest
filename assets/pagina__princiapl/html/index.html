@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vr Explore</title>
     <link rel="stylesheet" href="../css/pt.css">
+    <link rel="stylesheet" href="../../paginas_menu/css/rep/menu_overlay.css">
+    <link rel="stylesheet" href="../../sistema_de_login/css/auth-nav.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -30,7 +32,15 @@
                 <img src="../img/Group51(1).png" alt="logo" class="logo">
             </div>
             <div class="nav-right">
-               <a href="../../sistema_de_login/html/login.html"><button class="nav-btn">Login</button></a>
+                <a class="auth-nav-link" data-auth-nav href="../../sistema_de_login/html/login.html" aria-label="Fazer login">
+                    <span class="auth-nav-login">Login</span>
+                    <span class="auth-nav-account" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img">
+                            <circle cx="12" cy="8" r="5"></circle>
+                            <path d="M4 21a8 8 0 0 1 16 0"></path>
+                        </svg>
+                    </span>
+                </a>
                 <button class="menu-btn" onclick="toggleMenu()">☰</button>
             </div>
         </nav-bar>
@@ -101,8 +111,6 @@
             <canvas id="hero-canvas"></canvas>
         </section>
     </main>
-
-<section>djkashbdjkasgdkja</section>
 
     <!-- FOOTER MELHORADO -->
     <footer class="footer">
@@ -175,5 +183,6 @@
     <script src="../js/pt.js"></script>
     <script src="../js/back_menu.js"></script>
     <script src="../js/hero_mask.js"></script>
+    <script type="module" src="../../sistema_de_login/js/auth-nav.js"></script>
 </body>
 </html>

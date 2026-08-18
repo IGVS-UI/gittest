@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Explorar — VR Explore</title>
+    <link rel="stylesheet" href="../css/rep/menu_overlay.css">
     <link rel="stylesheet" href="../css/explore.css">
     <link rel="stylesheet" href="../css/animations/explore_animations.css">
+    <link rel="stylesheet" href="../css/rep/nav_barblack.css">
+    <link rel="stylesheet" href="../../sistema_de_login/css/auth-nav.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Condiment&display=swap" rel="stylesheet">
@@ -14,18 +17,35 @@
     <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="navbar">
-        <div class="nav-left">
-            <a href="../../pagina__princiapl/html/index.html" class="nav-logo">VR<br><span>EXPLORE</span></a>
-        </div>
-        <div class="nav-center">
-            <a href="../../pagina__princiapl/html/index.html"><img src="../img/Group 51 (2).png" alt="logo" class="nav-icon"></a>
-        </div>
-        <div class="nav-right">
-            <button class="btn-login">LOGIN</button>
-            <button class="btn-menu" onclick="toggleMenu()">☰</button>
-        </div>
-    </header>
+      <!-- HEADER -->
+    <header>
+        <nav-bar>
+            <div class="nav-left">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <h1>Vr<p class="sub-title">Explore</p></h1>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-center">
+               <a href="../../pagina__princiapl/html/index.html"><img src="../img/Group 51 (2).png" alt="logo" class="logo">
+            </div></a> 
+            <div class="nav-right">
+                <a class="auth-nav-link" data-auth-nav data-auth-theme="dark" href="../../sistema_de_login/html/login.html" aria-label="Fazer login">
+                    <span class="auth-nav-login">Login</span>
+                    <span class="auth-nav-account" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img">
+                            <circle cx="12" cy="8" r="5"></circle>
+                            <path d="M4 21a8 8 0 0 1 16 0"></path>
+                        </svg>
+                    </span>
+                </a>
+                <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            </div>
+        </nav-bar>
+    </header> 
 
     <div id="menu-overlay" class="menu-overlay">
         <canvas id="wc" class="menu-canvas"></canvas>
@@ -116,7 +136,70 @@
     </section>
 </main>
 
-   
+    <section class="map-explorer" id="map-explorer" aria-labelledby="map-explorer-title">
+        <div class="map-explorer-heading">
+            <span>EXPERIÊNCIA 360°</span>
+            <h2 id="map-explorer-title">Escolha uma paisagem e explore</h2>
+            <p>
+                Selecione um destino nos cards. O Google Maps será atualizado na mesma tela
+                para você navegar pelo local.
+            </p>
+        </div>
+
+        <div class="map-viewer" id="map-viewer">
+            <div class="map-viewer-toolbar">
+                <div class="map-viewer-place" aria-live="polite">
+                    <span>DESTINO SELECIONADO</span>
+                    <strong id="map-destination-name">Coliseu</strong>
+                </div>
+
+                <button
+                    class="map-expand-button"
+                    id="map-expand-button"
+                    type="button"
+                    aria-label="Expandir mapa em tela cheia">
+                    <span aria-hidden="true">⛶</span>
+                </button>
+            </div>
+
+            <div class="map-frame-shell" id="map-frame-shell">
+                <iframe
+                    id="map-frame"
+                    title="Visualização 360 graus do Coliseu, em Roma"
+                    src="https://www.google.com/maps/embed?pb=!4v1776799049750!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJQ0VqYzdTRWc.!2m2!1d41.8902101706461!2d12.49223093463763!3f318.7032!4f0!5f0.7820865974627469"
+                    loading="lazy"
+                    allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+
+                <div class="map-loading" id="map-loading" aria-hidden="true">
+                    Carregando paisagem...
+                </div>
+            </div>
+
+            <div class="map-viewer-footer">
+                <p id="map-destination-description">
+                    Observe de perto a arquitetura do anfiteatro que marcou a história do Império Romano.
+                </p>
+                <a
+                    id="map-external-link"
+                    href="https://www.google.com/maps/search/?api=1&query=Colosseum+Rome+Italy"
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    ABRIR NO GOOGLE MAPS ↗
+                </a>
+            </div>
+        </div>
+
+        <div class="destination-selector">
+            <div class="destination-selector-heading">
+                <span>DESTINOS</span>
+                <h3>Onde você quer estar?</h3>
+            </div>
+
+            <div class="destination-cards" id="destination-cards"></div>
+        </div>
+    </section>
 
     <script
         type="module"
@@ -128,5 +211,7 @@
     <script src="../js/animations/scrollex.js"></script>
     <script src="../js/carrossel_tec.js"></script>
     <script src="../js/model/modelo_3d.js"></script>
+    <script src="../js/explore.js"></script>
+    <script type="module" src="../../sistema_de_login/js/auth-nav.js"></script>
 </body>
 </html>

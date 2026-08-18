@@ -7,299 +7,10 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --bg:        #F4F4ED;
-            --black:     #0D0D0D;
-            --purple:    #6939D2;
-            --pink:      #EC4899;
-            --gray:      #B0A5B8;
-            --font-main: 'Inter', sans-serif;
-        }
+
 
         html { scroll-behavior: smooth; }
 
-        body {
-            background-color: var(--bg);
-            color: var(--black);
-            font-family: var(--font-main);
-            overflow-x: hidden;
-        }
-
-        img { display: block; max-width: 100%; }
-
-        /* ══════════════════════════════════════════════════════
-        NAVBAR
-        ══════════════════════════════════════════════════════ */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%;
-            z-index: 100;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 32px;
-            background: var(--bg);
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-        }
-
-        .nav-logo {
-            font-family: 'BBH Bartle', sans-serif;
-            font-weight: 900;
-            font-size: 25px;
-            line-height: 1.2;
-            text-decoration: none;
-            color: var(--black);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color:#241E2C
-        }
-
-        .nav-logo span { 
-            color:#241E2C
-            ;font-size: 25px; 
-            font-weight: 400; }
-
-        .nav-icon { width: 40px; }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .btn-login {
-            background: #6939D2;
-            border: 1.5px solid #6939D2;
-            border-radius: 6px;
-            padding: 8px 16px;
-            font-family: var(--font-main);
-            font-size: 12px;
-            font-weight: 600;
-            color: #fff;
-            cursor: pointer;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-login:hover {
-            background: #552fb8;
-            color: #fff;
-        }
-
-        .btn-menu {
-            background: none;
-            border: none;
-            font-size: 26px;
-            cursor: pointer;
-            padding: 4px 8px;
-            transition: transform 0.3s;
-        }
-
-        .btn-menu:hover { transform: scale(1.1); }
-
-        /* ══════════════════════════════════════════════════════
-        MENU OVERLAY (mesmo padrão do pt.html)
-        ══════════════════════════════════════════════════════ */
-        .menu-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100vh;
-            background: linear-gradient(135deg, #1a1420 0%, #2d1f35 100%);
-            display: none;
-            z-index: 1000;
-            overflow: hidden;
-        }
-
-        .menu-canvas {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 1;
-        }
-
-        .menu-overlay.active {
-            display: flex;
-            align-items: stretch;
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-50px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .menu-overlay.closing {
-            animation: slideOut 0.5s ease-in;
-        }
-
-        @keyframes slideOut {
-            from { opacity: 1; transform: translateY(0); }
-            to   { opacity: 0; transform: translateY(-50px); }
-        }
-
-        .menu-overlay-content {
-            width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            z-index: 2;
-        }
-
-        .menu-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 40px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .menu-header a { color: #6a508d; text-decoration: none; }
-
-        .menu-header h1,
-        .menu-header .nav-logo {
-            font-family: 'BBH Bartle', sans-serif;
-            font-size: 25px;
-            line-height: 0.95;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #fff;
-        }
-
-        .menu-header .nav-logo span,
-        .menu-header .sub-title {
-            font-size: 25px;
-            font-weight: 500;
-            letter-spacing: 2px;
-            color: #B7B0C7;
-        }
-
-        .close-btn {
-            background: none; border: none;
-            font-size: 36px; cursor: pointer;
-            color: #fff; padding: 5px 15px;
-            transition: transform 0.3s;
-        }
-        .close-btn:hover { transform: rotate(90deg); }
-
-        .menu-body {
-            display: flex;
-            flex: 1;
-            padding: 40px;
-            gap: 60px;
-            overflow-y: auto;
-            position: relative;
-            z-index: 3;
-        }
-
-        .menu-cards-section {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            align-content: start;
-        }
-
-        .menu-card,
-        .menu-card2,
-        .menu-card3 {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 30px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .menu-card:hover,
-        .menu-card2:hover,
-        .menu-card3:hover {
-            background: rgba(255,255,255,0.1);
-            transform: translateY(-5px);
-        }
-
-        .menu-card h3,
-        .menu-card2 h3,
-        .menu-card3 h3 {
-            color: #fff;
-            font-size: 18px;
-            margin-bottom: 8px;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        .menu-card p,
-        .menu-card2 p,
-        .menu-card3 p {
-            color: rgba(255,255,255,0.7);
-            font-size: 13px;
-        }
-
-        .menu-nav {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 20px;
-            padding-left: 10vw;
-        }
-
-        .menu-nav-item {
-            color: #B0A5B8;
-            text-decoration: none;
-            font-size: 56px;
-            font-weight: 900;
-            font-family: var(--font-main);
-            display: block;
-            position: relative;
-            padding: 8px 0;
-            overflow: visible;
-        }
-
-        .menu-nav-item.active-page { color: #fff; }
-
-        .menu-nav-item::after {
-            content: '';
-            position: absolute;
-            left: 0; top: 50%;
-            width: 0; height: 3px;
-            transform: translateY(-50%);
-            transition: width 0.5s ease;
-        }
-
-        .menu-nav-item:hover::after { width: 100%; }
-
-        .text-wrapper {
-            position: relative;
-            display: block;
-            overflow: hidden;
-            height: 1.1em;
-            line-height: 1.1em;
-        }
-
-        .text.top {
-            display: block;
-            transform: translateY(0);
-            transition: transform 0.6s cubic-bezier(.22,1,.36,1);
-        }
-
-        .text.bottom {
-            position: absolute;
-            left: 0; top: 100%;
-            color: #EC4899;
-            transform: translateY(0);
-            transition: transform 0.6s cubic-bezier(.22,1,.36,1);
-        }
-
-        .menu-nav-item:hover .text.top  { transform: translateY(-100%); }
-        .menu-nav-item:hover .text.bottom { transform: translateY(-100%); }
-
-        .section-logo {
-            position: relative;
-            right: -100px;
-            width: 50px;
-            height: auto;
-        }
 
         /* ══════════════════════════════════════════════════════
         HERO — TECNOLOGIAS
@@ -508,13 +219,13 @@
 
         /*seção para a caixa de texto */
         .caixa_de_texto{
-            max-width: 600px;
+            width: 600px;
             padding: 80px 0;
-            margin-left:30px;
+            margin-left:100px;
         }
 
         .paragraph_small{
-            font-size: 0.85rem;
+            font-size: 1rem;
             font-weight: 500;
             font-family: inter, sans-serif;
             text-transform: uppercase;
@@ -525,7 +236,7 @@
         }
 
         .texto_principal{
-            font-size: clamp(1rem, 2vw, 2rem);
+            font-size: clamp(2rem, 3vw, 2.5em);
             font-weight: 400;
             line-height: 1.08;
             letter-spacing: -0.04em;
@@ -615,7 +326,26 @@
             object-fit: contain;
         }
 
+        .vr .vr-model-card {
+            position: relative;
+            overflow: visible;
+        }
+
+        .vr .tech-vr-model {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+           --poster-color: transparent;
+            filter: drop-shadow(0 28px 42px rgba(36, 30, 44, 0.18));
+            user-select: none;
+            
+        }
+
         .vr .caixa_de_texto {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
             max-width: 600px;
             padding: 80px 0;
             margin-left: 30px;
@@ -623,7 +353,7 @@
 
         .vr .caixa_de_texto h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2rem, 5vw, 4rem);
+            font-size: clamp(2rem, 5vw, 4.5rem);
             font-weight: 900;
             line-height: 1.05;
             text-align: left;
@@ -633,7 +363,7 @@
         }
 
         .vr .caixa_de_texto p {
-            font-size: clamp(1rem, 2vw, 2rem);
+            font-size: clamp(1.25rem, 2vw, 2rem);
             font-weight: 400;
             line-height: 1.08;
             letter-spacing: -0.04em;
@@ -1377,6 +1107,23 @@
         RESPONSIVO
         ══════════════════════════════════════════════════════ */
         @media (max-width: 900px) {
+            .vr {
+                flex-direction: column;
+                padding: 64px 28px;
+                gap: 32px;
+            }
+
+            .vr > div:first-child {
+                width: min(88vw, 500px);
+                height: min(88vw, 500px);
+            }
+
+            .vr .caixa_de_texto {
+                width: min(100%, 600px);
+                margin-left: 0;
+                padding: 28px 0;
+            }
+
             .hero-tec { grid-template-columns: 1fr; }
             .hero-tec-img { height: 50vh; }
             .tec-section-header { grid-template-columns: 1fr; }
@@ -1387,4 +1134,11 @@
             .menu-body { flex-direction: column; }
             .menu-cards-section { grid-template-columns: 1fr; }
             .menu-nav-item { font-size: 32px; }
+        }
+
+        @media (max-width: 600px) {
+            .vr > div:first-child {
+                width: min(100%, 360px);
+                height: 340px;
+            }
         }
