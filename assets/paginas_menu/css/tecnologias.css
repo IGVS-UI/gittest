@@ -279,13 +279,6 @@
             text-transform: uppercase;
         }
 
-        #frase-destaque h2 {
-        position: relative;
-        top: 0;
-         right:20vw;
-        font-size: 50px;
-        }
-
         .fd-normal {
             display: block;
             font-weight: 900;
@@ -733,57 +726,205 @@
         }
 
 
-        /* sessão de Mr */
+        /* Seção de Realidade Mista */
         .MR {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
-
-    & .caixa_de_texto_MR {
-                max-width: 600px;
-                padding: 80px 0;
-                margin-left: 30px;
-                position: relative;
-                bottom: 20vw;
-                left: 10vw;
-                opacity: 0;
-                transform: translateY(40px);
-                transition: opacity 0.7s ease, transform 0.7s ease;
-                
-            }
-            & h1{
-                font-family: 'Orbitron', sans-serif;
-                font-size: clamp(1rem, 5vw, 4rem);
-                font-weight: 800;
-                line-height: 1.05;
-                text-align: left;
-                text-transform: uppercase;
-                color: #241E2C;
-                padding-bottom: 20px;
-            }
-
-            & p{
-                font-size:20px;
-                font-weight: 400;
-                line-height: 1.08;
-                letter-spacing: -0.04em;
-                color: #241E2C;
-            }
-            
-
-        }
-        .holograma{
-            width: auto;
             position: relative;
-            left:-10%;
-            z-index: 1;
+            overflow: hidden;
+            padding: 120px clamp(32px, 6vw, 96px) 88px;
+            background: #17131c;
+            color: #f8f6fa;
+            border-top: 1px solid #463b51;
+            font-family: 'Inter', sans-serif;
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.7s ease, transform 0.7s ease;
+        }
 
+        .mr-layout {
+            width: min(1180px, 100%);
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
+            align-items: center;
+            gap: clamp(48px, 7vw, 112px);
+        }
+
+        .mr-layout > * {
+            min-width: 0;
+        }
+
+        .caixa_de_texto_MR {
+            max-width: 620px;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
+        }
+
+        .mr-eyebrow {
+            margin-bottom: 20px;
+            color: #6be3d2;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+
+        .caixa_de_texto_MR h2 {
+            max-width: 720px;
+            margin-bottom: 28px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4.75rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            color: #f8f6fa;
+        }
+
+        .caixa_de_texto_MR h2 span {
+            color: #8d5dff;
+        }
+
+        .caixa_de_texto_MR h2 small {
+            font-size: 0.32em;
+            font-weight: 600;
+            color: #9e96a7;
+            white-space: nowrap;
+        }
+
+        .mr-description {
+            max-width: 580px;
+            color: #cbc4d1;
+            font-size: 1.1rem;
+            font-weight: 400;
+            line-height: 1.65;
+            letter-spacing: 0;
+        }
+
+        .mr-feature-list {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 28px;
+            margin-top: 42px;
+            list-style: none;
+        }
+
+        .mr-feature-list li {
+            padding-top: 18px;
+            border-top: 1px solid #54485f;
+        }
+
+        .mr-feature-list strong,
+        .mr-feature-list span {
+            display: block;
+            letter-spacing: 0;
+        }
+
+        .mr-feature-list strong {
+            margin-bottom: 8px;
+            color: #f8f6fa;
+            font-size: 0.95rem;
+        }
+
+        .mr-feature-list span {
+            color: #9e96a7;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        .holograma {
+            position: relative;
+            min-height: 620px;
+            display: grid;
+            place-items: center;
+            border-left: 1px solid #463b51;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
+        }
+
+        .holograma::before,
+        .holograma::after {
+            content: "";
+            position: absolute;
+            left: 10%;
+            right: 4%;
+            height: 1px;
+            background: #463b51;
+        }
+
+        .holograma::before {
+            top: 18%;
+        }
+
+        .holograma::after {
+            bottom: 18%;
+        }
+
+        .holograma img {
+            position: relative;
+            z-index: 1;
+            width: min(100%, 520px);
+            max-height: 650px;
+            object-fit: contain;
+            filter: drop-shadow(0 18px 28px rgba(141, 93, 255, 0.28));
+            animation: mr-float 5s ease-in-out infinite;
+        }
+
+        .mr-annotation {
+            position: absolute;
+            z-index: 2;
+            color: #9e96a7;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+
+        .mr-annotation-digital {
+            top: 13%;
+            right: 4%;
+            color: #6be3d2;
+        }
+
+        .mr-annotation-physical {
+            bottom: 13%;
+            left: 10%;
+        }
+
+        .frase-destaque2 {
+            width: min(1180px, 100%);
+            margin: 72px auto 0;
+            padding-top: 56px;
+            border-top: 1px solid #463b51;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease 0.25s, transform 0.8s ease 0.25s;
+        }
+
+        .frase-destaque2 h2 {
+            max-width: 940px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.25rem;
+            font-weight: 800;
+            line-height: 1.15;
+            letter-spacing: 0;
+            text-transform: uppercase;
+            color: #f8f6fa;
+            overflow-wrap: break-word;
+        }
+
+        .frase-destaque2 h2 span {
+            display: block;
+        }
+
+        .frase-destaque2 .fd-italic2 {
+            color: #6be3d2;
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.18em;
+            font-style: italic;
+            font-weight: 400;
+            text-transform: none;
         }
 
         .MR.show,
@@ -792,6 +933,11 @@
         #frase-destaque.show {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        @keyframes mr-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
         }
 
 
@@ -818,6 +964,14 @@
 
             .card-2 {
                 margin-left: 50px;
+            }
+
+            .caixa_de_texto_MR h2 {
+                font-size: 3.75rem;
+            }
+
+            .holograma {
+                min-height: 540px;
             }
         }
 
@@ -852,6 +1006,38 @@
             .card-4 .vr-image {
                 width: 300px;
                 height: 250px;
+            }
+
+            .MR {
+                padding: 88px 32px 72px;
+            }
+
+            .mr-layout {
+                grid-template-columns: 1fr;
+                gap: 56px;
+            }
+
+            .caixa_de_texto_MR {
+                max-width: 700px;
+            }
+
+            .caixa_de_texto_MR h2 {
+                font-size: 3.5rem;
+            }
+
+            .holograma {
+                min-height: 500px;
+                border-left: 0;
+                border-top: 1px solid #463b51;
+                border-bottom: 1px solid #463b51;
+            }
+
+            .holograma img {
+                max-height: 520px;
+            }
+
+            .frase-destaque2 h2 {
+                font-size: 2.75rem;
             }
 
         }
@@ -890,6 +1076,89 @@
             .vr-text p {
                 font-size: 15px;
                 line-height: 1.5;
+            }
+
+            .MR {
+                padding: 72px 20px 56px;
+            }
+
+            .mr-layout {
+                gap: 44px;
+            }
+
+            .mr-eyebrow {
+                margin-bottom: 16px;
+            }
+
+            .caixa_de_texto_MR h2 {
+                margin-bottom: 22px;
+                font-size: 2.4rem;
+                line-height: 1.05;
+            }
+
+            .caixa_de_texto_MR h2 span {
+                display: block;
+            }
+
+            .caixa_de_texto_MR h2 small {
+                display: block;
+                margin-top: 10px;
+                font-size: 0.38em;
+            }
+
+            .mr-description {
+                font-size: 1rem;
+                line-height: 1.6;
+            }
+
+            .mr-feature-list {
+                grid-template-columns: 1fr;
+                gap: 22px;
+                margin-top: 34px;
+            }
+
+            .holograma {
+                min-height: 410px;
+            }
+
+            .holograma img {
+                width: min(100%, 390px);
+                max-height: 420px;
+            }
+
+            .mr-annotation-digital {
+                top: 10%;
+            }
+
+            .mr-annotation-physical {
+                bottom: 10%;
+            }
+
+            .frase-destaque2 {
+                margin-top: 56px;
+                padding-top: 42px;
+            }
+
+            .frase-destaque2 h2 {
+                font-size: 1.75rem;
+                line-height: 1.2;
+            }
+
+            .frase-destaque2 .fd-italic2 {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .MR,
+            .caixa_de_texto_MR,
+            .holograma,
+            .frase-destaque2 {
+                transition: none;
+            }
+
+            .holograma img {
+                animation: none;
             }
         }
        
