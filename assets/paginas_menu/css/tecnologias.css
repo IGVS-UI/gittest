@@ -6,6 +6,9 @@
             padding: 0;
             box-sizing: border-box;
         }
+        body{
+            background-color: #F4F4ED;
+        }
 
 
 
@@ -50,7 +53,7 @@
             line-height: 0.95;
             letter-spacing: -2px;
             text-transform: uppercase;
-            color: #5f00f7;
+            color: #870fff  ;
 
 
         }
@@ -271,24 +274,34 @@
         }
 
         .frase-destaque h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2.5rem, 7vw, 6rem);
-            font-weight: 900;
-            line-height: 1.05;
+            font-family: 'Orbitr', sans-serif;
+            font-size: clamp(3rem, 7vw, 10rem);
+            font-weight: 400;
+            line-height: 0.6;
             text-align: center;
             text-transform: uppercase;
         }
 
+        #frase-destaque h2 {
+        position: relative;
+        top: 0;
+         right:20vw;
+        font-size: 50px;
+        }
+
         .fd-normal {
             display: block;
-            font-weight: 900;
+            font-weight: 600;
             font-style: normal;
+            color: #241E2C;
         }
 
         .fd-italic {
             display: block;
             font-style: italic;
-            font-weight: 300;
+            font-family: 'Orbitr', serif;
+            font-weight: 400;
+            font-size: 8rem;
             color: #736C7C;
         }
 
@@ -440,20 +453,18 @@
             flex: 1;
             padding: 15px 20px;
         }
-    
-        .vr-text p {
-            font-size: 15px;
-            line-height: 1.4;
-            font-weight: 500;
-            text-align: left;
+        .vr-text h3{
+            margin-bottom:10px ;
         }
-        .texto_pequeno{
-            font-size: 12px;
-            line-height: 1.4;
-            font-weight: 600;
 
-            text-align: left;
+        .vr-text p {
+
+            font-size: 13px;
+            line-height: 1.5;
+            font-weight: 400;
+            text-align:left;
         }
+
 
 
         /* =========================================
@@ -535,17 +546,15 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 80px 40px;
-            gap: 60px;
+            gap: 200px;
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.7s ease, transform 0.7s ease;
         }
 
         .caixa_de_texto_AR {
-            max-width: 600px;
-            padding: 80px 0;
-            margin-left: 30px;
+            max-width: 650px;
+            margin-left: 0px;
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.7s ease, transform 0.7s ease;
@@ -553,8 +562,8 @@
 
         .caixa_de_texto_AR h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(1rem, 5vw, 4rem);
-            font-weight: 800;
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
             line-height: 1.05;
             text-align: left;
             text-transform: uppercase;
@@ -700,7 +709,6 @@
         letter-spacing: -0.04em;
         color: #241E2C;
         font-size: 20px;
-            
         }
 
         .ARs.show,
@@ -714,217 +722,97 @@
             transform: translateY(0);
         }
 
-        /* =========================================
-        AJUSTE DOS BLOCOS INFERIORES
-        ========================================= */
-        .card-1 .vr-image,
-        .card-2 .vr-image,
-        .card-3 .vr-image,
-        .card-4 .vr-image {
-            width: 360px;
-            height: 300px;
-        }
 
 
-        /* Seção de Realidade Mista */
+
+        /* Seção final — Realidade Mista */
         .MR {
-            position: relative;
-            overflow: hidden;
-            padding: 120px clamp(32px, 6vw, 96px) 88px;
-            background: #17131c;
-            color: #f8f6fa;
-            border-top: 1px solid #463b51;
-            font-family: 'Inter', sans-serif;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.7s ease, transform 0.7s ease;
+            display: flex;
+            justify-content: center;
+            gap: 100px;
+           
+  
         }
 
-        .mr-layout {
-            width: min(1180px, 100%);
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
-            align-items: center;
-            gap: clamp(48px, 7vw, 112px);
-        }
-
-        .mr-layout > * {
-            min-width: 0;
-        }
 
         .caixa_de_texto_MR {
-            max-width: 620px;
+            z-index: 3;
+            top: clamp(20px, 3vw, 46px);
+            left: clamp(24px, 5.55vw, 88px);
+            width: clamp(205px, 29.5vw, 360px);
             opacity: 0;
             transform: translateY(40px);
-            transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
-        }
-
-        .mr-eyebrow {
-            margin-bottom: 20px;
-            color: #6be3d2;
-            font-size: 0.75rem;
-            font-weight: 700;
-            letter-spacing: 0;
-            text-transform: uppercase;
+            transition: opacity 0.7s ease 0.08s, transform 0.7s ease 0.08s;
         }
 
         .caixa_de_texto_MR h2 {
-            max-width: 720px;
-            margin-bottom: 28px;
+            margin: 0;
+            color: #241E2C;
             font-family: 'Orbitron', sans-serif;
-            font-size: 4.75rem;
+            font-size: clamp(2rem, 4vw, 3.5rem);
             font-weight: 800;
-            line-height: 1;
-            letter-spacing: 0;
-            text-transform: uppercase;
-            color: #f8f6fa;
+            line-height: 1.08;
+            letter-spacing: -0.055em;
         }
 
-        .caixa_de_texto_MR h2 span {
-            color: #8d5dff;
-        }
-
-        .caixa_de_texto_MR h2 small {
-            font-size: 0.32em;
-            font-weight: 600;
-            color: #9e96a7;
-            white-space: nowrap;
-        }
-
-        .mr-description {
-            max-width: 580px;
-            color: #cbc4d1;
-            font-size: 1.1rem;
-            font-weight: 400;
-            line-height: 1.65;
-            letter-spacing: 0;
-        }
-
-        .mr-feature-list {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 28px;
-            margin-top: 42px;
-            list-style: none;
-        }
-
-        .mr-feature-list li {
-            padding-top: 18px;
-            border-top: 1px solid #54485f;
-        }
-
-        .mr-feature-list strong,
-        .mr-feature-list span {
-            display: block;
-            letter-spacing: 0;
-        }
-
-        .mr-feature-list strong {
-            margin-bottom: 8px;
-            color: #f8f6fa;
-            font-size: 0.95rem;
-        }
-
-        .mr-feature-list span {
-            color: #9e96a7;
-            font-size: 0.85rem;
-            line-height: 1.5;
+        .caixa_de_texto_MR .mr-description {
+            margin-top: clamp(14px, 2vw, 24px);
+            color: #241E2C;
+            font-size: clamp(0.94rem, 1.4vw, 1.16rem);
+            font-weight: 450;
+            line-height: 1.3;
+            letter-spacing: -0.055em;
+            text-align: justify;
+            text-wrap: pretty;
         }
 
         .holograma {
-            position: relative;
-            min-height: 620px;
-            display: grid;
-            place-items: center;
-            border-left: 1px solid #463b51;
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.7s ease 0.2s, transform 0.7s ease 0.2s;
-        }
-
-        .holograma::before,
-        .holograma::after {
-            content: "";
-            position: absolute;
-            left: 10%;
-            right: 4%;
-            height: 1px;
-            background: #463b51;
-        }
-
-        .holograma::before {
-            top: 18%;
-        }
-
-        .holograma::after {
-            bottom: 18%;
-        }
-
-        .holograma img {
-            position: relative;
+            
             z-index: 1;
-            width: min(100%, 520px);
-            max-height: 650px;
-            object-fit: contain;
-            filter: drop-shadow(0 18px 28px rgba(141, 93, 255, 0.28));
-            animation: mr-float 5s ease-in-out infinite;
-        }
-
-        .mr-annotation {
-            position: absolute;
-            z-index: 2;
-            color: #9e96a7;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0;
-            text-transform: uppercase;
-        }
-
-        .mr-annotation-digital {
-            top: 13%;
-            right: 4%;
-            color: #6be3d2;
-        }
-
-        .mr-annotation-physical {
-            bottom: 13%;
-            left: 10%;
-        }
-
-        .frase-destaque2 {
-            width: min(1180px, 100%);
-            margin: 72px auto 0;
-            padding-top: 56px;
-            border-top: 1px solid #463b51;
+            top: clamp(48px, 7.2vw, 88px);
+            left: clamp(50px, 15vw, 100vw);
+            width: clamp(455px, 64vw, 700px);
+            aspect-ratio: 1;
             opacity: 0;
             transform: translateY(40px);
-            transition: opacity 0.8s ease 0.25s, transform 0.8s ease 0.25s;
+            transition: opacity 0.7s ease 0.14s, transform 0.7s ease 0.14s;
+            pointer-events: none;
+        }
+        .frase-destaque2 {
+            
+            z-index: 2;
+            top: clamp(48px, 7.2vw, 88px);
+            left: 48.5vw;
         }
 
-        .frase-destaque2 h2 {
-            max-width: 940px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.25rem;
-            font-weight: 800;
-            line-height: 1.15;
-            letter-spacing: 0;
+        #frase-destaque h2 {
+            position: relative;
+            right: 0;
+            font-family: 'Orbitr', sans-serif;
+            font-size: clamp(3rem, 7vw, 5rem);
+            font-weight: 600;
+            line-height: 1.1;
+            text-align: center;
             text-transform: uppercase;
-            color: #f8f6fa;
-            overflow-wrap: break-word;
+            color: #241E2C;
         }
 
-        .frase-destaque2 h2 span {
+        .frase-destaque2 .fd-normal2 {
             display: block;
+            font-weight: 600;
+            font-style: normal;
+            color: #241E2C;
         }
 
+    
         .frase-destaque2 .fd-italic2 {
-            color: #6be3d2;
+            color: #736C7C;
             font-family: 'Instrument Serif', serif;
-            font-size: 1.18em;
+            font-size: 1.08em;
             font-style: italic;
             font-weight: 400;
-            text-transform: none;
+            line-height: 0.86;
+            text-transform: uppercase;
         }
 
         .MR.show,
@@ -935,10 +823,66 @@
             transform: translateY(0);
         }
 
-        @keyframes mr-float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+        @media (max-width: 640px) {
+            .MR {
+                min-height: 760px;
+            }
+
+            .mr-layout {
+                min-height: 760px;
+            }
+
+            .caixa_de_texto_MR {
+                top: 28px;
+                left: 24px;
+                width: min(78vw, 320px);
+            }
+
+            .caixa_de_texto_MR h2 {
+                font-size: 1.5rem;
+            }
+
+            .caixa_de_texto_MR .mr-description {
+                font-size: 0.98rem;
+            }
+
+            .holograma {
+                top: 225px;
+                left: -86px;
+                width: 510px;
+                opacity: 0;
+            }
+
+            .frase-destaque2 {
+                top: 315px;
+                left: 24px;
+                width: calc(100% - 48px);
+            }
+
+            #frase-destaque h2 {
+                font-size: clamp(2.45rem, 12vw, 4rem);
+            }
+
+            .frase-destaque2 .fd-object,
+            .frase-destaque2 .fd-italic2,
+            .frase-destaque2 .fd-physical {
+                margin-left: clamp(0px, 8vw, 34px);
+            }
+
+            .frase-destaque2 .fd-normal2 {
+                font-size: 0.9em;
+            }
         }
+
+        @media (prefers-reduced-motion: reduce) {
+            .MR,
+            .caixa_de_texto_MR,
+            .holograma,
+            .frase-destaque2 {
+                transition: none;
+            }
+        }
+
 
 
 
@@ -964,14 +908,6 @@
 
             .card-2 {
                 margin-left: 50px;
-            }
-
-            .caixa_de_texto_MR h2 {
-                font-size: 3.75rem;
-            }
-
-            .holograma {
-                min-height: 540px;
             }
         }
 
@@ -1006,38 +942,6 @@
             .card-4 .vr-image {
                 width: 300px;
                 height: 250px;
-            }
-
-            .MR {
-                padding: 88px 32px 72px;
-            }
-
-            .mr-layout {
-                grid-template-columns: 1fr;
-                gap: 56px;
-            }
-
-            .caixa_de_texto_MR {
-                max-width: 700px;
-            }
-
-            .caixa_de_texto_MR h2 {
-                font-size: 3.5rem;
-            }
-
-            .holograma {
-                min-height: 500px;
-                border-left: 0;
-                border-top: 1px solid #463b51;
-                border-bottom: 1px solid #463b51;
-            }
-
-            .holograma img {
-                max-height: 520px;
-            }
-
-            .frase-destaque2 h2 {
-                font-size: 2.75rem;
             }
 
         }
@@ -1076,89 +980,6 @@
             .vr-text p {
                 font-size: 15px;
                 line-height: 1.5;
-            }
-
-            .MR {
-                padding: 72px 20px 56px;
-            }
-
-            .mr-layout {
-                gap: 44px;
-            }
-
-            .mr-eyebrow {
-                margin-bottom: 16px;
-            }
-
-            .caixa_de_texto_MR h2 {
-                margin-bottom: 22px;
-                font-size: 2.4rem;
-                line-height: 1.05;
-            }
-
-            .caixa_de_texto_MR h2 span {
-                display: block;
-            }
-
-            .caixa_de_texto_MR h2 small {
-                display: block;
-                margin-top: 10px;
-                font-size: 0.38em;
-            }
-
-            .mr-description {
-                font-size: 1rem;
-                line-height: 1.6;
-            }
-
-            .mr-feature-list {
-                grid-template-columns: 1fr;
-                gap: 22px;
-                margin-top: 34px;
-            }
-
-            .holograma {
-                min-height: 410px;
-            }
-
-            .holograma img {
-                width: min(100%, 390px);
-                max-height: 420px;
-            }
-
-            .mr-annotation-digital {
-                top: 10%;
-            }
-
-            .mr-annotation-physical {
-                bottom: 10%;
-            }
-
-            .frase-destaque2 {
-                margin-top: 56px;
-                padding-top: 42px;
-            }
-
-            .frase-destaque2 h2 {
-                font-size: 1.75rem;
-                line-height: 1.2;
-            }
-
-            .frase-destaque2 .fd-italic2 {
-                font-size: 1.1em;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .MR,
-            .caixa_de_texto_MR,
-            .holograma,
-            .frase-destaque2 {
-                transition: none;
-            }
-
-            .holograma img {
-                animation: none;
             }
         }
        
