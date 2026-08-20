@@ -56,47 +56,51 @@
             </div>
             <div class="menu-body">
                 <div class="menu-cards-section">
-                    <div class="menu-card">
-                        <h3>Explorar</h3>
-                        <p>Descubra mundos imersivos</p>
+                    <div class="menu-card-column menu-card-column--left" data-card-column="left">
+                        <div class="menu-card" data-card="home">
+                            <h3>Home</h3>
+                            <p>Volte ao início da experiência</p>
+                        </div>
+                        <div class="menu-card3" data-card="explore">
+                            <h3>Explore</h3>
+                            <p>Descubra mundos imersivos</p>
+                        </div>
                     </div>
-                    <div class="menu-card2">
-                        <h3>Experiências</h3>
-                        <p>Viva novas aventuras</p>
-                    </div>
-                    <div class="menu-card3">
-                        <h3>Jogos</h3>
-                        <p>Divirta-se em VR</p>
-                    </div>
-                    <div class="menu-card">
-                        <h3>Comunidade</h3>
-                        <p>Conecte-se com outros</p>
+                    <div class="menu-card-column menu-card-column--right" data-card-column="right">
+                        <div class="menu-card2" data-card="tecnologias">
+                            <h3>Tecnologias</h3>
+                            <p>Conheça as tecnologias imersivas</p>
+                        </div>
+                        <div class="menu-card" data-card="interacoes">
+                            <h3>Interações</h3>
+                            <p>Descubra novas formas de interação</p>
+                        </div>
                     </div>
                 </div>
 
                 <nav class="menu-nav">
-                    <a href="./index.html" class="menu-nav-item">
+                    <a href="./index.html" class="menu-nav-item" data-menu-target="home">
                         <span class="text-wrapper">
                             <span class="text top">HOME</span>
                             <span class="text bottom">HOME</span>
                         </span>
                     </a>
-                    <a href="assets/paginas_menu/html/tecnologias.html" class="menu-nav-item">
+                    <a href="assets/paginas_menu/html/tecnologias.html" class="menu-nav-item" data-menu-target="tecnologias">
                         <span class="text-wrapper">
                             <span class="text top">TECNOLOGIAS</span>
                             <span class="text bottom">TECNOLOGIAS</span>
                         </span>
                     </a>
-                    <a href="assets/paginas_menu/html/explore.html" class="menu-nav-item">
+                    <a href="assets/paginas_menu/html/explore.html" class="menu-nav-item" data-menu-target="explore">
                         <span class="text-wrapper">
                             <span class="text top">EXPLORE</span>
                             <span class="text bottom">EXPLORE</span>
                         </span>
                     </a>
-                    <a href="assets/paginas_menu/html/interaçoes.html" class="menu-nav-item">
+                    <a href="assets/paginas_menu/html/interaçoes.html" class="menu-nav-item" data-menu-target="interacoes">
                         <span class="text-wrapper">
-                            <span class="text top">INTERAÇOES</span>
-                            <span class="text bottom">INTERAÇOES</span>
+                            <span class="text top">INTERAÇÕES</span>
+                            <span class="text bottom">INTERAÇÕES</span>
                         </span>
                     </a>
                     <img src="assets/pagina__princiapl/img/Group 51 (2).png" alt="logo" class="section-logo">
@@ -182,6 +186,7 @@
     <!-- Scripts do projeto -->
     <script src="assets/pagina__princiapl/js/pt.js"></script>
     <script src="assets/pagina__princiapl/js/back_menu.js"></script>
+    <script src="assets/paginas_menu/js/Card.js"></script>
     <script src="assets/pagina__princiapl/js/hero_mask.js"></script>
     <script type="module" src="assets/sistema_de_login/js/auth-nav.js"></script>
 </body>
