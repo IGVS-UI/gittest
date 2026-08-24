@@ -1,0 +1,184 @@
+/*
+ * MENU OVERLAY — NOTEBOOKS
+ * Este arquivo deve ser carregado DEPOIS do menu_overlay.css.
+ * Faixa principal: 1024px até 1440px.
+ */
+
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+    .menu-header {
+        padding: clamp(16px, 1.8vw, 26px) clamp(22px, 2.5vw, 36px);
+    }
+
+    .menu-header h1,
+    .menu-header .nav-logo,
+    .menu-header .sub-title {
+        font-size: clamp(19px, 1.7vw, 24px);
+    }
+
+    .close-btn {
+        padding: 4px 10px;
+        font-size: clamp(29px, 2.5vw, 35px);
+    }
+
+    .menu-body {
+        grid-template-columns: minmax(480px, 54%) minmax(360px, 1fr);
+        align-items: center;
+        gap: clamp(24px, 3.4vw, 50px);
+        padding: clamp(18px, 2.2vw, 32px) clamp(24px, 2.8vw, 40px);
+        overflow-x: hidden;
+    }
+
+    .menu-cards-section {
+    
+    }
+
+    .menu-card-column {
+       
+    }
+
+    .menu-card-column--right {
+        transform: translateY(clamp(14px, 2vw, 28px));
+    }
+
+    .menu-card {
+        min-height: 0;
+        height: s00px;
+        aspect-ratio: auto;
+    }
+
+    .menu-card-copy {
+        padding: clamp(15px, 1.6vw, 22px);
+    }
+
+    .menu-card-number {
+        top: clamp(14px, 1.5vw, 19px);
+        right: clamp(14px, 1.5vw, 20px);
+        font-size: 10px;
+    }
+
+    .menu-card h3 {
+        margin-bottom: 5px;
+        font-size: clamp(14px, 1.25vw, 18px);
+    }
+
+    .menu-card p {
+        max-width: 82%;
+        font-size: clamp(10px, .88vw, 12px);
+        line-height: 1.35;
+    }
+
+    .menu-card-media {
+        inset: clamp(58px, 6.3vw, 76px) 0 0;
+    }
+
+    .menu-card-media--model {
+        inset: clamp(64px, 6.8vw, 82px) 0 0;
+    }
+
+    .menu-card-model {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+    }
+
+    .menu-card-image--home {
+        width: 88%;
+        height: 98%;
+    }
+
+    .menu-card-image--tecnologias {
+        width: 84%;
+        height: 96%;
+    }
+
+    .menu-nav {
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        padding-inline: clamp(0px, 1.4vw, 20px);
+    }
+
+    .menu-nav-item {
+        padding: clamp(2px, .35vh, 5px) 0;
+        font-size: clamp(2.7rem, 4.75vw, 4.75rem);
+        line-height: .98;
+        white-space: nowrap;
+    }
+
+    .text-wrapper {
+        height: 1.04em;
+        line-height: 1.04em;
+    }
+
+    .section-logo {
+        width: clamp(38px, 3.5vw, 48px);
+        margin-top: clamp(18px, 3vh, 32px);
+    }
+}
+
+/* Ajuste para notebooks de tela baixa, como 1280x720 e 1366x768. */
+@media screen and (min-width: 1024px) and (max-width: 1440px) and (max-height: 820px) {
+    .menu-header {
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+
+    .menu-body {
+        gap: clamp(22px, 3vw, 42px);
+        padding-top: 14px;
+        padding-bottom: 20px;
+    }
+
+    .menu-cards-section,
+    .menu-card-column {
+        gap: clamp(10px, 1.2vw, 16px);
+    }
+
+    .menu-card-column--right {
+        transform: translateY(clamp(10px, 1.5vw, 20px));
+    }
+
+    .menu-card {
+       width: 300px;
+       height: 300px;
+       
+    }
+
+    .menu-card-copy {
+        padding: 14px 16px;
+    }
+
+    .menu-card-media {
+        inset: 54px 0 0;
+    }
+
+    .menu-card-media--model {
+        inset: 60px 0 0;
+    }
+
+.menu-nav{
+    position: absolute;
+    right: 5%;
+}
+    .section-logo {
+        width: 40px;
+        margin-top: 14px;
+    }
+}
+
+/* Ajuste adicional para a faixa mais estreita dos notebooks. */
+@media screen and (min-width: 1024px) and (max-width: 1150px) {
+    .menu-body {
+        grid-template-columns: minmax(455px, 53%) minmax(340px, 1fr);
+        gap: 22px;
+        padding-inline: 22px;
+    }
+
+    .menu-card {
+        height: clamp(195px, 29vh, 245px);
+    }
+
+    .menu-nav-item {
+        font-size: clamp(2.45rem, 4.35vw, 3.25rem);
+    }
+}
