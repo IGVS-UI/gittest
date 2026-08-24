@@ -1,12 +1,13 @@
 
-       .menu-overlay {
+     .menu-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100vh;
             background: linear-gradient(135deg, #1a1420 0%, #2d1f35 100%);
             display: none;
             z-index: 1000;
-            overflow: hidden;
+            overflow-x: none;
+            overflow-y: none;
         }
 
         .menu-canvas {
@@ -42,12 +43,14 @@
             flex-direction: column;
             position: relative;
             z-index: 2;
+
         }
 
         .menu-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 0px;
             padding: 40px;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
@@ -95,8 +98,9 @@
             flex: 1;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            align-content: start;
+            gap: 50%;
+
+            max-width: 600px;
         }
 
         .menu-card-column {
@@ -107,17 +111,91 @@
             transform: translateY(0);
             will-change: transform;
         }
-
+       
         .menu-card,
         .menu-card2,
         .menu-card3 {
-            background: rgba(255,255,255,0.05);
+            background:#C2C2C2;
             border: 1px solid rgba(255,255,255,0.1);
             padding: 30px;
             cursor: pointer;
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
+            width: 400px;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
         }
+
+        .menu-card-copy {
+            position: relative;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .menu-card-number {
+            display: block;
+            margin-bottom: 12px;
+            color: rgba(255,255,255,0.55);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            letter-spacing: 0.16em;
+        }
+
+        .menu-card-media {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .menu-card-media::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            pointer-events: none;
+          
+        }
+
+        .menu-card-media--model {
+            pointer-events: auto;
+        }
+
+        .menu-card-model {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            --poster-color: transparent;
+        }
+
+        .menu-card-model--controller {
+            min-width: 100%;
+            min-height: 100%;
+        }
+
+        .menu-model-poster {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            color: rgba(255,255,255,0.72);
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.12em;
+            text-align: center;
+        }
+
+        .menu-model-poster small {
+            color: rgba(255,255,255,0.4);
+            font-size: 9px;
+            letter-spacing: 0.08em;
+        }
+
 
         .menu-card:hover,
         .menu-card2:hover,
@@ -155,8 +233,12 @@
             flex: 1.5;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items:center;
             justify-content: center;
+            position: absolute;
+            top: 20%;
+            right: 10%;
+
         }
 
         .menu-nav-item {

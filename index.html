@@ -12,8 +12,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
      <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-</head>
+    <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script
+        type="module"
+        src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"
+    ></script>
+  </head>
 <body>
 
     <!-- HEADER -->
@@ -47,34 +51,112 @@
     </header>
 
     <!-- MENU OVERLAY -->
-    <div id="menu-overlay" class="menu-overlay">
+     <div
+        id="menu-overlay"
+        class="menu-overlay"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu principal"
+        aria-hidden="true"
+    >
         <canvas id="wc" class="menu-canvas"></canvas>
         <div class="menu-overlay-content">
             <div class="menu-header">
                 <a href="./index.html"><h1>Vr<p class="sub-title">Explore</p></h1></a>
-                <button class="close-btn" onclick="toggleMenu()">&#x2715;</button>
+                <button class="close-btn" type="button" onclick="toggleMenu()" aria-label="Fechar menu">&#x2715;</button>
             </div>
+
             <div class="menu-body">
                 <div class="menu-cards-section">
                     <div class="menu-card-column menu-card-column--left" data-card-column="left">
-                        <div class="menu-card" data-card="home">
-                            <h3>Home</h3>
-                            <p>Volte ao início da experiência</p>
-                        </div>
-                        <div class="menu-card3" data-card="explore">
-                            <h3>Explore</h3>
-                            <p>Descubra mundos imersivos</p>
-                        </div>
+                        <article class="menu-card menu-card--home" data-card="home">
+                            <div class="menu-card-copy">
+                                <span class="menu-card-number">01</span>
+                                <h3>Home</h3>
+                                <p>Volte ao início da experiência</p>
+                            </div>
+                            <div class="menu-card-media" aria-hidden="true">
+                                <img
+                                    class="menu-card-image menu-card-image--home"
+                                    src="assets/paginas_menu/img/menu/home-vr.png"
+                                    alt=""
+                                    loading="eager"
+                                >
+                            </div>
+                        </article>
+
+                        <article class="menu-card menu-card--explore" data-card="explore">
+                            <div class="menu-card-copy">
+                               
+                            </div>
+                            <div class="menu-card-media menu-card-media--model">
+                                <!-- Modelo 3D do Meta Quest 3 -->
+                                <model-viewer
+                                    class="menu-card-model"
+                                    src="assets/paginas_menu/models/source/Quest3.glb"
+                                    alt="Modelo 3D dos óculos Meta Quest 3"
+                                    loading="eager"
+                                    auto-rotate
+                                    auto-rotate-delay="0"
+                                    rotation-per-second="18deg"
+                                    camera-controls
+                                    disable-zoom
+                                    interaction-prompt="none"
+                                    shadow-intensity="0.7"
+                                    environment-image="neutral"
+                                >
+                                    <div class="menu-model-poster" slot="poster" aria-hidden="true">
+                                        <span>MODELO 3D</span>
+                                        <small>Quest3.glb</small>
+                                    </div>
+                                </model-viewer>
+                            </div>
+                        </article>
                     </div>
                     <div class="menu-card-column menu-card-column--right" data-card-column="right">
-                        <div class="menu-card2" data-card="tecnologias">
-                            <h3>Tecnologias</h3>
-                            <p>Conheça as tecnologias imersivas</p>
-                        </div>
-                        <div class="menu-card" data-card="interacoes">
-                            <h3>Interações</h3>
-                            <p>Descubra novas formas de interação</p>
-                        </div>
+                        <article class="menu-card menu-card--tecnologias" data-card="tecnologias">
+                            <div class="menu-card-copy">
+                                <span class="menu-card-number">02</span>
+                                <h3>Tecnologias</h3>
+                                <p>Conheça as tecnologias imersivas</p>
+                            </div>
+                            <div class="menu-card-media" aria-hidden="true">
+                                <img
+                                    class="menu-card-image menu-card-image--tecnologias"
+                                    src="assets/paginas_menu/img/menu/tecnologias-vr.png"
+                                    alt=""
+                                    loading="eager"
+                                >
+                            </div>
+                        </article>
+
+                        <article class="menu-card menu-card--interacoes" data-card="interacoes">
+                            <div class="menu-card-copy">              
+                            </div>
+                            <div class="menu-card-media menu-card-media--model">
+                                <!-- Troque apenas o src abaixo pelo caminho do controle de PS5 .glb -->
+                                <model-viewer
+                                    class="menu-card-model menu-card-model--controller"
+                                    src="assets/paginas_menu/models/source/ps5_controller.glb"
+                                    alt="Modelo 3D de um controle de PS5"
+                                    loading="eager"
+                                    auto-rotate
+                                    auto-rotate-delay="0"
+                                    rotation-per-second="22deg"
+                                    camera-controls
+                                    disable-zoom
+                                    interaction-prompt="none"
+                                    shadow-intensity="0.8"
+                                    environment-image="neutral"
+                                    camera-orbit="25deg 72deg auto"
+                                >
+                                    <div class="menu-model-poster" slot="poster" aria-hidden="true">
+                                        <span>MODELO 3D</span>
+                                        <small>controle-ps5.glb</small>
+                                    </div>
+                                </model-viewer>
+                            </div>
+                        </article>
                     </div>
                 </div>
 
@@ -99,8 +181,8 @@
                     </a>
                     <a href="assets/paginas_menu/html/interaçoes.html" class="menu-nav-item" data-menu-target="interacoes">
                         <span class="text-wrapper">
-                            <span class="text top">INTERAÇÕES</span>
-                            <span class="text bottom">INTERAÇÕES</span>
+                            <span class="text top">INTERAÇOES</span>
+                            <span class="text bottom">INTERAÇOES</span>
                         </span>
                     </a>
                     <img src="assets/pagina__princiapl/img/Group 51 (2).png" alt="logo" class="section-logo">
@@ -108,6 +190,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- HERO - efeito máscara -->
     <main class="main-content">
