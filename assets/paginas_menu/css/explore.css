@@ -434,7 +434,6 @@ main{
     margin: 0 auto;
     padding: clamp(72px, 9vw, 150px) clamp(20px, 5vw, 80px);
     color: #ffffff;
-    
 }
 
 .map-explorer-heading {
@@ -447,18 +446,19 @@ main{
 
 .map-explorer-heading > span,
 .destination-selector-heading > span {
+    display: flex;
+    justify-content: center;
+    position: relative;
+
     grid-column: 1 / -1;
     color: #b16ff1;
-    font: 700 0.78rem/1 "Orbitron", sans-serif;
+    font: 900 "Orbitron", sans-serif;
     letter-spacing: 0.2em;
 }
 
 .map-explorer-heading h2 {
-    max-width: 900px;
-    margin: 0;
-    font: 800 clamp(2.4rem, 5.7vw, 6.5rem)/0.94 "Inter", sans-serif;
-    letter-spacing: -0.065em;
-    text-transform: uppercase;
+
+
 }
 
 .map-explorer-heading p {
@@ -778,5 +778,390 @@ main{
     .destination-card-image img,
     .map-loading {
         transition: none;
+    }
+}
+
+/* ==================================================
+   ACABAMENTO DA EXPERIÊNCIA DE DESTINOS
+================================================== */
+
+.vr-intro,
+.map-explorer {
+    top: auto;
+}
+
+.map-explorer {
+    padding-bottom: clamp(90px, 10vw, 160px);
+}
+
+.map-explorer-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    text-align: center;
+}
+
+.map-explorer-heading > span,
+.destination-selector-heading > span {
+    font: 800 0.78rem/1 "Orbitron", sans-serif;
+}
+
+.map-explorer-heading h2 {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.06em;
+    width: 100%;
+    margin: 0;
+    color: #ffffff;
+    font: 900 clamp(2.25rem, 13vw, 9rem)/0.82 "Inter", sans-serif;
+    letter-spacing: -0.085em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.map-title-accent {
+    color: #b16ff1;
+}
+
+.map-title-script {
+    display: inline-block;
+    margin-right: -0.12em;
+    font-family: "Condiment", cursive;
+    font-size: 1.08em;
+    font-weight: 400;
+    letter-spacing: -0.08em;
+    transform: translateY(0.04em);
+}
+
+.map-explorer-heading p {
+    max-width: 660px;
+    margin: 8px 0 0;
+    text-align: center;
+}
+
+.map-viewer {
+    position: relative;
+    background: #151219;
+    scroll-margin-top: 110px;
+}
+
+.map-viewer-toolbar {
+    position: relative;
+    background: linear-gradient(90deg, #18131f 0%, #21162c 100%);
+}
+
+.map-viewer-place small {
+    color: rgba(255, 255, 255, 0.58);
+    font: 500 0.86rem/1.3 "Inter", sans-serif;
+}
+
+.map-expand-button {
+    display: grid;
+    place-items: center;
+    padding: 0;
+}
+
+.map-expand-button svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+.map-viewer-footer {
+    border-top: 1px solid rgba(177, 111, 241, 0.24);
+    background: linear-gradient(100deg, rgba(105, 57, 210, 0.22), rgba(177, 111, 241, 0.08));
+}
+
+.map-viewer-footer a {
+    padding: 12px 18px;
+    border: 1px solid rgba(177, 111, 241, 0.55);
+    border-radius: 999px;
+    background: rgba(105, 57, 210, 0.16);
+    transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease,
+        transform 180ms ease;
+}
+
+.map-viewer-footer a:hover,
+.map-viewer-footer a:focus-visible {
+    border-color: #b16ff1;
+    background: #6939d2;
+    color: #ffffff;
+    outline: none;
+    transform: translateY(-2px);
+}
+
+.map-viewer:fullscreen {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    border: 0;
+    border-radius: 0;
+}
+
+.map-viewer:fullscreen .map-frame-shell {
+    flex: 1;
+    min-height: 0;
+}
+
+.map-loading {
+    gap: 14px;
+    align-content: center;
+    font-size: 0.78rem;
+    line-height: 1.4;
+}
+
+.map-loading-spinner {
+    width: 34px;
+    height: 34px;
+    border: 2px solid rgba(255, 255, 255, 0.18);
+    border-top-color: #b16ff1;
+    border-radius: 50%;
+    animation: mapLoadingSpin 800ms linear infinite;
+}
+
+@keyframes mapLoadingSpin {
+    to { transform: rotate(360deg); }
+}
+
+.destination-search {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: min(100%, 820px);
+    min-height: 62px;
+    margin: 0 auto;
+    padding: 0 22px;
+    border: 1px solid rgba(177, 111, 241, 0.34);
+    border-radius: 999px;
+    background: rgba(24, 19, 31, 0.88);
+    box-shadow: 0 18px 55px rgba(0, 0, 0, 0.24);
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.destination-search:focus-within {
+    border-color: #b16ff1;
+    box-shadow: 0 0 0 4px rgba(177, 111, 241, 0.12), 0 18px 55px rgba(0, 0, 0, 0.28);
+}
+
+.destination-search svg {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    fill: none;
+    stroke: #b16ff1;
+    stroke-linecap: round;
+    stroke-width: 1.8;
+}
+
+.destination-search input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #ffffff;
+    font: 500 1rem/1.3 "Inter", sans-serif;
+}
+
+.destination-search input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.destination-search input::-webkit-search-cancel-button {
+    filter: invert(1);
+    opacity: 0.55;
+    cursor: pointer;
+}
+
+.destination-search-status {
+    min-height: 1.4em;
+    margin: 16px auto 26px;
+    color: rgba(255, 255, 255, 0.5);
+    font: 500 0.82rem/1.4 "Inter", sans-serif;
+    text-align: center;
+}
+
+.destination-card {
+    display: flex;
+    flex-direction: column;
+    cursor: default;
+}
+
+.destination-card-stage {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.destination-card.is-changing .destination-card-stage {
+    opacity: 0;
+    transform: translateX(14px);
+}
+
+.destination-card-image {
+    background: var(--card-gradient, radial-gradient(circle at 50% 42%, #56367c 0%, #201729 58%, #100d13 100%));
+}
+
+.destination-card-placeholder {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: center;
+}
+
+.destination-card-placeholder svg {
+    width: 54px;
+    height: 54px;
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 1.35;
+}
+
+.destination-card-placeholder span {
+    font: 700 0.72rem/1.3 "Orbitron", sans-serif;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.destination-card-copy {
+    flex: 1;
+}
+
+.destination-card-copy .destination-card-category {
+    order: -1;
+    margin: 0 0 12px;
+    color: #b16ff1;
+    font: 700 0.64rem/1 "Orbitron", sans-serif;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.destination-card-copy .destination-card-location {
+    margin-top: 8px;
+    color: rgba(255, 255, 255, 0.58);
+    font: 450 0.9rem/1.4 "Inter", sans-serif;
+}
+
+.destination-card-copy p {
+    margin: 18px 0 24px;
+    color: rgba(255, 255, 255, 0.68);
+    font: 450 0.9rem/1.6 "Inter", sans-serif;
+}
+
+.destination-select-button {
+    width: 100%;
+    min-height: 46px;
+    margin-top: auto;
+    padding: 12px 16px;
+    border: 1px solid rgba(177, 111, 241, 0.62);
+    border-radius: 999px;
+    background: rgba(105, 57, 210, 0.14);
+    color: #ffffff;
+    font: 750 0.66rem/1.2 "Orbitron", sans-serif;
+    letter-spacing: 0.07em;
+    cursor: pointer;
+    transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.destination-select-button:hover,
+.destination-select-button:focus-visible {
+    border-color: #b16ff1;
+    background: #6939d2;
+    outline: none;
+    transform: translateY(-2px);
+}
+
+.destination-card-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 0 24px 22px;
+}
+
+.destination-card-dot {
+    width: 28px;
+    height: 8px;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: width 180ms ease, background-color 180ms ease;
+}
+
+.destination-card-dot:hover,
+.destination-card-dot:focus-visible {
+    background: rgba(177, 111, 241, 0.62);
+    outline: 2px solid rgba(177, 111, 241, 0.3);
+    outline-offset: 3px;
+}
+
+.destination-card-dot.is-active {
+    width: 42px;
+    background: #b16ff1;
+}
+
+.destination-empty {
+    margin: 34px auto 0;
+    padding: 42px 24px;
+    border: 1px dashed rgba(177, 111, 241, 0.38);
+    border-radius: 20px;
+    color: rgba(255, 255, 255, 0.62);
+    font: 500 1rem/1.6 "Inter", sans-serif;
+    text-align: center;
+}
+
+.destination-empty[hidden] {
+    display: none;
+}
+
+@media (max-width: 700px) {
+    .map-explorer-heading h2 {
+        gap: 0.03em;
+        font-size: clamp(2.25rem, 13vw, 4.8rem);
+    }
+
+    .destination-search {
+        min-height: 56px;
+        padding: 0 18px;
+    }
+
+    .map-expand-button {
+        position: absolute;
+        right: 18px;
+    }
+
+    .map-viewer-place {
+        padding-right: 58px;
+    }
+
+    .map-viewer-footer a {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .destination-card-stage,
+    .destination-card-dot,
+    .destination-select-button,
+    .map-viewer-footer a {
+        transition: none;
+    }
+
+    .map-loading-spinner {
+        animation: none;
     }
 }

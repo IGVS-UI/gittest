@@ -248,18 +248,21 @@
     <section class="map-explorer" id="map-explorer" aria-labelledby="map-explorer-title">
         <div class="map-explorer-heading">
             <span>EXPERIÊNCIA 360°</span>
-            <h2 id="map-explorer-title">Escolha uma paisagem e explore</h2>
+            <h2 id="map-explorer-title">
+                <span class="map-title-base">Mapa</span>
+                <span class="map-title-accent"><span class="map-title-script">in</span>terativo</span>
+            </h2>
             <p>
-                Selecione um destino nos cards. O Google Maps será atualizado na mesma tela
-                para você navegar pelo local.
+                Encontre um destino, escolha uma paisagem e explore cada detalhe em 360°.
             </p>
         </div>
 
-        <div class="map-viewer" id="map-viewer">
+        <div class="map-viewer is-loading" id="map-viewer">
             <div class="map-viewer-toolbar">
                 <div class="map-viewer-place" aria-live="polite">
                     <span>DESTINO SELECIONADO</span>
                     <strong id="map-destination-name">Coliseu</strong>
+                    <small id="map-destination-location">Roma, Itália</small>
                 </div>
 
                 <button
@@ -267,7 +270,9 @@
                     id="map-expand-button"
                     type="button"
                     aria-label="Expandir mapa em tela cheia">
-                    <span aria-hidden="true">⛶</span>
+                    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                        <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"></path>
+                    </svg>
                 </button>
             </div>
 
@@ -282,7 +287,8 @@
                 </iframe>
 
                 <div class="map-loading" id="map-loading" aria-hidden="true">
-                    Carregando paisagem...
+                    <span class="map-loading-spinner" aria-hidden="true"></span>
+                    <span>Carregando paisagem...</span>
                 </div>
             </div>
 
@@ -300,13 +306,33 @@
             </div>
         </div>
 
-        <div class="destination-selector">
+        <div class="destination-selector" aria-labelledby="destination-selector-title">
             <div class="destination-selector-heading">
                 <span>DESTINOS</span>
-                <h3>Onde você quer estar?</h3>
+                <h3 id="destination-selector-title">Onde você quer estar?</h3>
             </div>
 
+            <div class="destination-search" role="search">
+                <label class="sr-only" for="destination-search-input">Pesquisar destinos</label>
+                <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m16.2 16.2 4.3 4.3"></path>
+                </svg>
+                <input
+                    id="destination-search-input"
+                    type="search"
+                    placeholder="Pesquise uma cidade, país ou atração..."
+                    autocomplete="off"
+                    spellcheck="false"
+                    aria-controls="destination-cards"
+                    aria-describedby="destination-search-status">
+            </div>
+
+            <p class="destination-search-status" id="destination-search-status" aria-live="polite"></p>
             <div class="destination-cards" id="destination-cards"></div>
+            <p class="destination-empty" id="destination-empty" role="status" hidden>
+                Nenhum destino encontrado. Tente pesquisar outro nome, cidade ou país.
+            </p>
         </div>
     </section>
 
