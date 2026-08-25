@@ -11,13 +11,12 @@ main{
 }
 /* SEÇÃO  HERO-EXPLORE*/
     .hero-explore{
-       min-height: 100vh;
        padding-top: 80px;
        display: grid;
        grid-template-columns: 1fr 1fr;
        align-items: start;
        overflow: visible;
-        }
+    }
         .hero-explore-text {
             padding: 60px 60px 60px 40px;
             display: flex;
@@ -429,11 +428,12 @@ main{
 .map-explorer {
     position: relative;
     top: -500px;
-    z-index: 5;
+    z-index: 0;
     width: min(100%, 1600px);
     margin: 0 auto;
     padding: clamp(72px, 9vw, 150px) clamp(20px, 5vw, 80px);
     color: #ffffff;
+    
 }
 
 .map-explorer-heading {
@@ -815,7 +815,7 @@ main{
     width: 100%;
     margin: 0;
     color: #ffffff;
-    font: 900 clamp(2.25rem, 13vw, 9rem)/0.82 "Inter", sans-serif;
+    font: 600 clamp(2.25rem, 13vw, 9rem)/0.82 "Inter", sans-serif;
     letter-spacing: -0.085em;
     text-align: center;
     white-space: nowrap;
@@ -823,16 +823,19 @@ main{
 
 .map-title-accent {
     color: #b16ff1;
+    font-weight: 600;
 }
 
 .map-title-script {
     display: inline-block;
     margin-right: -0.12em;
     font-family: "Condiment", cursive;
-    font-size: 1.08em;
+    font-size: 1em;
     font-weight: 400;
     letter-spacing: -0.08em;
     transform: translateY(0.04em);
+    margin-right: 10px;
+    
 }
 
 .map-explorer-heading p {
