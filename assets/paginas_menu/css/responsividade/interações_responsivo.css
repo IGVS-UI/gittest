@@ -4,39 +4,41 @@
     }
 
     .interactions-hero {
-        min-height: 790px;
+        min-height: 680px;
         padding-top: 104px;
     }
 
     .hero-title {
-        font-size: clamp(7rem, 16vw, 14rem);
+        font-size: clamp(6rem, 12.5vw, 11.25rem);
     }
 
     .hero-content {
-        grid-template-columns: minmax(0, 1.05fr) minmax(390px, .95fr);
-        min-height: 430px;
-        margin-top: -20px;
+        grid-template-columns: minmax(0, 1.08fr) minmax(340px, .92fr);
+        min-height: clamp(340px, 30vw, 400px);
+        gap: clamp(28px, 4vw, 52px);
+        margin-top: -12px;
     }
 
     .hero-controller {
-        min-height: 430px;
+        min-height: clamp(340px, 30vw, 400px);
     }
 
     .primary-button {
-        min-height: 66px;
-        margin-top: 34px;
+        min-height: 56px;
+        margin-top: 28px;
         border-radius: 14px;
     }
 
     .vr-world {
-        grid-template-columns: minmax(360px, .82fr) minmax(0, 1.18fr);
-        min-height: 760px;
-        gap: 50px;
+        grid-template-columns: minmax(330px, .82fr) minmax(0, 1.18fr);
+        min-height: 650px;
+        gap: clamp(34px, 4vw, 48px);
+        padding-block: 52px;
     }
 
     .vr-viewer-card {
-        height: 650px;
-        border-radius: 42px;
+        height: clamp(500px, 39vw, 560px);
+        border-radius: 36px;
     }
 
     .feature-list {
@@ -44,46 +46,46 @@
     }
 
     .feature-button {
-        min-height: 94px;
-        padding: 20px 18px;
+        min-height: 78px;
+        padding: 16px 18px;
     }
 
     .games-room {
-        padding-top: 80px;
+        padding-block: 68px 100px;
     }
 
     .game-tabs {
-        gap: 18px;
-        margin-bottom: 48px;
+        gap: 14px;
+        margin-bottom: 40px;
     }
 
     .game-tab {
-        min-height: 118px;
-        gap: 14px;
-        padding: 18px;
-        border-radius: 18px;
+        min-height: 100px;
+        gap: 12px;
+        padding: 16px;
+        border-radius: 16px;
     }
 
     .game-stage,
     .game-panel {
-        min-height: 820px;
+        min-height: clamp(700px, 53vw, 760px);
     }
 
     .reflex-game {
-        min-height: 610px;
+        min-height: 540px;
     }
 
     .reflex-target {
-        width: min(40vw, 520px);
-        height: min(40vw, 520px);
+        width: min(34vw, 420px);
+        height: min(34vw, 420px);
     }
 
     .external-game {
-        height: 620px;
+        height: clamp(460px, 39vw, 560px);
     }
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (max-width: 960px) {
     .hero-content {
         grid-template-columns: minmax(0, 1fr) minmax(340px, .8fr);
         gap: 22px;
@@ -95,18 +97,18 @@
     }
 
     .vr-viewer-card {
-        width: min(100%, 720px);
-        height: 650px;
+        width: min(100%, 600px);
+        height: 520px;
         margin-inline: auto;
     }
 
     .vr-information {
-        width: min(100%, 900px);
+        width: min(100%, 760px);
         margin-inline: auto;
     }
 
     .feature-button {
-        font-size: clamp(1rem, 2.7vw, 1.75rem);
+        font-size: clamp(1rem, 2.2vw, 1.3rem);
     }
 
     .game-tabs {
@@ -127,11 +129,11 @@
     .interactions-hero {
         min-height: auto;
         padding-top: 104px;
-        padding-bottom: 72px;
+        padding-bottom: 56px;
     }
 
     .hero-title {
-        font-size: clamp(5rem, 24vw, 9rem);
+        font-size: clamp(4.5rem, 22vw, 7rem);
         line-height: .88;
     }
 
@@ -148,7 +150,7 @@
     }
 
     .hero-controller {
-        min-height: 340px;
+        min-height: 280px;
     }
 
     .hero-copy {
@@ -157,20 +159,20 @@
 
     .primary-button {
         width: 100%;
-        min-height: 60px;
-        margin-top: 28px;
-        padding: 16px 20px;
+        min-height: 54px;
+        margin-top: 24px;
+        padding: 14px 18px;
         border-radius: 13px;
     }
 
     .vr-world {
-        gap: 52px;
-        padding-block: 52px 80px;
+        gap: 40px;
+        padding-block: 44px 64px;
     }
 
     .vr-viewer-card {
-        height: 520px;
-        border-radius: 32px;
+        height: 420px;
+        border-radius: 28px;
     }
 
     .vr-headset-model {
@@ -184,14 +186,15 @@
     }
 
     .vr-information h2 {
-        margin-bottom: 34px;
+        margin-bottom: 28px;
+        font-size: clamp(3rem, 14vw, 4.5rem);
     }
 
     .feature-button {
         grid-template-columns: 1fr;
         min-height: 0;
-        padding: 20px 17px;
-        font-size: 1rem;
+        padding: 16px;
+        font-size: .95rem;
     }
 
     .feature-button strong::after {
@@ -199,29 +202,33 @@
     }
 
     .games-room {
-        padding-block: 70px 100px;
+        padding-block: 56px 80px;
     }
 
     .games-heading {
-        margin-bottom: 42px;
+        margin-bottom: 34px;
     }
 
     .games-heading p {
-        margin-top: 20px;
+        margin-top: 16px;
+    }
+
+    .games-heading h2 {
+        font-size: clamp(2.8rem, 12vw, 3.8rem);
     }
 
     .game-tabs {
         grid-template-columns: 1fr;
         gap: 12px;
-        margin-bottom: 36px;
+        margin-bottom: 30px;
     }
 
     .game-tab {
         grid-template-columns: auto 1fr;
-        min-height: 92px;
-        gap: 16px;
-        padding: 16px 18px;
-        border-radius: 16px;
+        min-height: 80px;
+        gap: 14px;
+        padding: 14px 16px;
+        border-radius: 14px;
     }
 
     .game-tab-copy strong {
@@ -230,7 +237,7 @@
 
     .game-stage,
     .game-panel {
-        min-height: 650px;
+        min-height: 540px;
     }
 
     .game-panel {
@@ -238,9 +245,9 @@
     }
 
     .game-panel-header {
-        min-height: 84px;
-        gap: 12px;
-        padding: 18px;
+        min-height: 72px;
+        gap: 10px;
+        padding: 16px;
     }
 
     .status-light {
@@ -249,49 +256,49 @@
     }
 
     .reflex-game {
-        min-height: 500px;
-        gap: 38px;
-        padding-inline: 12px;
+        min-height: 420px;
+        gap: 30px;
+        padding: 72px 12px 18px;
     }
 
     .reflex-target {
-        width: min(74vw, 430px);
-        height: min(74vw, 430px);
-        min-width: 240px;
-        min-height: 240px;
+        width: min(64vw, 340px);
+        height: min(64vw, 340px);
+        min-width: 200px;
+        min-height: 200px;
     }
 
     .reflex-results {
-        gap: 42px;
+        gap: 32px;
     }
 
     .external-game {
-        height: min(72vh, 620px);
-        min-height: 480px;
-        margin: 16px;
+        height: min(60vh, 520px);
+        min-height: 360px;
+        margin: 12px;
     }
 
     .game-instruction {
-        padding: 18px 22px 28px;
+        padding: 14px 18px 24px;
     }
 }
 
 @media screen and (max-width: 420px) {
     .hero-controller {
-        min-height: 290px;
+        min-height: 250px;
     }
 
     .vr-viewer-card {
-        height: 430px;
+        height: 360px;
     }
 
     .reflex-target {
-        min-width: 220px;
-        min-height: 220px;
+        min-width: 190px;
+        min-height: 190px;
     }
 
     .external-game {
-        min-height: 420px;
-        margin: 10px;
+        min-height: 340px;
+        margin: 8px;
     }
 }

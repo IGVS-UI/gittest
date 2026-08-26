@@ -9,12 +9,16 @@
     <link rel="stylesheet" href="../css/interaçoes.css">
     <link rel="stylesheet" href="../css/animations/interaçoes_animations.css">
     <link rel="stylesheet" href="../css/responsividade/interações_responsivo.css">
+    <link rel="stylesheet" href="../css/rep/footer.css">
     <link rel="stylesheet" href="../css/rep/menu_overlay.css">
     <link rel="stylesheet" href="../css/responsividade/menu_overlay_responsivo.css">
     <link rel="stylesheet" href="../css/rep/nav_barblack.css">
     <link rel="stylesheet" href="../../sistema_de_login/css/auth-nav.css">
 
     <!-- Fontes utilizadas nas páginas mais recentes do projeto -->
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Orbitron:wght@400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=BBH+Bartle&amp;family=Condiment&amp;family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&amp;family=Orbitron:wght@400..900&amp;display=swap" rel="stylesheet">
@@ -373,7 +377,69 @@
                 </article>
             </div>
         </section>
+
+
+        <!-- SIMULADOR NASA -->
+        <section
+            class="nasa-simulator page-shell"
+            id="simulador-nasa"
+            aria-labelledby="nasa-section-title"
+        >
+            <div class="games-heading scroll-reveal">
+                <h2 id="nasa-section-title">
+                    IMERSÃO <span>NASA</span>
+                </h2>
+
+                <p>
+                    Explore o Sistema Solar em uma experiência interativa com
+                    planetas, luas, asteroides e espaçonaves.
+                </p>
+            </div>
+
+            <div class="nasa-simulator-shell scroll-reveal">
+                <div class="nasa-simulator-topline">
+                    <p>NASA Eyes on the Solar System</p>
+
+                    <a
+                        href="https://eyes.nasa.gov/apps/solar-system/"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        Abrir no site oficial
+                    </a>
+                </div>
+
+                <div class="nasa-simulator-frame">
+                    <iframe
+                        title="NASA Eyes on the Solar System"
+                        src="https://eyes.nasa.gov/apps/solar-system/#/home"
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        allowfullscreen
+                    ></iframe>
+                </div>
+            </div>
+        </section>
     </main>
+
+    <!-- FOOTER COMPARTILHADO -->
+    <footer class="footer reveal">
+        <div class="footer-inner">
+            <a class="footer-brand" href="../../../index.html" aria-label="VR Explore — página inicial">
+                <img src="../img/Group 51 (2).png" alt="" aria-hidden="true">
+                <span class="footer-brand-text">VR <span>Explore</span></span>
+            </a>
+
+            <p class="footer-rights">&copy; 2026 VR Explore. Todos os direitos reservados.</p>
+
+            <nav class="footer-nav" aria-label="Navegação do rodapé">
+                <a href="../../../index.html">Home</a>
+                <a href="../html/tecnologias.html">Tecnologias</a>
+                <a href="../html/explore.html">Explore</a>
+                <a href="../html/interaçoes.html" aria-current="page">Interações</a>
+            </nav>
+        </div>
+    </footer>
 
     <!-- Dependências do menu overlay e da navegação -->
     <script

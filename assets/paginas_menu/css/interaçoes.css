@@ -42,7 +42,7 @@ button {
 }
 
 .page-shell {
-    width: min(calc(100% - 48px), 1654px);
+    width: min(calc(100% - clamp(3rem, 5vw, 6rem)), 90rem);
     margin-inline: auto;
 }
 
@@ -60,13 +60,15 @@ button {
 
 /* HERO */
 .interactions-hero {
-    min-height: 980px;
-    padding-top: 118px;
+    min-height: 780px;
+    padding-top: 108px;
+    margin-bottom: 20vh;
 }
 
 .interactions-marquee {
     width: 100%;
-    overflow: hidden;
+    margin-top: 100px;
+    padding-bottom:100px ;
 }
 
 .hero-title {
@@ -74,7 +76,7 @@ button {
     margin: 0;
     color: #fff;
     font-family: "Inter", sans-serif;
-    font-size: clamp(7rem, 17vw, 20rem);
+    font-size: clamp(5.5rem, 12.5vw, 13rem);
     font-weight: 800;
     line-height: .9;
     letter-spacing: -.075em;
@@ -109,15 +111,22 @@ button {
     display: inline-flex;
     flex: 0 0 auto;
     align-items: center;
-    padding-inline: clamp(1.5rem, 3vw, 4rem);
+    padding-inline: clamp(1.25rem, 2.5vw, 3rem);
     white-space: nowrap;
 }
 
 .hero-title-base {
-    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(3rem, 10vw, 20rem);
+    font-weight: 1000;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+    color: #ffffff;
 }
 
 .hero-title-script {
+    padding-top: 25px;
     margin-left: .01em;
     color: var(--interactions-purple);
     font-family: "Condiment", cursive;
@@ -134,46 +143,53 @@ button {
 
 .hero-content {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(420px, .95fr);
+    grid-template-columns: minmax(0, 1.08fr) minmax(380px, .92fr);
     align-items: center;
-    gap: clamp(32px, 6vw, 110px);
-    min-height: 520px;
-    margin-top: -32px;
+    gap: clamp(32px, 5vw, 80px);
+    min-height: 440px;
+    padding-top: 20px;
+    margin-bottom: 20vh;
 }
 
 .hero-copy {
     position: relative;
     z-index: 2;
-    max-width: 960px;
+    max-width: 720px;
 }
 
 .eyebrow {
-    margin: 0 0 12px;
+    margin: 0 0 10px;
     color: var(--interactions-purple);
-    font-size: clamp(1.6rem, 3vw, 3.125rem);
-    font-weight: 650;
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-family: inter, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    text-align: justify;
 }
 
 .hero-description {
-    max-width: 960px;
+    max-width: 720px;
     margin: 0;
     color: #fff;
-    font-size: clamp(1.2rem, 2vw, 2.5rem);
+    font-size: clamp(1.1rem, 1.55vw, 1.75rem);
     font-weight: 600;
-    line-height: 1.18;
+    line-height: 1.3;
+    text-align: left;
 }
 
 .primary-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 78px;
-    margin-top: 46px;
-    padding: 18px clamp(28px, 5vw, 76px);
-    border-radius: 18px;
+    min-height: 58px;
+    margin-top: 32px;
+    padding: 14px clamp(28px, 3.5vw, 48px);
+    border-radius: 14px;
     background: var(--interactions-purple);
     color: #fff;
-    font-size: clamp(.95rem, 1.55vw, 2rem);
+    font-size: clamp(.875rem, 1vw, 1.05rem);
     font-weight: 800;
     letter-spacing: -.02em;
     text-decoration: none;
@@ -196,7 +212,7 @@ button {
 
 .hero-controller {
     position: relative;
-    min-height: 520px;
+    min-height: clamp(380px, 30vw, 440px);
 }
 
 .hero-controller::before {
@@ -220,47 +236,48 @@ button {
 /* O MUNDO VR */
 .vr-world {
     display: grid;
-    grid-template-columns: minmax(420px, .88fr) minmax(0, 1.12fr);
+    grid-template-columns: minmax(360px, .88fr) minmax(0, 1.12fr);
     align-items: center;
-    gap: clamp(40px, 6vw, 100px);
-    min-height: 900px;
-    padding-block: 70px;
+    gap: clamp(36px, 5vw, 72px);
+    min-height: 760px;
+
+    margin-bottom: 20vh;
 }
 
 .vr-viewer-card {
     position: relative;
-    height: 810px;
+    height: clamp(560px, 42vw, 640px);
     overflow: hidden;
     border: 1px solid var(--interactions-purple);
-    border-radius: 56px;
+    border-radius: 40px;
     background: radial-gradient(circle at 50% 50%, rgba(177, 111, 241, .11), transparent 58%);
 }
 
 .vr-headset-model {
     width: 100%;
-    height: calc(100% - 90px);
+    height: calc(100% - 72px);
     background: transparent;
     --poster-color: transparent;
 }
 
 .viewer-instruction {
     position: absolute;
-    right: 24px;
-    bottom: 24px;
-    left: 24px;
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
     margin: 0;
     color: #fff;
     font-family: "Orbitron", sans-serif;
-    font-size: clamp(.68rem, 1vw, 1.2rem);
+    font-size: clamp(.65rem, .8vw, .9rem);
     font-weight: 600;
     line-height: 1.4;
     text-align: center;
 }
 
 .vr-information h2 {
-    margin: 0 0 42px;
+    margin: 0 0 32px;
     color: #fff;
-    font-size: clamp(4rem, 7.4vw, 8rem);
+    font-size: clamp(3.25rem, 5vw, 6rem);
     font-weight: 800;
     line-height: .9;
     letter-spacing: -.065em;
@@ -278,22 +295,22 @@ button {
 
 .feature-list {
     display: grid;
-    gap: 18px;
+    gap: 12px;
 }
 
 .feature-button {
     display: grid;
     grid-template-columns: max-content 1fr;
     align-items: start;
-    gap: 8px;
+    gap: 7px;
     width: 100%;
-    min-height: 116px;
-    padding: 26px 22px;
+    min-height: 88px;
+    padding: 18px 20px;
     border: 1px solid transparent;
     border-radius: 13px;
     background: transparent;
     color: #fff;
-    font-size: clamp(1rem, 1.85vw, 2.15rem);
+    font-size: clamp(1rem, 1.25vw, 1.5rem);
     font-weight: 600;
     line-height: 1.2;
     text-align: left;
@@ -324,20 +341,20 @@ button {
 
 /* SALA DE JOGOS */
 .games-room {
-    padding-block: 100px 150px;
+    margin-bottom: 20vh;
     scroll-margin-top: 96px;
 }
 
 .games-heading {
-    max-width: 1450px;
-    margin: 0 auto 66px;
+    max-width: 960px;
+    margin: 0 auto 50px;
     text-align: center;
 }
 
 .games-heading h2 {
     margin: 0;
     color: #fff;
-    font-size: clamp(3.7rem, 6.5vw, 6.25rem);
+    font-size: clamp(3.25rem, 5.25vw, 5rem);
     font-weight: 800;
     line-height: .96;
     letter-spacing: -.055em;
@@ -348,9 +365,10 @@ button {
 }
 
 .games-heading p {
-    margin: 30px 0 0;
+    max-width: 780px;
+    margin: 22px auto 0;
     color: #fff;
-    font-size: clamp(1.1rem, 2.2vw, 2.5rem);
+    font-size: clamp(1rem, 1.6vw, 1.6rem);
     font-weight: 600;
     line-height: 1.35;
 }
@@ -358,19 +376,19 @@ button {
 .game-tabs {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 28px;
-    margin-bottom: 70px;
+    gap: 18px;
+    margin-bottom: 48px;
 }
 
 .game-tab {
     display: grid;
     grid-template-columns: auto 1fr;
     align-items: center;
-    gap: 22px;
-    min-height: 144px;
-    padding: 24px 28px;
+    gap: 16px;
+    min-height: 112px;
+    padding: 18px 20px;
     border: 1px solid rgba(255, 255, 255, .8);
-    border-radius: 22px;
+    border-radius: 18px;
     background: transparent;
     text-align: left;
     cursor: pointer;
@@ -391,7 +409,7 @@ button {
 .game-number {
     color: var(--interactions-purple);
     font-family: "Orbitron", sans-serif;
-    font-size: clamp(2rem, 3vw, 3rem);
+    font-size: clamp(1.65rem, 2.2vw, 2.4rem);
     font-weight: 600;
 }
 
@@ -405,7 +423,7 @@ button {
     overflow: hidden;
     color: #fff;
     font-family: "Orbitron", sans-serif;
-    font-size: clamp(1rem, 1.7vw, 2.1rem);
+    font-size: clamp(.9rem, 1.3vw, 1.35rem);
     font-weight: 700;
     letter-spacing: -.03em;
     text-overflow: ellipsis;
@@ -414,19 +432,19 @@ button {
 
 .game-tab-copy small {
     color: #fff;
-    font-size: clamp(.85rem, 1.15vw, 1.45rem);
+    font-size: clamp(.8rem, .95vw, 1rem);
     font-weight: 300;
 }
 
 .game-stage {
-    min-height: 1025px;
+    min-height: 840px;
 }
 
 .game-panel {
-    min-height: 1025px;
+    min-height: 840px;
     overflow: hidden;
     border: 2px solid var(--interactions-border);
-    border-radius: 47px;
+    border-radius: 36px;
     background:
         radial-gradient(circle at 20% 30%, rgba(126, 84, 215, .38), transparent 35%),
         radial-gradient(circle at 90% 90%, rgba(91, 72, 148, .22), transparent 42%),
@@ -437,18 +455,23 @@ button {
     display: none;
 }
 
+#panel-reflexo:not([hidden]) {
+    display: grid;
+    grid-template-rows: auto minmax(min-content, 1fr) auto;
+}
+
 .game-panel-header {
     display: flex;
     align-items: center;
-    gap: 20px;
-    min-height: 110px;
-    padding: 24px clamp(30px, 5vw, 88px);
+    gap: 16px;
+    min-height: 90px;
+    padding: 20px clamp(28px, 4vw, 64px);
     border-bottom: 2px solid var(--interactions-border);
 }
 
 .status-light {
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     flex: 0 0 auto;
     border-radius: 50%;
     background: #75afcd;
@@ -459,34 +482,40 @@ button {
     margin: 0;
     color: #fff;
     font-family: "Orbitron", sans-serif;
-    font-size: clamp(1.05rem, 2.1vw, 2.25rem);
+    font-size: clamp(1rem, 1.45vw, 1.5rem);
     font-weight: 700;
     letter-spacing: -.03em;
 }
 
 .reflex-game {
-    display: flex;
-    min-height: 760px;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: minmax(min-content, 1fr) auto;
+    width: 100%;
+    min-height: 620px;
+    align-self: stretch;
+    align-content: center;
     align-items: center;
-    justify-content: center;
-    gap: 52px;
-    padding: 48px 24px 24px;
+    justify-items: center;
+    gap: 38px;
+    padding: clamp(140px, 10vw, 176px) 24px 20px;
 }
 
 .reflex-target {
     display: grid;
-    width: min(44vw, 700px);
-    height: min(44vw, 700px);
-    min-width: 300px;
-    min-height: 300px;
+    width: min(32vw, 480px);
+    height: min(32vw, 480px);
+    min-width: 260px;
+    min-height: 260px;
+    max-width: 100%;
+    aspect-ratio: 1;
+    align-self: center;
     place-items: center;
     border: 0;
     border-radius: 50%;
     background: var(--interactions-purple-strong);
     box-shadow: 0 0 50px rgba(139, 99, 246, .18);
     color: #fff;
-    font-size: clamp(1.6rem, 3vw, 3.15rem);
+    font-size: clamp(1.35rem, 2.2vw, 2.25rem);
     font-weight: 800;
     line-height: 1.18;
     text-align: center;
@@ -515,9 +544,11 @@ button {
 
 .reflex-results {
     display: flex;
-    gap: clamp(38px, 10vw, 160px);
+    align-self: end;
+    justify-content: center;
+    gap: clamp(32px, 8vw, 120px);
     color: rgba(255, 255, 255, .72);
-    font-size: clamp(.78rem, 1.2vw, 1.2rem);
+    font-size: clamp(.75rem, .9vw, 1rem);
     font-weight: 300;
 }
 
@@ -534,8 +565,8 @@ button {
 
 .external-game {
     position: relative;
-    height: 790px;
-    margin: 34px;
+    height: clamp(520px, 43vw, 630px);
+    margin: 24px;
     overflow: hidden;
     border: 1px solid var(--interactions-border);
     background: #08070d;
@@ -563,7 +594,7 @@ button {
     place-items: center;
     color: var(--interactions-purple);
     font-family: "Orbitron", sans-serif;
-    font-size: clamp(.9rem, 1.5vw, 1.35rem);
+    font-size: clamp(.8rem, 1vw, 1rem);
     letter-spacing: .08em;
 }
 
@@ -573,10 +604,107 @@ button {
 
 .game-instruction {
     margin: 0;
-    padding: 16px clamp(30px, 6vw, 100px) 34px;
+    padding: 14px clamp(28px, 4vw, 64px) 28px;
     color: #fff;
-    font-size: clamp(1rem, 1.7vw, 2rem);
+    font-size: clamp(.95rem, 1.15vw, 1.25rem);
     line-height: 1.4;
+}
+
+/* SIMULADOR NASA */
+.nasa-simulator {
+    padding-bottom: clamp(90px, 10vw, 160px);
+}
+
+.nasa-simulator-shell {
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.74);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+}
+
+.nasa-simulator-topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: 58px;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.nasa-simulator-topline p,
+.nasa-simulator-topline a {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.nasa-simulator-topline a {
+    color: var(--interactions-purple);
+    text-decoration: none;
+    transition: color 0.25s ease;
+}
+
+.nasa-simulator-topline a:hover {
+    color: #fff;
+}
+
+.nasa-simulator-topline a:focus-visible {
+    outline: 2px solid var(--interactions-purple);
+    outline-offset: 4px;
+}
+
+.nasa-simulator-frame {
+    position: relative;
+    height: clamp(480px, 52vw, 680px);
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(255, 255, 255, 0.05),
+            transparent 16%
+        ),
+        #000;
+}
+
+.nasa-simulator-frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #000;
+}
+
+/*responsividade nasa*/
+/* Simulador NASA — notebooks */
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+    .nasa-simulator-frame {
+        height: 560px;
+    }
+}
+
+/* Simulador NASA — celulares e tablets */
+@media screen and (max-width: 767px) {
+    .nasa-simulator {
+        padding-bottom: 90px;
+    }
+
+    .nasa-simulator-topline {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nasa-simulator-frame {
+        height: 420px;
+    }
+}
+
+/* Simulador NASA — celulares pequenos */
+@media screen and (max-width: 420px) {
+    .nasa-simulator-frame {
+        height: 320px;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
