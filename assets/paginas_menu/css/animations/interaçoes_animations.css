@@ -1,0 +1,44 @@
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(42px);
+    transition: opacity .75s ease, transform .75s ease;
+}
+
+.scroll-reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hero-controller.scroll-reveal {
+    transform: translateY(28px) scale(.94);
+}
+
+.hero-controller.scroll-reveal.show {
+    transform: translateY(0) scale(1);
+}
+
+.vr-viewer-card.scroll-reveal {
+    transform: translateX(-48px);
+}
+
+.vr-viewer-card.scroll-reveal.show {
+    transform: translateX(0);
+}
+
+.vr-information.scroll-reveal {
+    transform: translateX(48px);
+}
+
+.vr-information.scroll-reveal.show {
+    transform: translateX(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .scroll-reveal,
+    .hero-controller.scroll-reveal,
+    .vr-viewer-card.scroll-reveal,
+    .vr-information.scroll-reveal {
+        opacity: 1;
+        transform: none;
+    }
+}

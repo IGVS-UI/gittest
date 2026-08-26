@@ -1,0 +1,297 @@
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+    .page-shell {
+        width: min(calc(100% - 40px), 1280px);
+    }
+
+    .interactions-hero {
+        min-height: 790px;
+        padding-top: 104px;
+    }
+
+    .hero-title {
+        font-size: clamp(7rem, 16vw, 14rem);
+    }
+
+    .hero-content {
+        grid-template-columns: minmax(0, 1.05fr) minmax(390px, .95fr);
+        min-height: 430px;
+        margin-top: -20px;
+    }
+
+    .hero-controller {
+        min-height: 430px;
+    }
+
+    .primary-button {
+        min-height: 66px;
+        margin-top: 34px;
+        border-radius: 14px;
+    }
+
+    .vr-world {
+        grid-template-columns: minmax(360px, .82fr) minmax(0, 1.18fr);
+        min-height: 760px;
+        gap: 50px;
+    }
+
+    .vr-viewer-card {
+        height: 650px;
+        border-radius: 42px;
+    }
+
+    .feature-list {
+        gap: 10px;
+    }
+
+    .feature-button {
+        min-height: 94px;
+        padding: 20px 18px;
+    }
+
+    .games-room {
+        padding-top: 80px;
+    }
+
+    .game-tabs {
+        gap: 18px;
+        margin-bottom: 48px;
+    }
+
+    .game-tab {
+        min-height: 118px;
+        gap: 14px;
+        padding: 18px;
+        border-radius: 18px;
+    }
+
+    .game-stage,
+    .game-panel {
+        min-height: 820px;
+    }
+
+    .reflex-game {
+        min-height: 610px;
+    }
+
+    .reflex-target {
+        width: min(40vw, 520px);
+        height: min(40vw, 520px);
+    }
+
+    .external-game {
+        height: 620px;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .hero-content {
+        grid-template-columns: minmax(0, 1fr) minmax(340px, .8fr);
+        gap: 22px;
+    }
+
+    .vr-world {
+        grid-template-columns: 1fr;
+        padding-block: 50px 90px;
+    }
+
+    .vr-viewer-card {
+        width: min(100%, 720px);
+        height: 650px;
+        margin-inline: auto;
+    }
+
+    .vr-information {
+        width: min(100%, 900px);
+        margin-inline: auto;
+    }
+
+    .feature-button {
+        font-size: clamp(1rem, 2.7vw, 1.75rem);
+    }
+
+    .game-tabs {
+        gap: 12px;
+    }
+
+    .game-tab {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .page-shell {
+        width: min(calc(100% - 28px), 680px);
+    }
+
+    .interactions-hero {
+        min-height: auto;
+        padding-top: 104px;
+        padding-bottom: 72px;
+    }
+
+    .hero-title {
+        font-size: clamp(5rem, 24vw, 9rem);
+        line-height: .88;
+    }
+
+    .carousel-inline-slide {
+        padding-inline: 1rem;
+    }
+
+    .hero-content {
+        display: flex;
+        min-height: 0;
+        flex-direction: column-reverse;
+        align-items: stretch;
+        margin-top: 8px;
+    }
+
+    .hero-controller {
+        min-height: 340px;
+    }
+
+    .hero-copy {
+        text-align: left;
+    }
+
+    .primary-button {
+        width: 100%;
+        min-height: 60px;
+        margin-top: 28px;
+        padding: 16px 20px;
+        border-radius: 13px;
+    }
+
+    .vr-world {
+        gap: 52px;
+        padding-block: 52px 80px;
+    }
+
+    .vr-viewer-card {
+        height: 520px;
+        border-radius: 32px;
+    }
+
+    .vr-headset-model {
+        height: calc(100% - 76px);
+    }
+
+    .viewer-instruction {
+        right: 14px;
+        bottom: 17px;
+        left: 14px;
+    }
+
+    .vr-information h2 {
+        margin-bottom: 34px;
+    }
+
+    .feature-button {
+        grid-template-columns: 1fr;
+        min-height: 0;
+        padding: 20px 17px;
+        font-size: 1rem;
+    }
+
+    .feature-button strong::after {
+        content: "";
+    }
+
+    .games-room {
+        padding-block: 70px 100px;
+    }
+
+    .games-heading {
+        margin-bottom: 42px;
+    }
+
+    .games-heading p {
+        margin-top: 20px;
+    }
+
+    .game-tabs {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 36px;
+    }
+
+    .game-tab {
+        grid-template-columns: auto 1fr;
+        min-height: 92px;
+        gap: 16px;
+        padding: 16px 18px;
+        border-radius: 16px;
+    }
+
+    .game-tab-copy strong {
+        font-size: 1rem;
+    }
+
+    .game-stage,
+    .game-panel {
+        min-height: 650px;
+    }
+
+    .game-panel {
+        border-radius: 26px;
+    }
+
+    .game-panel-header {
+        min-height: 84px;
+        gap: 12px;
+        padding: 18px;
+    }
+
+    .status-light {
+        width: 12px;
+        height: 12px;
+    }
+
+    .reflex-game {
+        min-height: 500px;
+        gap: 38px;
+        padding-inline: 12px;
+    }
+
+    .reflex-target {
+        width: min(74vw, 430px);
+        height: min(74vw, 430px);
+        min-width: 240px;
+        min-height: 240px;
+    }
+
+    .reflex-results {
+        gap: 42px;
+    }
+
+    .external-game {
+        height: min(72vh, 620px);
+        min-height: 480px;
+        margin: 16px;
+    }
+
+    .game-instruction {
+        padding: 18px 22px 28px;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .hero-controller {
+        min-height: 290px;
+    }
+
+    .vr-viewer-card {
+        height: 430px;
+    }
+
+    .reflex-target {
+        min-width: 220px;
+        min-height: 220px;
+    }
+
+    .external-game {
+        min-height: 420px;
+        margin: 10px;
+    }
+}

@@ -201,9 +201,178 @@
         </div>
     </div>
 
-    <!-- Conteúdo da página Interações -->
+    <!-- HERO — INTERAÇÕES -->
     <main id="conteudo-principal">
-        <!-- As seções da página serão adicionadas aqui. -->
+        <section class="interactions-hero" aria-labelledby="interactions-title">
+            <div class="interactions-marquee">
+                <h1 id="interactions-title" class="hero-title">
+                    <span class="carousel-inline" aria-hidden="true">
+                        <span class="carousel-inline-track">
+                            <span class="carousel-inline-slide">
+                                <span class="hero-title-base">INTE</span><span class="hero-title-script">RAÇÕES</span>
+                            </span>
+                        </span>
+                    </span>
+                    <span class="sr-only">Interações</span>
+                </h1>
+            </div>
+
+            <div class="hero-content page-shell">
+                <div class="hero-copy scroll-reveal">
+                    <p class="eyebrow">Modo interativo</p>
+                    <p class="hero-description">
+                        Aqui você não fica só assistindo. Gire o visor, entre na sala de jogos e sinta a Realidade Virtual respondendo em tempo real.
+                    </p>
+                    <a class="primary-button" href="#sala-de-jogos">ENTRE NA SALA DE JOGOS</a>
+                </div>
+
+                <div class="hero-controller scroll-reveal" aria-label="Modelo 3D interativo de um controle de PS5">
+                    <model-viewer
+                        id="controller-model"
+                        class="controller-model"
+                        src="../models/source/ps5_controller.glb"
+                        alt="Modelo 3D de um controle de PS5"
+                        auto-rotate
+                        auto-rotate-delay="0"
+                        rotation-per-second="18deg"
+                        camera-controls
+                        camera-orbit="20deg 72deg 105%"
+                        environment-image="neutral"
+                        shadow-intensity="1"
+                        exposure="1"
+                        interaction-prompt="none"
+                        loading="eager">
+                    </model-viewer>
+                </div>
+            </div>
+        </section>
+
+        <!-- O MUNDO VR -->
+        <section class="vr-world page-shell" aria-labelledby="vr-world-title">
+            <div class="vr-viewer-card scroll-reveal">
+                <model-viewer
+                    id="vr-headset-model"
+                    class="vr-headset-model"
+                    src="../models/source/Quest3.glb"
+                    alt="Modelo 3D do Meta Quest 3"
+                    camera-controls
+                    auto-rotate
+                    auto-rotate-delay="0"
+                    rotation-per-second="12deg"
+                    camera-orbit="0deg 75deg 105%"
+                    field-of-view="35deg"
+                    environment-image="neutral"
+                    shadow-intensity="1"
+                    exposure="1"
+                    interaction-prompt="none"
+                    loading="lazy">
+                </model-viewer>
+                <p class="viewer-instruction">ARRASTE PARA GIRAR, SCROLL OU PINÇA PARA APROXIMAR</p>
+            </div>
+
+            <div class="vr-information scroll-reveal">
+                <h2 id="vr-world-title">O <span>MU<span class="script-word">NDO</span></span> VR</h2>
+
+                <div class="feature-list" role="list" aria-label="Partes do visor VR">
+                    <button class="feature-button is-active" type="button" data-vr-focus="lentes" aria-pressed="true">
+                        <strong>LENTES</strong>
+                        <span>Ajudam a imagem a ficar nítida e o visor mais compacto.</span>
+                    </button>
+                    <button class="feature-button" type="button" data-vr-focus="sensores" aria-pressed="false">
+                        <strong>SENSORES</strong>
+                        <span>Câmeras identificam o ambiente e os movimentos das mãos.</span>
+                    </button>
+                    <button class="feature-button" type="button" data-vr-focus="audio" aria-pressed="false">
+                        <strong>ÁUDIO</strong>
+                        <span>Alto-falantes no visor criam um som mais envolvente.</span>
+                    </button>
+                    <button class="feature-button" type="button" data-vr-focus="processamento" aria-pressed="false">
+                        <strong>PROCESSAMENTO</strong>
+                        <span>O próprio visor roda os jogos e aplicativos, sem precisar de PC.</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SALA DE JOGOS -->
+        <section class="games-room page-shell" id="sala-de-jogos" aria-labelledby="games-title">
+            <div class="games-heading scroll-reveal">
+                <h2 id="games-title">SALA DE <span>JOGOS</span></h2>
+                <p>Três experiências para testar reflexo, precisão e coordenação dentro de um ambiente virtual.</p>
+            </div>
+
+            <div class="game-tabs" role="tablist" aria-label="Escolha uma experiência">
+                <button class="game-tab is-active" id="tab-reflexo" type="button" role="tab" aria-selected="true" aria-controls="panel-reflexo" data-game="reflexo">
+                    <span class="game-number">01</span>
+                    <span class="game-tab-copy"><strong>REFLEXO NEURAL</strong><small>Reação</small></span>
+                </button>
+                <button class="game-tab" id="tab-disparo" type="button" role="tab" aria-selected="false" aria-controls="panel-disparo" data-game="disparo" tabindex="-1">
+                    <span class="game-number">02</span>
+                    <span class="game-tab-copy"><strong>DISPARO IMERSIVO</strong><small>Precisão</small></span>
+                </button>
+                <button class="game-tab" id="tab-desvio" type="button" role="tab" aria-selected="false" aria-controls="panel-desvio" data-game="desvio" tabindex="-1">
+                    <span class="game-number">03</span>
+                    <span class="game-tab-copy"><strong>DESVIO TOTAL</strong><small>Coordenação</small></span>
+                </button>
+            </div>
+
+            <div class="game-stage scroll-reveal">
+                <article class="game-panel is-active" id="panel-reflexo" role="tabpanel" aria-labelledby="tab-reflexo" data-panel="reflexo">
+                    <header class="game-panel-header">
+                        <span class="status-light" aria-hidden="true"></span>
+                        <h3>ESTAÇÃO 01 · REFLEXO NEURAL</h3>
+                    </header>
+
+                    <div class="reflex-game" id="reflex-game">
+                        <button class="reflex-target" id="reflex-target" type="button">
+                            <span id="reflex-message">TOQUE PARA<br>COMEÇAR</span>
+                        </button>
+                        <div class="reflex-results" aria-live="polite">
+                            <span>ÚLTIMO <strong id="last-reaction">—</strong></span>
+                            <span>MELHOR <strong id="best-reaction">—</strong></span>
+                        </div>
+                    </div>
+
+                    <p class="game-instruction">Toque assim que o alvo ficar verde. Mede seu tempo de reação em milissegundos.</p>
+                </article>
+
+                <article class="game-panel" id="panel-disparo" role="tabpanel" aria-labelledby="tab-disparo" data-panel="disparo" hidden>
+                    <header class="game-panel-header">
+                        <span class="status-light" aria-hidden="true"></span>
+                        <h3>ESTAÇÃO 02 · DISPARO IMERSIVO</h3>
+                    </header>
+                    <div class="external-game" data-external-game>
+                        <div class="game-loading">CARREGANDO EXPERIÊNCIA...</div>
+                        <iframe
+                            title="Disparo Imersivo — jogo de tiro em primeira pessoa"
+                            data-src="https://html-classic.itch.zone/html/9298172/Web%20build/index.html?v=1782822682"
+                            loading="lazy"
+                            allow="fullscreen; autoplay"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <p class="game-instruction">Use o mouse para mirar e clique para acertar os alvos antes que o tempo termine.</p>
+                </article>
+
+                <article class="game-panel" id="panel-desvio" role="tabpanel" aria-labelledby="tab-desvio" data-panel="desvio" hidden>
+                    <header class="game-panel-header">
+                        <span class="status-light" aria-hidden="true"></span>
+                        <h3>ESTAÇÃO 03 · DESVIO TOTAL</h3>
+                    </header>
+                    <div class="external-game" data-external-game>
+                        <div class="game-loading">CARREGANDO EXPERIÊNCIA...</div>
+                        <iframe
+                            title="Desvio Total — jogo de desviar de obstáculos"
+                            data-src="https://html-classic.itch.zone/html/14354977/index.html?v=1782674121"
+                            loading="lazy"
+                            allow="fullscreen; autoplay"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    <p class="game-instruction">Use as setas ou WASD para desviar dos obstáculos e chegar ao final do percurso.</p>
+                </article>
+            </div>
+        </section>
     </main>
 
     <!-- Dependências do menu overlay e da navegação -->
@@ -213,6 +382,8 @@
     ></script>
     <script src="../js/back_menu.js"></script>
     <script src="../js/Card.js"></script>
+    <script src="../js/carrossel_tec.js"></script>
+    <script src="../js/animations/scrollex.js"></script>
     <script src="../js/interaaçoes.js"></script>
     <script type="module" src="../../sistema_de_login/js/auth-nav.js"></script>
 </body>
