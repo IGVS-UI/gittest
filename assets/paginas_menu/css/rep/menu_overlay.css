@@ -1,5 +1,12 @@
 
-     .menu-overlay {
+        .menu-overlay,
+        .menu-overlay *,
+        .menu-overlay *::before,
+        .menu-overlay *::after {
+            box-sizing: border-box;
+        }
+
+        .menu-overlay {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100vh;
@@ -57,32 +64,79 @@
 
         .menu-header a { color: #6a508d; text-decoration: none; }
 
-        .menu-header h1,
-        .menu-header .nav-logo {
+        .menu-overlay .menu-header h1,
+        .menu-overlay .menu-header .nav-logo {
             font-family: 'BBH Bartle', sans-serif;
-            font-size: 25px;
-            line-height: 0.95;
+            font-size: clamp(38px, 3vw, 44px);
+            line-height: 0.85;
             font-weight: 900;
             letter-spacing: 1px;
             text-transform: uppercase;
             color: #fff;
         }
 
-        .menu-header .nav-logo span,
-        .menu-header .sub-title {
-            font-size: 25px;
+        .menu-overlay .menu-header .nav-logo span,
+        .menu-overlay .menu-header .sub-title {
+            display: block;
+            margin: 0;
+            font-size: 0.64em;
+            line-height: 1;
             font-weight: 500;
             letter-spacing: 2px;
             color: #B7B0C7;
         }
 
         .close-btn {
-            background: none; border: none;
-            font-size: 36px; cursor: pointer;
-            color: #fff; padding: 5px 15px;
-            transition: transform 0.3s;
+            position: relative;
+            display: inline-flex;
+            flex: 0 0 48px;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            padding: 0;
+            overflow: hidden;
+            appearance: none;
+            background: #fff;
+            border: 0;
+            border-radius: 9px;
+            color: transparent;
+            font-size: 0;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        .close-btn:hover { transform: rotate(90deg); }
+
+        .close-btn::before,
+        .close-btn::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 4px;
+            background: #000;
+        }
+
+        .close-btn::before { transform: rotate(45deg); }
+        .close-btn::after  { transform: rotate(-45deg); }
+
+        .close-btn:focus-visible {
+            outline: 3px solid #B16FF1;
+            outline-offset: 3px;
+        }
+
+        .menu-overlay.active .close-btn {
+            animation: closeButtonIn 0.45s cubic-bezier(.22, 1, .36, 1) 0.15s both;
+        }
+
+        @keyframes closeButtonIn {
+            from {
+                opacity: 0;
+                transform: scale(0.72);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
 
         .menu-body {
             display: flex;
@@ -122,7 +176,8 @@
             transition: all 0.3s ease;
             backdrop-filter: blur(10px);
             width: 400px;
-            height: 400px;
+            height: 500px;
+            aspect-ratio: 4 / 5;
             position: relative;
             overflow: hidden;
             isolation: isolate;
@@ -148,6 +203,25 @@
             inset: 0;
             z-index: 1;
             overflow: hidden;
+        }
+
+        .menu-card--home .menu-card-media,
+        .menu-card--tecnologias .menu-card-media {
+            inset: 0;
+        }
+
+        .menu-card-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center bottom;
+        }
+
+        .menu-card-image--home,
+        .menu-card-image--tecnologias {
+            width: 100%;
+            height: 100%;
         }
 
         .menu-card-media::after {
@@ -210,7 +284,14 @@
             background: rgba(177,111,241,0.16);
             border-color: rgba(177,111,241,0.72);
             box-shadow: 0 14px 32px rgba(177,111,241,0.16);
+            filter: grayscale(0);
             transform: translateY(-5px) scale(1.02);
+        }
+
+        .menu-overlay.has-active-card .menu-card:not(.is-active),
+        .menu-overlay.has-active-card .menu-card2:not(.is-active),
+        .menu-overlay.has-active-card .menu-card3:not(.is-active) {
+            filter: grayscale(1);
         }
 
         .menu-card h3,

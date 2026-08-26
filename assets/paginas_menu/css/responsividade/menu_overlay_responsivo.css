@@ -9,10 +9,9 @@
         padding: clamp(16px, 1.8vw, 26px) clamp(22px, 2.5vw, 36px);
     }
 
-    .menu-header h1,
-    .menu-header .nav-logo,
-    .menu-header .sub-title {
-        font-size: clamp(19px, 1.7vw, 24px);
+    .menu-overlay .menu-header h1,
+    .menu-overlay .menu-header .nav-logo {
+        font-size: clamp(34px, 2.8vw, 40px);
     }
 
     .close-btn {
@@ -28,21 +27,14 @@
         overflow-x: hidden;
     }
 
-    .menu-cards-section {
-    
-    }
 
-    .menu-card-column {
-       
-    }
 
     .menu-card-column--right {
         transform: translateY(clamp(14px, 2vw, 28px));
     }
 
     .menu-card {
-        min-height: 0;
-        height: s00px;
+        height: 0px;
         aspect-ratio: auto;
     }
 
@@ -129,9 +121,13 @@
         padding-bottom: 20px;
     }
 
-    .menu-cards-section,
+    .menu-cards-section {
+        row-gap: 30px;
+        column-gap: 50%;
+    }
+
     .menu-card-column {
-        gap: clamp(10px, 1.2vw, 16px);
+        gap: 30px;
     }
 
     .menu-card-column--right {
@@ -163,22 +159,5 @@
     .section-logo {
         width: 40px;
         margin-top: 14px;
-    }
-}
-
-/* Ajuste adicional para a faixa mais estreita dos notebooks. */
-@media screen and (min-width: 1024px) and (max-width: 1150px) {
-    .menu-body {
-        grid-template-columns: minmax(455px, 53%) minmax(340px, 1fr);
-        gap: 22px;
-        padding-inline: 22px;
-    }
-
-    .menu-card {
-        height: clamp(195px, 29vh, 245px);
-    }
-
-    .menu-nav-item {
-        font-size: clamp(2.45rem, 4.35vw, 3.25rem);
     }
 }

@@ -63,6 +63,7 @@
                 card.classList.remove('is-active');
             });
 
+            overlay.classList.remove('has-active-card');
             activePairKey = null;
         }
 
@@ -77,6 +78,7 @@
             clearActivePair();
             navItem.classList.add('is-active');
             card.classList.add('is-active');
+            overlay.classList.add('has-active-card');
             activePairKey = key;
         }
 
@@ -97,6 +99,14 @@
                 });
 
                 navItem.addEventListener('mouseleave', function () {
+                    deactivatePair(key);
+                });
+
+                navItem.addEventListener('focus', function () {
+                    activatePair(key);
+                });
+
+                navItem.addEventListener('blur', function () {
                     deactivatePair(key);
                 });
 
