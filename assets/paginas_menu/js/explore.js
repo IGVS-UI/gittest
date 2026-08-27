@@ -195,6 +195,164 @@
             </article>`;
     }
 
+    function createHorizontalDestinationController({ section, viewport, track, progressBar }) {
+        const noOpController = { refresh: function () {} };
+
+        if (!section || !viewport || !track || !progressBar) return noOpController;
+
+        const horizontalMedia = window.matchMedia(
+            "(min-width: 901px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)"
+        );
+        const progressFill = progressBar.querySelector("span");
+
+        let maxTranslate = 0;
+        let currentProgress = 0;
+        let animationFrameId = null;
+
+        function clamp(value, min, max) {
+            return Math.min(Math.max(value, min), max);
+        }
+
+        function setProgress(progress) {
+            currentProgress = clamp(progress, 0, 1);
+            const translatedX = -maxTranslate * currentProgress;
+
+            track.style.setProperty("--destination-track-x", `${translatedX.toFixed(2)}px`);
+            progressBar.style.setProperty("--destination-progress", currentProgress.toFixed(4));
+            progressBar.setAttribute("aria-valuenow", String(Math.round(currentProgress * 100)));
+
+            if (progressFill) {
+                progressFill.style.setProperty("--destination-progress", currentProgress.toFixed(4));
+            }
+        }
+
+        function enhancedScrollIsActive() {
+            return document.body.classList.contains("destination-horizontal-enabled");
+        }
+
+        function updateFromPageScroll() {
+            const scrollRange = Math.max(section.offsetHeight - window.innerHeight, 1);
+            const sectionTop = section.getBoundingClientRect().top;
+            setProgress(-sectionTop / scrollRange);
+        }
+
+        function updateFromNativeScroll() {
+            const nativeRange = Math.max(viewport.scrollWidth - viewport.clientWidth, 0);
+            setProgress(nativeRange ? viewport.scrollLeft / nativeRange : 0);
+        }
+
+        function update() {
+            animationFrameId = null;
+
+            if (enhancedScrollIsActive()) {
+                updateFromPageScroll();
+            } else {
+                updateFromNativeScroll();
+            }
+        }
+
+        function requestUpdate() {
+            if (animationFrameId !== null) return;
+            animationFrameId = window.requestAnimationFrame(update);
+        }
+
+        function disableEnhancedScroll() {
+            document.body.classList.remove("destination-horizontal-enabled");
+            section.style.removeProperty("--destination-scroll-distance");
+            track.style.removeProperty("--destination-track-x");
+            maxTranslate = 0;
+            updateFromNativeScroll();
+        }
+
+        function refresh() {
+            if (animationFrameId !== null) {
+                window.cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+
+            const canPinSection = horizontalMedia.matches && track.children.length > 1;
+            if (!canPinSection) {
+                disableEnhancedScroll();
+                return;
+            }
+
+            document.body.classList.add("destination-horizontal-enabled");
+            viewport.scrollLeft = 0;
+            track.style.setProperty("--destination-track-x", "0px");
+
+            maxTranslate = Math.max(viewport.scrollWidth - viewport.clientWidth, 0);
+            if (!maxTranslate) {
+                disableEnhancedScroll();
+                return;
+            }
+
+            section.style.setProperty("--destination-scroll-distance", `${Math.ceil(maxTranslate)}px`);
+            requestUpdate();
+        }
+
+        function scrollToProgress(progress) {
+            const scrollRange = Math.max(section.offsetHeight - window.innerHeight, 0);
+            const sectionTop = window.scrollY + section.getBoundingClientRect().top;
+
+            window.scrollTo({
+                top: sectionTop + scrollRange * clamp(progress, 0, 1),
+                behavior: "smooth"
+            });
+        }
+
+        viewport.addEventListener("keydown", (event) => {
+            if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+
+            event.preventDefault();
+
+            if (!enhancedScrollIsActive()) {
+                const direction = event.key === "ArrowLeft" || event.key === "Home" ? -1 : 1;
+                const destination = event.key === "Home"
+                    ? 0
+                    : event.key === "End"
+                        ? viewport.scrollWidth
+                        : viewport.scrollLeft + viewport.clientWidth * 0.78 * direction;
+
+                viewport.scrollTo({ left: destination, behavior: "smooth" });
+                return;
+            }
+
+            if (event.key === "Home") {
+                scrollToProgress(0);
+                return;
+            }
+
+            if (event.key === "End") {
+                scrollToProgress(1);
+                return;
+            }
+
+            const lastCardIndex = Math.max(track.children.length - 1, 1);
+            const activeCardIndex = Math.round(currentProgress * lastCardIndex);
+            const direction = event.key === "ArrowRight" ? 1 : -1;
+            const nextCardIndex = clamp(activeCardIndex + direction, 0, lastCardIndex);
+            scrollToProgress(nextCardIndex / lastCardIndex);
+        });
+
+        window.addEventListener("scroll", requestUpdate, { passive: true });
+        viewport.addEventListener("scroll", requestUpdate, { passive: true });
+        window.addEventListener("resize", refresh, { passive: true });
+
+        if (typeof horizontalMedia.addEventListener === "function") {
+            horizontalMedia.addEventListener("change", refresh);
+        } else {
+            horizontalMedia.addListener(refresh);
+        }
+
+        if ("ResizeObserver" in window) {
+            const resizeObserver = new ResizeObserver(refresh);
+            resizeObserver.observe(viewport);
+            resizeObserver.observe(track);
+        }
+
+        return { refresh };
+    }
+
     function initializeDestinationExplorer() {
         const cardsContainer = document.querySelector("#destination-cards");
         const searchInput = document.querySelector("#destination-search-input");
@@ -208,14 +366,24 @@
         const destinationDescription = document.querySelector("#map-destination-description");
         const externalLink = document.querySelector("#map-external-link");
         const expandButton = document.querySelector("#map-expand-button");
+        const destinationSection = document.querySelector("#destination-selector");
+        const horizontalViewport = document.querySelector("#destination-horizontal-viewport");
+        const horizontalProgress = document.querySelector("#destination-horizontal-progress");
 
         if (!cardsContainer || !searchInput || !searchStatus || !emptyMessage || !mapViewer ||
             !mapFrame || !mapLoading || !destinationName || !destinationLocation ||
-            !destinationDescription || !externalLink || !expandButton) {
+            !destinationDescription || !externalLink || !expandButton || !destinationSection ||
+            !horizontalViewport || !horizontalProgress) {
             return;
         }
 
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const horizontalController = createHorizontalDestinationController({
+            section: destinationSection,
+            viewport: horizontalViewport,
+            track: cardsContainer,
+            progressBar: horizontalProgress
+        });
 
         function renderDestinationGroups() {
             const matchedDestinations = destinations.filter(destinationMatchesFilters);
@@ -252,6 +420,8 @@
                     if (destination) image.replaceWith(createPlaceholderElement(destination));
                 }, { once: true });
             });
+
+            window.requestAnimationFrame(horizontalController.refresh);
         }
 
         function createPlaceholderElement(destination) {

@@ -1164,3 +1164,240 @@ main{
         animation: none;
     }
 }
+
+/* ==================================================
+   DESTINOS — SCROLL VERTICAL CONVERTIDO EM HORIZONTAL
+================================================== */
+
+.destination-selector {
+    position: relative;
+    padding: clamp(82px, 9vw, 140px) 0 clamp(72px, 8vw, 120px);
+}
+
+.destination-sticky-panel {
+    position: relative;
+    width: 100%;
+}
+
+.destination-selector-heading {
+    align-items: center;
+    max-width: 1180px;
+    margin: 0 auto clamp(24px, 3vw, 42px);
+    text-align: center;
+}
+
+.destination-selector-heading h3 {
+    max-width: 1100px;
+    font-size: clamp(2.4rem, 5.2vw, 5.8rem);
+    line-height: 0.94;
+}
+
+.destination-selector-heading p {
+    margin: 2px 0 0;
+    color: #b16ff1;
+    font: 500 clamp(1rem, 1.65vw, 1.45rem)/1.4 "Inter", sans-serif;
+}
+
+.destination-horizontal-viewport {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: 4px clamp(20px, 5vw, 80px) 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-inline: contain;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.destination-horizontal-viewport::-webkit-scrollbar {
+    display: none;
+}
+
+.destination-horizontal-viewport:focus-visible {
+    outline: 2px solid #b16ff1;
+    outline-offset: -2px;
+}
+
+.destination-cards {
+    display: flex;
+    width: max-content;
+    gap: clamp(18px, 2.2vw, 36px);
+    transform: translate3d(var(--destination-track-x, 0px), 0, 0);
+    will-change: transform;
+}
+
+.destination-card {
+    position: relative;
+    flex: 0 0 min(86vw, 440px);
+    min-height: 520px;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+
+.destination-card-stage {
+    min-height: 0;
+}
+
+.destination-horizontal-footer {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    width: min(100%, 1180px);
+    margin: 4px auto 0;
+}
+
+.destination-horizontal-footer > span {
+    flex: 0 0 auto;
+    color: rgba(255, 255, 255, 0.52);
+    font: 700 0.66rem/1 "Orbitron", sans-serif;
+    letter-spacing: 0.15em;
+}
+
+.destination-horizontal-progress {
+    position: relative;
+    width: 100%;
+    height: 2px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.destination-horizontal-progress > span {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #6939d2, #b16ff1);
+    transform: scaleX(var(--destination-progress, 0));
+    transform-origin: left center;
+    transition: transform 80ms linear;
+}
+
+@media (min-width: 780px) {
+    .destination-card {
+        flex-basis: clamp(720px, 78vw, 1160px);
+        min-height: 440px;
+    }
+
+    .destination-card-stage {
+        display: grid;
+        grid-template-columns: minmax(300px, 0.95fr) minmax(340px, 1.05fr);
+    }
+
+    .destination-card-image {
+        min-height: 0;
+        height: 100%;
+    }
+
+    .destination-card-image img {
+        width: 90%;
+        height: 82%;
+        max-height: 420px;
+    }
+
+    .destination-card-copy {
+        justify-content: center;
+        padding: clamp(30px, 4vw, 58px);
+    }
+
+    .destination-card-copy strong {
+        font-size: clamp(2rem, 3.6vw, 4rem);
+    }
+
+    .destination-card-controls {
+        position: absolute;
+        right: clamp(30px, 4vw, 58px);
+        bottom: 24px;
+        z-index: 3;
+        padding: 0;
+    }
+}
+
+@media (min-width: 901px) and (min-height: 650px) and (prefers-reduced-motion: no-preference) {
+    body.destination-horizontal-enabled {
+        overflow-x: clip;
+    }
+
+    body.destination-horizontal-enabled .destination-selector {
+        height: calc(100vh + var(--destination-scroll-distance, 0px));
+        padding: 0;
+    }
+
+    body.destination-horizontal-enabled .destination-sticky-panel {
+        position: sticky;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100vh;
+        min-height: 650px;
+        padding: clamp(26px, 3.5vh, 48px) 0;
+        overflow: hidden;
+    }
+
+    body.destination-horizontal-enabled .destination-selector-heading {
+        gap: 8px;
+        margin-bottom: clamp(14px, 2vh, 24px);
+    }
+
+    body.destination-horizontal-enabled .destination-selector-heading h3 {
+        font-size: clamp(2.4rem, 4.2vw, 4.9rem);
+    }
+
+    body.destination-horizontal-enabled .destination-search {
+        min-height: 54px;
+    }
+
+    body.destination-horizontal-enabled .destination-search-status {
+        margin: 10px auto 14px;
+    }
+
+    body.destination-horizontal-enabled .destination-horizontal-viewport {
+        flex: 0 0 auto;
+        padding-bottom: 14px;
+        overflow: hidden;
+        scroll-snap-type: none;
+        scroll-behavior: auto;
+    }
+
+    body.destination-horizontal-enabled .destination-card {
+        height: clamp(330px, 43vh, 500px);
+        min-height: 0;
+    }
+
+    body.destination-horizontal-enabled .destination-card-copy p {
+        margin: 14px 0 18px;
+    }
+
+    body.destination-horizontal-enabled .destination-horizontal-footer {
+        margin-top: clamp(8px, 1.5vh, 18px);
+    }
+}
+
+@media (max-width: 779px) {
+    .destination-selector-heading h3 {
+        font-size: clamp(2.25rem, 11vw, 4.3rem);
+    }
+
+    .destination-horizontal-footer {
+        padding: 0 4px;
+    }
+
+    .destination-horizontal-footer > span {
+        font-size: 0;
+    }
+
+    .destination-horizontal-footer > span::after {
+        content: "DESLIZE PARA EXPLORAR";
+        font-size: 0.6rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .destination-cards {
+        transform: none !important;
+        will-change: auto;
+    }
+
+    .destination-horizontal-progress > span {
+        transition: none;
+    }
+}
