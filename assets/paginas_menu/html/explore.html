@@ -330,12 +330,13 @@
                     class="destination-horizontal-viewport"
                     id="destination-horizontal-viewport"
                     tabindex="0"
-                    aria-label="Destinos disponíveis. Use o scroll da página ou as setas do teclado para navegar horizontalmente.">
+                    data-active-label="COLISEU"
+                    aria-label="Cena de destinos. Continue rolando a página ou use as setas do teclado para avançar entre as paisagens.">
                     <div class="destination-cards" id="destination-cards"></div>
                 </div>
 
                 <div class="destination-horizontal-footer">
-                    <span aria-hidden="true">ROLE PARA EXPLORAR</span>
+                    <span class="destination-scene-counter" id="destination-scene-counter" aria-live="polite">01 / 03</span>
                     <div
                         class="destination-horizontal-progress"
                         id="destination-horizontal-progress"
@@ -346,6 +347,7 @@
                         aria-valuenow="0">
                         <span></span>
                     </div>
+                    <span class="destination-scene-instruction" aria-hidden="true">ROLE PARA EXPLORAR</span>
                 </div>
 
                 <p class="destination-empty" id="destination-empty" role="status" hidden>
