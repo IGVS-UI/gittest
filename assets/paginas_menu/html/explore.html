@@ -249,63 +249,6 @@
             </p>
         </div>
 
-        <div
-            class="destination-selector"
-            id="destination-selector"
-            aria-labelledby="destination-selector-title">
-            <div class="destination-sticky-panel" id="destination-sticky-panel">
-                <div class="destination-selector-heading">
-                    <span>DESTINOS EM DESTAQUE</span>
-                    <h3 id="destination-selector-title">Cada destino conta uma história.</h3>
-                    <p>Explore-a de uma forma totalmente nova.</p>
-                </div>
-
-                <div class="destination-search" role="search">
-                    <label class="sr-only" for="destination-search-input">Pesquisar destinos</label>
-                    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
-                        <circle cx="11" cy="11" r="7"></circle>
-                        <path d="m16.2 16.2 4.3 4.3"></path>
-                    </svg>
-                    <input
-                        id="destination-search-input"
-                        type="search"
-                        placeholder="Pesquise uma cidade, país ou atração..."
-                        autocomplete="off"
-                        spellcheck="false"
-                        aria-controls="destination-cards"
-                        aria-describedby="destination-search-status">
-                </div>
-
-                <p class="destination-search-status" id="destination-search-status" aria-live="polite"></p>
-
-                <div
-                    class="destination-horizontal-viewport"
-                    id="destination-horizontal-viewport"
-                    tabindex="0"
-                    aria-label="Destinos em destaque. Use a rolagem da página ou as setas do teclado para navegar.">
-                    <div class="destination-cards" id="destination-cards"></div>
-                </div>
-
-                <div class="destination-horizontal-footer">
-                    <span aria-hidden="true">ROLE PARA EXPLORAR</span>
-                    <div
-                        class="destination-horizontal-progress"
-                        id="destination-horizontal-progress"
-                        role="progressbar"
-                        aria-label="Progresso entre os destinos"
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                        aria-valuenow="0">
-                        <span></span>
-                    </div>
-                </div>
-
-                <p class="destination-empty" id="destination-empty" role="status" hidden>
-                    Nenhum destino encontrado. Tente pesquisar outro nome, cidade ou país.
-                </p>
-            </div>
-        </div>
-
         <div class="map-viewer is-loading" id="map-viewer">
             <div class="map-viewer-toolbar">
                 <div class="map-viewer-place" aria-live="polite">
@@ -352,6 +295,62 @@
                     rel="noopener noreferrer">
                     ABRIR NO GOOGLE MAPS ↗
                 </a>
+            </div>
+        </div>
+
+        <div
+            class="destination-selector"
+            id="destination-selector"
+            aria-labelledby="destination-selector-title">
+            <div class="destination-sticky-panel" id="destination-sticky-panel">
+                <div class="destination-selector-heading">
+                    <span>DESTINOS</span>
+                    <h3 id="destination-selector-title">Onde você quer estar?</h3>
+                </div>
+
+                <div class="destination-search" role="search">
+                    <label class="sr-only" for="destination-search-input">Pesquisar destinos</label>
+                    <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="m16.2 16.2 4.3 4.3"></path>
+                    </svg>
+                    <input
+                        id="destination-search-input"
+                        type="search"
+                        placeholder="Pesquise uma cidade, país ou atração..."
+                        autocomplete="off"
+                        spellcheck="false"
+                        aria-controls="destination-cards"
+                        aria-describedby="destination-search-status">
+                </div>
+
+                <p class="destination-search-status" id="destination-search-status" aria-live="polite"></p>
+
+                <div
+                    class="destination-horizontal-viewport"
+                    id="destination-horizontal-viewport"
+                    tabindex="0"
+                    aria-label="Destinos disponíveis. Use o scroll da página ou as setas do teclado para navegar horizontalmente.">
+                    <div class="destination-cards" id="destination-cards"></div>
+                </div>
+
+                <div class="destination-horizontal-footer">
+                    <span aria-hidden="true">ROLE PARA EXPLORAR</span>
+                    <div
+                        class="destination-horizontal-progress"
+                        id="destination-horizontal-progress"
+                        role="progressbar"
+                        aria-label="Progresso entre os destinos"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="0">
+                        <span></span>
+                    </div>
+                </div>
+
+                <p class="destination-empty" id="destination-empty" role="status" hidden>
+                    Nenhum destino encontrado. Tente pesquisar outro nome, cidade ou país.
+                </p>
             </div>
         </div>
 

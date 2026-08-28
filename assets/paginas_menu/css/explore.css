@@ -1311,7 +1311,7 @@ main{
     }
 }
 
-@media (min-width: 901px) and (min-height: 650px) and (prefers-reduced-motion: no-preference) {
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
     body.destination-horizontal-enabled {
         overflow-x: clip;
     }
@@ -1328,38 +1328,37 @@ main{
         flex-direction: column;
         justify-content: center;
         height: 100vh;
-        min-height: 650px;
-        padding: clamp(26px, 3.5vh, 48px) 0;
+        padding: clamp(14px, 2.5vh, 40px) 0;
         overflow: hidden;
     }
 
     body.destination-horizontal-enabled .destination-selector-heading {
-        gap: 8px;
-        margin-bottom: clamp(14px, 2vh, 24px);
+        gap: 6px;
+        margin-bottom: clamp(8px, 1.5vh, 20px);
     }
 
     body.destination-horizontal-enabled .destination-selector-heading h3 {
-        font-size: clamp(2.4rem, 4.2vw, 4.9rem);
+        font-size: clamp(2.1rem, 3.8vw, 4.5rem);
     }
 
     body.destination-horizontal-enabled .destination-search {
-        min-height: 54px;
+        min-height: 50px;
     }
 
     body.destination-horizontal-enabled .destination-search-status {
-        margin: 10px auto 14px;
+        margin: 6px auto 10px;
     }
 
     body.destination-horizontal-enabled .destination-horizontal-viewport {
         flex: 0 0 auto;
-        padding-bottom: 14px;
+        padding-bottom: 8px;
         overflow: hidden;
         scroll-snap-type: none;
         scroll-behavior: auto;
     }
 
     body.destination-horizontal-enabled .destination-card {
-        height: clamp(330px, 43vh, 500px);
+        height: clamp(280px, 40vh, 470px);
         min-height: 0;
     }
 
@@ -1368,7 +1367,7 @@ main{
     }
 
     body.destination-horizontal-enabled .destination-horizontal-footer {
-        margin-top: clamp(8px, 1.5vh, 18px);
+        margin-top: clamp(5px, 1vh, 14px);
     }
 }
 
