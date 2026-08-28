@@ -169,6 +169,8 @@
                 class="destination-card${isSelected ? " is-selected" : ""}"
                 data-group-card="${group.id}"
                 data-destination-id="${destination.id}"
+                data-destination-name="${destination.name}"
+                data-scene-index="${groupIndex}"
                 style="--card-gradient: ${destination.gradient};">
                 <div class="destination-card-stage">
                     <div class="destination-card-image">
@@ -195,7 +197,7 @@
             </article>`;
     }
 
-    function createHorizontalDestinationController({ section, viewport, track, progressBar }) {
+    function createHorizontalDestinationController({ section, viewport, track, progressBar, counter }) {
         const noOpController = { refresh: function () {} };
 
         if (!section || !viewport || !track || !progressBar) return noOpController;
@@ -205,63 +207,150 @@
         );
         const progressFill = progressBar.querySelector("span");
 
-        let maxTranslate = 0;
-        let currentProgress = 0;
+        let targetProgress = 0;
+        let renderedProgress = 0;
+        let sceneCards = [];
         let animationFrameId = null;
+        let activeSceneIndex = -1;
 
         function clamp(value, min, max) {
             return Math.min(Math.max(value, min), max);
         }
 
-        function setProgress(progress) {
-            currentProgress = clamp(progress, 0, 1);
-            const translatedX = -maxTranslate * currentProgress;
-
-            track.style.setProperty("--destination-track-x", `${translatedX.toFixed(2)}px`);
-            progressBar.style.setProperty("--destination-progress", currentProgress.toFixed(4));
-            progressBar.setAttribute("aria-valuenow", String(Math.round(currentProgress * 100)));
-
-            if (progressFill) {
-                progressFill.style.setProperty("--destination-progress", currentProgress.toFixed(4));
-            }
+        function easeOutCubic(value) {
+            return 1 - Math.pow(1 - value, 3);
         }
 
         function enhancedScrollIsActive() {
             return document.body.classList.contains("destination-horizontal-enabled");
         }
 
-        function updateFromPageScroll() {
+        function readPageProgress() {
             const scrollRange = Math.max(section.offsetHeight - window.innerHeight, 1);
             const sectionTop = section.getBoundingClientRect().top;
-            setProgress(-sectionTop / scrollRange);
+            return clamp(-sectionTop / scrollRange, 0, 1);
         }
 
-        function updateFromNativeScroll() {
+        function readNativeProgress() {
             const nativeRange = Math.max(viewport.scrollWidth - viewport.clientWidth, 0);
-            setProgress(nativeRange ? viewport.scrollLeft / nativeRange : 0);
+            return nativeRange ? clamp(viewport.scrollLeft / nativeRange, 0, 1) : 0;
         }
 
-        function update() {
+        function clearCardSceneStyles() {
+            sceneCards.forEach((card) => {
+                card.style.removeProperty("--scene-x");
+                card.style.removeProperty("--scene-y");
+                card.style.removeProperty("--scene-scale");
+                card.style.removeProperty("--scene-rotate");
+                card.style.removeProperty("--scene-opacity");
+                card.style.removeProperty("--scene-blur");
+                card.style.removeProperty("--image-shift-x");
+                card.style.removeProperty("--image-shift-y");
+                card.style.removeProperty("--copy-shift-x");
+                card.style.removeProperty("z-index");
+                card.classList.remove("is-scene-active");
+                card.removeAttribute("inert");
+                card.removeAttribute("aria-hidden");
+            });
+        }
+
+        function applyScene(progress) {
+            const cardCount = sceneCards.length;
+            const lastCardIndex = Math.max(cardCount - 1, 1);
+            const scenePosition = progress * lastCardIndex;
+            const nearestIndex = clamp(Math.round(scenePosition), 0, Math.max(cardCount - 1, 0));
+            const stageWidth = Math.max(viewport.clientWidth, window.innerWidth);
+
+            sceneCards.forEach((card, index) => {
+                const distance = index - scenePosition;
+                const absoluteDistance = Math.abs(distance);
+                const curvedDistance = Math.sign(distance) * easeOutCubic(Math.min(absoluteDistance, 1));
+                const extendedDistance = absoluteDistance > 1
+                    ? Math.sign(distance) * (absoluteDistance - 1) * 0.55
+                    : 0;
+                const x = (curvedDistance + extendedDistance) * stageWidth * 0.58;
+                const y = Math.min(absoluteDistance, 1.7) * 34 + Math.sin((scenePosition + index) * 1.35) * 9;
+                const scale = clamp(1 - absoluteDistance * 0.16, 0.68, 1);
+                const rotate = clamp(distance * 4.5, -8, 8);
+                const opacity = clamp(1 - Math.max(absoluteDistance - 0.08, 0) * 0.43, 0, 1);
+                const blur = clamp((absoluteDistance - 0.72) * 3.2, 0, 4);
+                const isActive = index === nearestIndex;
+                const isOutsideScene = absoluteDistance > 1.72;
+
+                card.style.setProperty("--scene-x", `${x.toFixed(2)}px`);
+                card.style.setProperty("--scene-y", `${y.toFixed(2)}px`);
+                card.style.setProperty("--scene-scale", scale.toFixed(4));
+                card.style.setProperty("--scene-rotate", `${rotate.toFixed(2)}deg`);
+                card.style.setProperty("--scene-opacity", opacity.toFixed(4));
+                card.style.setProperty("--scene-blur", `${blur.toFixed(2)}px`);
+                card.style.setProperty("--image-shift-x", `${clamp(-distance * 46, -68, 68).toFixed(2)}px`);
+                card.style.setProperty("--image-shift-y", `${(Math.sin((scenePosition + index) * 1.7) * 8).toFixed(2)}px`);
+                card.style.setProperty("--copy-shift-x", `${clamp(distance * 26, -36, 36).toFixed(2)}px`);
+                card.style.zIndex = String(1000 - Math.round(absoluteDistance * 100));
+                card.classList.toggle("is-scene-active", isActive);
+                card.toggleAttribute("inert", !isActive);
+                card.setAttribute("aria-hidden", String(isOutsideScene));
+            });
+
+            const activeCard = sceneCards[nearestIndex];
+            if (activeCard && nearestIndex !== activeSceneIndex) {
+                activeSceneIndex = nearestIndex;
+                viewport.dataset.activeLabel = activeCard.dataset.destinationName.toLocaleUpperCase("pt-BR");
+                if (counter) {
+                    counter.textContent = `${String(nearestIndex + 1).padStart(2, "0")} / ${String(cardCount).padStart(2, "0")}`;
+                }
+            }
+
+            progressBar.style.setProperty("--destination-progress", progress.toFixed(4));
+            progressBar.setAttribute("aria-valuenow", String(Math.round(progress * 100)));
+            if (progressFill) progressFill.style.setProperty("--destination-progress", progress.toFixed(4));
+        }
+
+        function renderFrame() {
             animationFrameId = null;
 
             if (enhancedScrollIsActive()) {
-                updateFromPageScroll();
+                targetProgress = readPageProgress();
+                renderedProgress += (targetProgress - renderedProgress) * 0.12;
+                if (Math.abs(targetProgress - renderedProgress) < 0.0005) {
+                    renderedProgress = targetProgress;
+                }
+                applyScene(renderedProgress);
             } else {
-                updateFromNativeScroll();
+                targetProgress = readNativeProgress();
+                renderedProgress = targetProgress;
+                const nativeIndex = sceneCards.length
+                    ? clamp(Math.round(renderedProgress * (sceneCards.length - 1)), 0, sceneCards.length - 1)
+                    : 0;
+                progressBar.style.setProperty("--destination-progress", renderedProgress.toFixed(4));
+                progressBar.setAttribute("aria-valuenow", String(Math.round(renderedProgress * 100)));
+                if (progressFill) progressFill.style.setProperty("--destination-progress", renderedProgress.toFixed(4));
+                if (counter && sceneCards.length) {
+                    counter.textContent = `${String(nativeIndex + 1).padStart(2, "0")} / ${String(sceneCards.length).padStart(2, "0")}`;
+                }
             }
+
+            if (Math.abs(targetProgress - renderedProgress) >= 0.0005) requestUpdate();
         }
 
         function requestUpdate() {
             if (animationFrameId !== null) return;
-            animationFrameId = window.requestAnimationFrame(update);
+            animationFrameId = window.requestAnimationFrame(renderFrame);
         }
 
         function disableEnhancedScroll() {
             document.body.classList.remove("destination-horizontal-enabled");
             section.style.removeProperty("--destination-scroll-distance");
-            track.style.removeProperty("--destination-track-x");
-            maxTranslate = 0;
-            updateFromNativeScroll();
+            clearCardSceneStyles();
+            activeSceneIndex = -1;
+            targetProgress = readNativeProgress();
+            renderedProgress = targetProgress;
+            progressBar.style.setProperty("--destination-progress", renderedProgress.toFixed(4));
+            progressBar.setAttribute("aria-valuenow", String(Math.round(renderedProgress * 100)));
+            if (counter && sceneCards.length) {
+                const nativeIndex = clamp(Math.round(renderedProgress * (sceneCards.length - 1)), 0, sceneCards.length - 1);
+                counter.textContent = `${String(nativeIndex + 1).padStart(2, "0")} / ${String(sceneCards.length).padStart(2, "0")}`;
+            }
         }
 
         function refresh() {
@@ -270,7 +359,10 @@
                 animationFrameId = null;
             }
 
-            const canPinSection = horizontalMedia.matches && track.children.length > 1;
+            clearCardSceneStyles();
+            sceneCards = Array.from(track.children);
+
+            const canPinSection = horizontalMedia.matches && sceneCards.length > 1;
             if (!canPinSection) {
                 disableEnhancedScroll();
                 return;
@@ -278,15 +370,11 @@
 
             document.body.classList.add("destination-horizontal-enabled");
             viewport.scrollLeft = 0;
-            track.style.setProperty("--destination-track-x", "0px");
-
-            maxTranslate = Math.max(viewport.scrollWidth - viewport.clientWidth, 0);
-            if (!maxTranslate) {
-                disableEnhancedScroll();
-                return;
-            }
-
-            section.style.setProperty("--destination-scroll-distance", `${Math.ceil(maxTranslate)}px`);
+            const scrollDistance = window.innerHeight * Math.max(sceneCards.length - 1, 1) * 0.95;
+            section.style.setProperty("--destination-scroll-distance", `${Math.ceil(scrollDistance)}px`);
+            targetProgress = readPageProgress();
+            renderedProgress = targetProgress;
+            applyScene(renderedProgress);
             requestUpdate();
         }
 
@@ -328,7 +416,7 @@
             }
 
             const lastCardIndex = Math.max(track.children.length - 1, 1);
-            const activeCardIndex = Math.round(currentProgress * lastCardIndex);
+            const activeCardIndex = Math.round(renderedProgress * lastCardIndex);
             const direction = event.key === "ArrowRight" ? 1 : -1;
             const nextCardIndex = clamp(activeCardIndex + direction, 0, lastCardIndex);
             scrollToProgress(nextCardIndex / lastCardIndex);
@@ -369,6 +457,7 @@
         const destinationSection = document.querySelector("#destination-selector");
         const horizontalViewport = document.querySelector("#destination-horizontal-viewport");
         const horizontalProgress = document.querySelector("#destination-horizontal-progress");
+        const sceneCounter = document.querySelector("#destination-scene-counter");
 
         if (!cardsContainer || !searchInput || !searchStatus || !emptyMessage || !mapViewer ||
             !mapFrame || !mapLoading || !destinationName || !destinationLocation ||
@@ -382,7 +471,8 @@
             section: destinationSection,
             viewport: horizontalViewport,
             track: cardsContainer,
-            progressBar: horizontalProgress
+            progressBar: horizontalProgress,
+            counter: sceneCounter
         });
 
         function renderDestinationGroups() {
