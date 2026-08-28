@@ -201,7 +201,7 @@
         if (!section || !viewport || !track || !progressBar) return noOpController;
 
         const horizontalMedia = window.matchMedia(
-            "(min-width: 901px) and (min-height: 650px) and (prefers-reduced-motion: no-preference)"
+            "(min-width: 901px) and (prefers-reduced-motion: no-preference)"
         );
         const progressFill = progressBar.querySelector("span");
 
