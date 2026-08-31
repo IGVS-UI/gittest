@@ -207,28 +207,18 @@
         );
         const progressFill = progressBar.querySelector("span");
 
-        let targetProgress = 0;
-        let renderedProgress = 0;
         let sceneCards = [];
-        let animationFrameId = null;
+        let horizontalTween = null;
+        let cardTweens = [];
+        let refreshFrameId = null;
         let activeSceneIndex = -1;
 
         function clamp(value, min, max) {
             return Math.min(Math.max(value, min), max);
         }
 
-        function easeOutCubic(value) {
-            return 1 - Math.pow(1 - value, 3);
-        }
-
         function enhancedScrollIsActive() {
             return document.body.classList.contains("destination-horizontal-enabled");
-        }
-
-        function readPageProgress() {
-            const scrollRange = Math.max(section.offsetHeight - window.innerHeight, 1);
-            const sectionTop = section.getBoundingClientRect().top;
-            return clamp(-sectionTop / scrollRange, 0, 1);
         }
 
         function readNativeProgress() {
@@ -236,61 +226,40 @@
             return nativeRange ? clamp(viewport.scrollLeft / nativeRange, 0, 1) : 0;
         }
 
-        function clearCardSceneStyles() {
-            sceneCards.forEach((card) => {
-                card.style.removeProperty("--scene-x");
-                card.style.removeProperty("--scene-y");
-                card.style.removeProperty("--scene-scale");
-                card.style.removeProperty("--scene-rotate");
-                card.style.removeProperty("--scene-opacity");
-                card.style.removeProperty("--scene-blur");
-                card.style.removeProperty("--image-shift-x");
-                card.style.removeProperty("--image-shift-y");
-                card.style.removeProperty("--copy-shift-x");
-                card.style.removeProperty("z-index");
-                card.classList.remove("is-scene-active");
-                card.removeAttribute("inert");
-                card.removeAttribute("aria-hidden");
-            });
+        function librariesAreReady() {
+            return Boolean(window.gsap && window.ScrollTrigger && window.Lenis);
         }
 
-        function applyScene(progress) {
+        function initializeSmoothScroll() {
+            if (!librariesAreReady()) return false;
+
+            window.gsap.registerPlugin(window.ScrollTrigger);
+
+            if (!window.vrExploreLenis) {
+                const lenis = new window.Lenis({
+                    lerp: 0.085,
+                    smoothWheel: true,
+                    wheelMultiplier: 0.92
+                });
+
+                lenis.on("scroll", window.ScrollTrigger.update);
+                window.gsap.ticker.add((time) => lenis.raf(time * 1000));
+                window.gsap.ticker.lagSmoothing(0);
+                window.vrExploreLenis = lenis;
+            }
+
+            return true;
+        }
+
+        function updateProgress(progress) {
+            const normalizedProgress = clamp(progress, 0, 1);
             const cardCount = sceneCards.length;
             const lastCardIndex = Math.max(cardCount - 1, 1);
-            const scenePosition = progress * lastCardIndex;
-            const nearestIndex = clamp(Math.round(scenePosition), 0, Math.max(cardCount - 1, 0));
-            const stageWidth = Math.max(viewport.clientWidth, window.innerWidth);
-
-            sceneCards.forEach((card, index) => {
-                const distance = index - scenePosition;
-                const absoluteDistance = Math.abs(distance);
-                const curvedDistance = Math.sign(distance) * easeOutCubic(Math.min(absoluteDistance, 1));
-                const extendedDistance = absoluteDistance > 1
-                    ? Math.sign(distance) * (absoluteDistance - 1) * 0.55
-                    : 0;
-                const x = (curvedDistance + extendedDistance) * stageWidth * 0.58;
-                const y = Math.min(absoluteDistance, 1.7) * 34 + Math.sin((scenePosition + index) * 1.35) * 9;
-                const scale = clamp(1 - absoluteDistance * 0.16, 0.68, 1);
-                const rotate = clamp(distance * 4.5, -8, 8);
-                const opacity = clamp(1 - Math.max(absoluteDistance - 0.08, 0) * 0.43, 0, 1);
-                const blur = clamp((absoluteDistance - 0.72) * 3.2, 0, 4);
-                const isActive = index === nearestIndex;
-                const isOutsideScene = absoluteDistance > 1.72;
-
-                card.style.setProperty("--scene-x", `${x.toFixed(2)}px`);
-                card.style.setProperty("--scene-y", `${y.toFixed(2)}px`);
-                card.style.setProperty("--scene-scale", scale.toFixed(4));
-                card.style.setProperty("--scene-rotate", `${rotate.toFixed(2)}deg`);
-                card.style.setProperty("--scene-opacity", opacity.toFixed(4));
-                card.style.setProperty("--scene-blur", `${blur.toFixed(2)}px`);
-                card.style.setProperty("--image-shift-x", `${clamp(-distance * 46, -68, 68).toFixed(2)}px`);
-                card.style.setProperty("--image-shift-y", `${(Math.sin((scenePosition + index) * 1.7) * 8).toFixed(2)}px`);
-                card.style.setProperty("--copy-shift-x", `${clamp(distance * 26, -36, 36).toFixed(2)}px`);
-                card.style.zIndex = String(1000 - Math.round(absoluteDistance * 100));
-                card.classList.toggle("is-scene-active", isActive);
-                card.toggleAttribute("inert", !isActive);
-                card.setAttribute("aria-hidden", String(isOutsideScene));
-            });
+            const nearestIndex = clamp(
+                Math.round(normalizedProgress * lastCardIndex),
+                0,
+                Math.max(cardCount - 1, 0)
+            );
 
             const activeCard = sceneCards[nearestIndex];
             if (activeCard && nearestIndex !== activeSceneIndex) {
@@ -301,68 +270,50 @@
                 }
             }
 
-            progressBar.style.setProperty("--destination-progress", progress.toFixed(4));
-            progressBar.setAttribute("aria-valuenow", String(Math.round(progress * 100)));
-            if (progressFill) progressFill.style.setProperty("--destination-progress", progress.toFixed(4));
+            progressBar.style.setProperty("--destination-progress", normalizedProgress.toFixed(4));
+            progressBar.setAttribute("aria-valuenow", String(Math.round(normalizedProgress * 100)));
+            if (progressFill) {
+                progressFill.style.setProperty("--destination-progress", normalizedProgress.toFixed(4));
+            }
         }
 
-        function renderFrame() {
-            animationFrameId = null;
+        function updateFromNativeScroll() {
+            updateProgress(readNativeProgress());
+        }
 
-            if (enhancedScrollIsActive()) {
-                targetProgress = readPageProgress();
-                renderedProgress += (targetProgress - renderedProgress) * 0.12;
-                if (Math.abs(targetProgress - renderedProgress) < 0.0005) {
-                    renderedProgress = targetProgress;
-                }
-                applyScene(renderedProgress);
-            } else {
-                targetProgress = readNativeProgress();
-                renderedProgress = targetProgress;
-                const nativeIndex = sceneCards.length
-                    ? clamp(Math.round(renderedProgress * (sceneCards.length - 1)), 0, sceneCards.length - 1)
-                    : 0;
-                progressBar.style.setProperty("--destination-progress", renderedProgress.toFixed(4));
-                progressBar.setAttribute("aria-valuenow", String(Math.round(renderedProgress * 100)));
-                if (progressFill) progressFill.style.setProperty("--destination-progress", renderedProgress.toFixed(4));
-                if (counter && sceneCards.length) {
-                    counter.textContent = `${String(nativeIndex + 1).padStart(2, "0")} / ${String(sceneCards.length).padStart(2, "0")}`;
-                }
+        function killHorizontalAnimation() {
+            cardTweens.forEach((tween) => {
+                if (tween.scrollTrigger) tween.scrollTrigger.kill();
+                tween.kill();
+            });
+            cardTweens = [];
+
+            if (horizontalTween) {
+                if (horizontalTween.scrollTrigger) horizontalTween.scrollTrigger.kill(true);
+                horizontalTween.kill();
+                horizontalTween = null;
             }
 
-            if (Math.abs(targetProgress - renderedProgress) >= 0.0005) requestUpdate();
-        }
-
-        function requestUpdate() {
-            if (animationFrameId !== null) return;
-            animationFrameId = window.requestAnimationFrame(renderFrame);
+            if (window.gsap) {
+                window.gsap.set(track, { clearProps: "transform" });
+                if (sceneCards.length) {
+                    window.gsap.set(sceneCards, { clearProps: "transform,opacity" });
+                }
+            }
         }
 
         function disableEnhancedScroll() {
+            killHorizontalAnimation();
             document.body.classList.remove("destination-horizontal-enabled");
-            section.style.removeProperty("--destination-scroll-distance");
-            clearCardSceneStyles();
             activeSceneIndex = -1;
-            targetProgress = readNativeProgress();
-            renderedProgress = targetProgress;
-            progressBar.style.setProperty("--destination-progress", renderedProgress.toFixed(4));
-            progressBar.setAttribute("aria-valuenow", String(Math.round(renderedProgress * 100)));
-            if (counter && sceneCards.length) {
-                const nativeIndex = clamp(Math.round(renderedProgress * (sceneCards.length - 1)), 0, sceneCards.length - 1);
-                counter.textContent = `${String(nativeIndex + 1).padStart(2, "0")} / ${String(sceneCards.length).padStart(2, "0")}`;
-            }
+            updateFromNativeScroll();
         }
 
         function refresh() {
-            if (animationFrameId !== null) {
-                window.cancelAnimationFrame(animationFrameId);
-                animationFrameId = null;
-            }
-
-            clearCardSceneStyles();
+            killHorizontalAnimation();
             sceneCards = Array.from(track.children);
 
-            const canPinSection = horizontalMedia.matches && sceneCards.length > 1;
+            const canPinSection = horizontalMedia.matches && sceneCards.length > 1 && initializeSmoothScroll();
             if (!canPinSection) {
                 disableEnhancedScroll();
                 return;
@@ -370,22 +321,63 @@
 
             document.body.classList.add("destination-horizontal-enabled");
             viewport.scrollLeft = 0;
-            const scrollDistance = window.innerHeight * Math.max(sceneCards.length - 1, 1) * 0.95;
-            section.style.setProperty("--destination-scroll-distance", `${Math.ceil(scrollDistance)}px`);
-            targetProgress = readPageProgress();
-            renderedProgress = targetProgress;
-            applyScene(renderedProgress);
-            requestUpdate();
+
+            const horizontalDistance = () => Math.max(
+                track.scrollWidth - viewport.clientWidth,
+                window.innerWidth * 0.75
+            );
+
+            horizontalTween = window.gsap.to(track, {
+                x: () => -horizontalDistance(),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top top",
+                    end: () => `+=${horizontalDistance()}`,
+                    pin: true,
+                    pinSpacing: true,
+                    scrub: 1,
+                    anticipatePin: 1,
+                    invalidateOnRefresh: true,
+                    onUpdate: (self) => updateProgress(self.progress),
+                    onRefresh: (self) => updateProgress(self.progress)
+                }
+            });
+
+            sceneCards.forEach((card) => {
+                const cardTween = window.gsap.fromTo(card,
+                    { y: 38, scale: 0.94, opacity: 0.56 },
+                    {
+                        y: 0,
+                        scale: 1,
+                        opacity: 1,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: card,
+                            containerAnimation: horizontalTween,
+                            start: "left 88%",
+                            end: "center center",
+                            scrub: true
+                        }
+                    }
+                );
+                cardTweens.push(cardTween);
+            });
+
+            window.ScrollTrigger.refresh();
         }
 
         function scrollToProgress(progress) {
-            const scrollRange = Math.max(section.offsetHeight - window.innerHeight, 0);
-            const sectionTop = window.scrollY + section.getBoundingClientRect().top;
+            if (!horizontalTween || !horizontalTween.scrollTrigger) return;
 
-            window.scrollTo({
-                top: sectionTop + scrollRange * clamp(progress, 0, 1),
-                behavior: "smooth"
-            });
+            const trigger = horizontalTween.scrollTrigger;
+            const destination = trigger.start + (trigger.end - trigger.start) * clamp(progress, 0, 1);
+
+            if (window.vrExploreLenis) {
+                window.vrExploreLenis.scrollTo(destination, { duration: 1.05 });
+            } else {
+                window.scrollTo({ top: destination, behavior: "smooth" });
+            }
         }
 
         viewport.addEventListener("keydown", (event) => {
@@ -416,24 +408,35 @@
             }
 
             const lastCardIndex = Math.max(track.children.length - 1, 1);
-            const activeCardIndex = Math.round(renderedProgress * lastCardIndex);
+            const currentProgress = horizontalTween && horizontalTween.scrollTrigger
+                ? horizontalTween.scrollTrigger.progress
+                : 0;
+            const activeCardIndex = Math.round(currentProgress * lastCardIndex);
             const direction = event.key === "ArrowRight" ? 1 : -1;
             const nextCardIndex = clamp(activeCardIndex + direction, 0, lastCardIndex);
             scrollToProgress(nextCardIndex / lastCardIndex);
         });
 
-        window.addEventListener("scroll", requestUpdate, { passive: true });
-        viewport.addEventListener("scroll", requestUpdate, { passive: true });
-        window.addEventListener("resize", refresh, { passive: true });
+        viewport.addEventListener("scroll", updateFromNativeScroll, { passive: true });
+
+        function scheduleRefresh() {
+            if (refreshFrameId !== null) window.cancelAnimationFrame(refreshFrameId);
+            refreshFrameId = window.requestAnimationFrame(() => {
+                refreshFrameId = null;
+                refresh();
+            });
+        }
+
+        window.addEventListener("resize", scheduleRefresh, { passive: true });
 
         if (typeof horizontalMedia.addEventListener === "function") {
-            horizontalMedia.addEventListener("change", refresh);
+            horizontalMedia.addEventListener("change", scheduleRefresh);
         } else {
-            horizontalMedia.addListener(refresh);
+            horizontalMedia.addListener(scheduleRefresh);
         }
 
         if ("ResizeObserver" in window) {
-            const resizeObserver = new ResizeObserver(refresh);
+            const resizeObserver = new ResizeObserver(scheduleRefresh);
             resizeObserver.observe(viewport);
             resizeObserver.observe(track);
         }
