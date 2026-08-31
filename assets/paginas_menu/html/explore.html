@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../css/rep/footer.css">
     <link rel="stylesheet" href="../css/rep/nav_barblack.css">
     <link rel="stylesheet" href="../../sistema_de_login/css/auth-nav.css">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.8/dist/lenis.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Condiment&display=swap" rel="stylesheet">
@@ -330,12 +331,13 @@
                     class="destination-horizontal-viewport"
                     id="destination-horizontal-viewport"
                     tabindex="0"
-                    aria-label="Destinos disponíveis. Use o scroll da página ou as setas do teclado para navegar horizontalmente.">
+                    data-active-label="COLISEU"
+                    aria-label="Cena de destinos. Continue rolando a página ou use as setas do teclado para avançar entre as paisagens.">
                     <div class="destination-cards" id="destination-cards"></div>
                 </div>
 
                 <div class="destination-horizontal-footer">
-                    <span aria-hidden="true">ROLE PARA EXPLORAR</span>
+                    <span class="destination-scene-counter" id="destination-scene-counter" aria-live="polite">01 / 03</span>
                     <div
                         class="destination-horizontal-progress"
                         id="destination-horizontal-progress"
@@ -346,6 +348,7 @@
                         aria-valuenow="0">
                         <span></span>
                     </div>
+                    <span class="destination-scene-instruction" aria-hidden="true">ROLE PARA EXPLORAR</span>
                 </div>
 
                 <p class="destination-empty" id="destination-empty" role="status" hidden>
@@ -386,6 +389,9 @@
     <script src="../js/animations/scrollex.js"></script>
     <script src="../js/carrossel_tec.js"></script>
     <script src="../js/model/modelo_3d.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.3.8/dist/lenis.min.js"></script>
     <script src="../js/explore.js"></script>
     <script type="module" src="../../sistema_de_login/js/auth-nav.js"></script>
 </body>
