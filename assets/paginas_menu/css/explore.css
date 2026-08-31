@@ -1318,13 +1318,13 @@ main{
     }
 
     body.destination-horizontal-enabled .destination-selector {
-        height: calc(100vh + var(--destination-scroll-distance, 0px));
+        height: 100vh;
+        height: 100svh;
         padding: 0;
     }
 
     body.destination-horizontal-enabled .destination-sticky-panel {
-        position: sticky;
-        top: 0;
+        position: relative;
         display: grid;
         grid-template-rows: auto auto auto minmax(0, 1fr) auto;
         width: 100vw;
@@ -1362,98 +1362,49 @@ main{
         scroll-behavior: auto;
     }
 
-    body.destination-horizontal-enabled .destination-horizontal-viewport::before {
-        content: attr(data-active-label);
-        position: absolute;
-        z-index: 0;
-        top: 46%;
-        left: 50%;
-        max-width: 100vw;
-        color: rgba(255, 255, 255, 0.035);
-        font: 900 clamp(7rem, 17vw, 18rem)/0.72 "Inter", sans-serif;
-        letter-spacing: -0.09em;
-        text-transform: uppercase;
-        white-space: nowrap;
-        transform: translate(-50%, -50%);
-        pointer-events: none;
-    }
-
-    body.destination-horizontal-enabled .destination-horizontal-viewport::after {
-        content: "";
-        position: absolute;
-        z-index: 0;
-        top: 50%;
-        left: 50%;
-        width: min(72vw, 1080px);
-        height: min(42vh, 420px);
-        border: 1px solid rgba(177, 111, 241, 0.08);
-        border-radius: 50%;
-        transform: translate(-50%, -50%) rotate(-4deg);
-        pointer-events: none;
-    }
-
     body.destination-horizontal-enabled .destination-cards {
         position: relative;
-        z-index: 1;
-        width: 100%;
+        display: flex;
+        align-items: center;
+        width: max-content;
         height: 100%;
-        gap: 0;
+        padding: 0 14vw;
+        gap: clamp(28px, 4vw, 68px);
+        box-sizing: content-box;
+        will-change: transform;
     }
 
     body.destination-horizontal-enabled .destination-card {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: min(70vw, 1080px);
+        position: relative;
+        flex: 0 0 min(72vw, 1080px);
         height: clamp(330px, 47vh, 510px);
         min-height: 0;
         border-color: rgba(255, 255, 255, 0.14);
         border-radius: clamp(22px, 2.2vw, 34px);
-        opacity: var(--scene-opacity, 0);
-        filter: blur(var(--scene-blur, 0px));
-        transform:
-            translate3d(calc(-50% + var(--scene-x, 0px)), calc(-50% + var(--scene-y, 0px)), 0)
-            scale(var(--scene-scale, 1))
-            rotate(var(--scene-rotate, 0deg));
         transform-origin: center;
-        will-change: transform, opacity, filter;
-        pointer-events: none;
+        scroll-snap-align: none;
+        will-change: transform, opacity;
         transition: border-color 220ms ease, box-shadow 220ms ease;
     }
 
     body.destination-horizontal-enabled .destination-card:hover,
-    body.destination-horizontal-enabled .destination-card:focus-visible {
-        transform:
-            translate3d(calc(-50% + var(--scene-x, 0px)), calc(-50% + var(--scene-y, 0px)), 0)
-            scale(var(--scene-scale, 1))
-            rotate(var(--scene-rotate, 0deg));
-    }
-
-    body.destination-horizontal-enabled .destination-card.is-scene-active {
+    body.destination-horizontal-enabled .destination-card:focus-within,
+    body.destination-horizontal-enabled .destination-card.is-selected {
         border-color: rgba(177, 111, 241, 0.68);
         box-shadow: 0 34px 110px rgba(0, 0, 0, 0.5), 0 0 80px rgba(105, 57, 210, 0.14);
-        pointer-events: auto;
     }
 
     body.destination-horizontal-enabled .destination-card-stage {
         height: 100%;
     }
 
-    body.destination-horizontal-enabled .destination-card-image img,
-    body.destination-horizontal-enabled .destination-card-placeholder {
-        transform: translate3d(var(--image-shift-x, 0px), var(--image-shift-y, 0px), 0);
-        will-change: transform;
-    }
-
     body.destination-horizontal-enabled .destination-card:hover .destination-card-image img,
     body.destination-horizontal-enabled .destination-card:focus-visible .destination-card-image img {
-        transform: translate3d(var(--image-shift-x, 0px), var(--image-shift-y, 0px), 0) scale(1.035);
+        transform: scale(1.035);
     }
 
     body.destination-horizontal-enabled .destination-card-copy {
         padding: clamp(28px, 3.1vw, 52px);
-        transform: translate3d(var(--copy-shift-x, 0px), 0, 0);
-        will-change: transform;
     }
 
     body.destination-horizontal-enabled .destination-card-copy strong {
