@@ -237,7 +237,7 @@
     </section>
 </main>
 
-    <section class="map-explorer" id="map-explorer" aria-labelledby="map-explorer-title">
+    <section class="map-explore" id="map-explorer" aria-labelledby="map-explorer-title">
         <div class="map-explorer-heading">
             <span>EXPERIÊNCIA 360°</span>
             <h2 id="map-explorer-title">
@@ -321,7 +321,9 @@
             </div>
 
             <p class="destination-search-status" id="destination-search-status" aria-live="polite"></p>
-            <div class="destination-cards" id="destination-cards"></div>
+            <div class="explore-horizontal-pin" id="explore-horizontal-pin">
+                <div class="explore-track" id="destination-cards"></div>
+            </div>
             <p class="destination-empty" id="destination-empty" role="status" hidden>
                 Nenhum destino encontrado. Tente pesquisar outro nome, cidade ou país.
             </p>
@@ -352,6 +354,9 @@
         src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js">
     </script>
 
+    <!-- GSAP + ScrollTrigger (via CDN) — usados no trilho horizontal de destinos em explore.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <script src="../js/back_menu.js"></script>
     <script src="../js/Card.js"></script>

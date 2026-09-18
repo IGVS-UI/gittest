@@ -1,131 +1,129 @@
 (function () {
     "use strict";
 
+    // Ordem e dados definidos a partir do design do Figma do projeto (seção ".map-explore").
+    // Para adicionar um novo destino no futuro: basta incluir um novo objeto neste array,
+    // com uma imagem quadrada (~608x608px) em "image". O trilho horizontal (GSAP ScrollTrigger)
+    // recalcula automaticamente a largura total e a distância de scroll — nenhum outro ajuste
+    // de código é necessário além de fornecer a imagem.
     const destinations = Object.freeze([
-        {
-            id: "coliseu-roma",
-            name: "Coliseu",
-            city: "Roma",
-            country: "Itália",
-            category: "História",
-            keywords: ["anfiteatro", "romano", "monumento", "roma antiga"],
-            description: "Observe de perto a arquitetura do anfiteatro que marcou a história do Império Romano.",
-            image: "../img/ai-generated-ancient-colosseum-structure-free-png 1.png",
-            imageAlt: "Ilustração do Coliseu de Roma",
-            gradient: "radial-gradient(circle at 50% 36%, #8055a7 0%, #30213d 52%, #100d13 100%)",
-            embedUrl: "https://www.google.com/maps/embed?pb=!4v1776799049750!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJQ0VqYzdTRWc.!2m2!1d41.8902101706461!2d12.49223093463763!3f318.7032!4f0!5f0.7820865974627469",
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Colosseum+Rome+Italy"
-        },
         {
             id: "cristo-redentor-rio",
             name: "Cristo Redentor",
             city: "Rio de Janeiro",
             country: "Brasil",
-            category: "Arquitetura",
-            keywords: ["corcovado", "cristo", "maravilha do mundo", "rio"],
             description: "Contemple o Rio de Janeiro a partir de um de seus cartões-postais mais reconhecidos.",
             image: "../img/pngtree-christ-the-redeemer-png-jesus-christ-statue-in-rio-de-janeiro-png-image_20950810 1.png",
             imageAlt: "Ilustração do Cristo Redentor",
-            gradient: "radial-gradient(circle at 50% 34%, #376d82 0%, #182b3d 52%, #0d1117 100%)",
             embedUrl: "https://www.google.com/maps?layer=c&cbll=-22.951916,-43.210487&cbp=11,28,0,0,0&output=svembed",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Christ+the+Redeemer+Rio+de+Janeiro+Brazil"
         },
         {
-            id: "torre-eiffel-paris",
-            name: "Torre Eiffel",
-            city: "Paris",
-            country: "França",
-            category: "Arquitetura",
-            keywords: ["eiffel", "torre", "champ de mars", "paris"],
-            description: "Passeie pelos arredores do monumento que se tornou símbolo de Paris e da França.",
-            image: "../img/eiffel-tower-in-paris-france-close-up-free-png 1.png",
-            imageAlt: "Ilustração da Torre Eiffel",
-            gradient: "radial-gradient(circle at 50% 34%, #71537d 0%, #2d2336 52%, #100d13 100%)",
-            embedUrl: "https://www.google.com/maps/embed?pb=!4v1787590000000!6m8!1m7!1sf-ouK7bxmBzLT9S9-tKCQw!2m2!1d48.858363!2d2.2946418!3f310.66!4f0.35!5f0.7820865974627469",
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Eiffel+Tower+Paris+France"
+            id: "taj-mahal-agra",
+            name: "Taj Mahal",
+            city: "Angra",
+            country: "Índia",
+            description: "Admire a simetria e os detalhes em mármore de um dos maiores símbolos de amor do mundo.",
+            // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
+            image: null,
+            imageAlt: "Vista do Taj Mahal",
+            embedUrl: "https://www.google.com/maps?q=Taj+Mahal,+Agra,+India&output=embed",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Taj+Mahal+Agra+India"
+        },
+        {
+            id: "coliseu-roma",
+            name: "Coliseu",
+            city: "Roma",
+            country: "Itália",
+            description: "Observe de perto a arquitetura do anfiteatro que marcou a história do Império Romano.",
+            image: "../img/ai-generated-ancient-colosseum-structure-free-png 1.png",
+            imageAlt: "Ilustração do Coliseu de Roma",
+            embedUrl: "https://www.google.com/maps/embed?pb=!4v1776799049750!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJQ0VqYzdTRWc.!2m2!1d41.8902101706461!2d12.49223093463763!3f318.7032!4f0!5f0.7820865974627469",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Colosseum+Rome+Italy"
+        },
+        {
+            id: "opera-sydney",
+            name: "Ópera de Sydney",
+            city: "Sydney",
+            country: "Austrália",
+            description: "Aprecie as conchas brancas que se tornaram o símbolo arquitetônico da Austrália.",
+            // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
+            image: null,
+            imageAlt: "Vista da Ópera de Sydney",
+            embedUrl: "https://www.google.com/maps?q=Sydney+Opera+House,+Sydney,+Australia&output=embed",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sydney+Opera+House+Australia"
+        },
+        {
+            id: "monte-fuji-japao",
+            name: "Monte Fuji",
+            city: "Honshu",
+            country: "Japão",
+            description: "Contemple o vulcão mais alto do Japão, cercado por lagos e vilarejos tradicionais.",
+            // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
+            image: null,
+            imageAlt: "Vista do Monte Fuji",
+            embedUrl: "https://www.google.com/maps?q=Mount+Fuji,+Japan&output=embed",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Mount+Fuji+Japan"
         },
         {
             id: "machu-picchu-cusco",
-            name: "Machu Picchu",
+            name: "Machu Pichu",
             city: "Cusco",
             country: "Peru",
-            category: "História",
-            keywords: ["inca", "andes", "ruínas", "patrimônio mundial"],
             description: "Explore caminhos, terraços e construções da histórica cidadela inca entre as montanhas.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
             image: null,
             imageAlt: "Vista de Machu Picchu",
-            gradient: "linear-gradient(145deg, #5f7441 0%, #283c2e 48%, #121613 100%)",
             embedUrl: "https://www.google.com/maps/embed?pb=!4v1787590000000!6m8!1m7!1smD4ThA4SthLifTAdt0lb4A!2m2!1d-13.1650709!2d-72.5447154!3f329.33!4f-12.19!5f0.7820865974627469",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Machu+Picchu+Cusco+Peru"
         },
         {
-            id: "times-square-nova-york",
-            name: "Times Square",
+            id: "estatua-liberdade-ny",
+            name: "Estátua da Liberdade",
             city: "Nova York",
             country: "Estados Unidos",
-            category: "Cultura",
-            keywords: ["manhattan", "broadway", "nova york", "luzes", "cidade"],
-            description: "Entre no ritmo de Manhattan em um dos cruzamentos urbanos mais vibrantes do mundo.",
+            description: "Conheça o monumento que recebe visitantes na baía de Nova York há mais de um século.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
             image: null,
-            imageAlt: "Vista da Times Square",
-            gradient: "linear-gradient(145deg, #9b2e81 0%, #31256d 48%, #101023 100%)",
-            embedUrl: "https://www.google.com/maps?layer=c&cbll=40.758000,-73.985500&cbp=11,5,0,0,0&output=svembed",
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Times+Square+New+York+USA"
+            imageAlt: "Vista da Estátua da Liberdade",
+            embedUrl: "https://www.google.com/maps?q=Statue+of+Liberty,+New+York&output=embed",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Statue+of+Liberty+New+York"
         },
         {
-            id: "cataratas-iguacu-parana",
-            name: "Cataratas do Iguaçu",
-            city: "Paraná",
-            country: "Brasil",
-            category: "Natureza",
-            keywords: ["cataratas", "iguaçu", "cachoeira", "parque nacional", "foz do iguaçu"],
-            description: "Aproxime-se da força das quedas-d'água em uma das paisagens naturais mais impressionantes do Brasil.",
+            id: "piramides-gize",
+            name: "Pirâmides de Gizé",
+            city: "Gizé",
+            country: "Egito",
+            description: "Viaje até o planalto de Gizé e conheça de perto as últimas maravilhas do mundo antigo.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
             image: null,
-            imageAlt: "Vista das Cataratas do Iguaçu",
-            gradient: "linear-gradient(145deg, #187a73 0%, #244c47 48%, #0d1716 100%)",
-            embedUrl: "https://www.google.com/maps?layer=c&cbll=-25.695300,-54.436700&cbp=11,30,0,0,0&output=svembed",
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Iguazu+Falls+Parana+Brazil"
+            imageAlt: "Vista das Pirâmides de Gizé",
+            embedUrl: "https://www.google.com/maps?q=Pyramids+of+Giza,+Egypt&output=embed",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Pyramids+of+Giza+Egypt"
         }
     ]);
 
-    const destinationGroups = Object.freeze([
-        { id: "historical-icons", destinationIds: ["coliseu-roma", "cristo-redentor-rio"] },
-        { id: "world-landmarks", destinationIds: ["torre-eiffel-paris", "machu-picchu-cusco"] },
-        { id: "city-and-nature", destinationIds: ["times-square-nova-york", "cataratas-iguacu-parana"] }
-    ]);
-
     const destinationById = new Map(destinations.map((destination) => [destination.id, destination]));
-    const filterState = { query: "", category: "all" };
-    const activeDestinationByGroup = new Map(
-        destinationGroups.map((group) => [group.id, group.destinationIds[0]])
-    );
-    const switchTimers = new Map();
+    const filterState = { query: "" };
     let selectedDestinationId = destinations[0].id;
+    let horizontalScroll = null;
 
     function normalizeSearchText(value) {
         return String(value)
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[̀-ͯ]/g, "")
             .toLocaleLowerCase("pt-BR")
             .trim();
     }
 
     function destinationMatchesFilters(destination) {
-        const matchesCategory = filterState.category === "all" || destination.category === filterState.category;
-        if (!matchesCategory) return false;
-
         if (!filterState.query) return true;
 
         const searchableText = normalizeSearchText([
             destination.id,
             destination.name,
             destination.city,
-            destination.country,
-            destination.category,
-            ...destination.keywords
+            destination.country
         ].join(" "));
 
         return searchableText.includes(filterState.query);
@@ -142,61 +140,36 @@
             </div>`;
     }
 
-    function createImageMarkup(destination) {
+    function createMediaMarkup(destination) {
         if (!destination.image) return createPlaceholderMarkup(destination);
 
         return `<img src="${destination.image}" alt="${destination.imageAlt}" loading="lazy">`;
     }
 
-    function createCardMarkup(group, groupIndex, destination, visibleDestinations) {
+    function createCardMarkup(destination) {
         const isSelected = destination.id === selectedDestinationId;
-        const selectionLabel = isSelected ? "PAISAGEM SELECIONADA" : "VER PAISAGEM EM 360°";
-        const indicators = visibleDestinations.map((item) => {
-            const isActive = item.id === destination.id;
-            return `
-                <button
-                    class="destination-card-dot${isActive ? " is-active" : ""}"
-                    type="button"
-                    data-destination-switch="${item.id}"
-                    data-group-id="${group.id}"
-                    aria-label="Exibir ${item.name} neste card"
-                    aria-pressed="${isActive}">
-                </button>`;
-        }).join("");
 
         return `
-            <article
+            <button
+                type="button"
                 class="destination-card${isSelected ? " is-selected" : ""}"
-                data-group-card="${group.id}"
                 data-destination-id="${destination.id}"
-                style="--card-gradient: ${destination.gradient};">
-                <div class="destination-card-stage">
-                    <div class="destination-card-image">
-                        <span class="destination-card-number">0${groupIndex + 1}</span>
-                        ${createImageMarkup(destination)}
-                    </div>
-                    <div class="destination-card-copy">
-                        <span class="destination-card-category">${destination.category}</span>
-                        <strong>${destination.name}</strong>
-                        <span class="destination-card-location">${destination.city}, ${destination.country}</span>
-                        <p>${destination.description}</p>
-                        <button
-                            class="destination-select-button"
-                            type="button"
-                            data-select-destination="${destination.id}"
-                            ${isSelected ? "aria-current=\"true\"" : ""}>
-                            ${selectionLabel}
-                        </button>
+                data-select-destination="${destination.id}"
+                aria-label="Ver ${destination.name}, ${destination.city}, em 360°"
+                ${isSelected ? "aria-current=\"true\"" : ""}>
+                <div class="destination-card-media">
+                    ${createMediaMarkup(destination)}
+                    <div class="destination-card-overlay">
+                        <span class="destination-card-name">${destination.name}</span>
+                        <span class="destination-card-place">${destination.city}, ${destination.country}</span>
                     </div>
                 </div>
-                <div class="destination-card-controls" role="group" aria-label="Paisagens do card ${groupIndex + 1}">
-                    ${indicators}
-                </div>
-            </article>`;
+            </button>`;
     }
 
     function initializeDestinationExplorer() {
-        const cardsContainer = document.querySelector("#destination-cards");
+        const trackContainer = document.querySelector("#destination-cards");
+        const pinWrapper = document.querySelector("#explore-horizontal-pin");
         const searchInput = document.querySelector("#destination-search-input");
         const searchStatus = document.querySelector("#destination-search-status");
         const emptyMessage = document.querySelector("#destination-empty");
@@ -209,7 +182,7 @@
         const externalLink = document.querySelector("#map-external-link");
         const expandButton = document.querySelector("#map-expand-button");
 
-        if (!cardsContainer || !searchInput || !searchStatus || !emptyMessage || !mapViewer ||
+        if (!trackContainer || !pinWrapper || !searchInput || !searchStatus || !emptyMessage || !mapViewer ||
             !mapFrame || !mapLoading || !destinationName || !destinationLocation ||
             !destinationDescription || !externalLink || !expandButton) {
             return;
@@ -217,41 +190,28 @@
 
         const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-        function renderDestinationGroups() {
+        function renderDestinationCards() {
             const matchedDestinations = destinations.filter(destinationMatchesFilters);
-            const markup = destinationGroups.map((group, groupIndex) => {
-                const visibleDestinations = group.destinationIds
-                    .map((id) => destinationById.get(id))
-                    .filter((destination) => destination && destinationMatchesFilters(destination));
+            trackContainer.innerHTML = matchedDestinations.map(createCardMarkup).join("");
 
-                if (!visibleDestinations.length) return "";
-
-                let activeId = activeDestinationByGroup.get(group.id);
-                if (!visibleDestinations.some((destination) => destination.id === activeId)) {
-                    activeId = visibleDestinations[0].id;
-                    activeDestinationByGroup.set(group.id, activeId);
-                }
-
-                return createCardMarkup(
-                    group,
-                    groupIndex,
-                    destinationById.get(activeId),
-                    visibleDestinations
-                );
-            }).join("");
-
-            cardsContainer.innerHTML = markup;
             emptyMessage.hidden = matchedDestinations.length !== 0;
             searchStatus.textContent = filterState.query
                 ? `${matchedDestinations.length} ${matchedDestinations.length === 1 ? "destino encontrado" : "destinos encontrados"}`
                 : `${destinations.length} destinos disponíveis`;
 
-            cardsContainer.querySelectorAll(".destination-card-image img").forEach((image) => {
+            trackContainer.querySelectorAll(".destination-card-media img").forEach((image) => {
                 image.addEventListener("error", () => {
                     const destination = destinationById.get(image.closest("[data-destination-id]")?.dataset.destinationId);
-                    if (destination) image.replaceWith(createPlaceholderElement(destination));
+                    if (destination) {
+                        const overlay = image.nextElementSibling;
+                        image.replaceWith(createPlaceholderElement(destination));
+                        if (overlay) image.closest(".destination-card-media")?.appendChild(overlay);
+                    }
                 }, { once: true });
             });
+
+            // O conteúdo do trilho mudou (busca filtrou cards): recalcula a distância do scroll horizontal.
+            if (horizontalScroll) horizontalScroll.refresh();
         }
 
         function createPlaceholderElement(destination) {
@@ -289,32 +249,8 @@
                 mapFrame.src = destination.embedUrl;
             }
 
-            renderDestinationGroups();
+            renderDestinationCards();
             window.requestAnimationFrame(scrollToViewer);
-        }
-
-        function switchCardDestination(groupId, destinationId) {
-            const group = destinationGroups.find((item) => item.id === groupId);
-            if (!group || !group.destinationIds.includes(destinationId)) return;
-            if (activeDestinationByGroup.get(groupId) === destinationId) return;
-
-            const card = cardsContainer.querySelector(`[data-group-card="${groupId}"]`);
-            const previousTimer = switchTimers.get(groupId);
-            if (previousTimer) window.clearTimeout(previousTimer);
-
-            if (reduceMotion.matches || !card) {
-                activeDestinationByGroup.set(groupId, destinationId);
-                renderDestinationGroups();
-                return;
-            }
-
-            card.classList.add("is-changing");
-            const timer = window.setTimeout(() => {
-                activeDestinationByGroup.set(groupId, destinationId);
-                switchTimers.delete(groupId);
-                renderDestinationGroups();
-            }, 180);
-            switchTimers.set(groupId, timer);
         }
 
         function getFullscreenElement() {
@@ -345,20 +281,14 @@
             }
         }
 
-        cardsContainer.addEventListener("click", (event) => {
-            const switchButton = event.target.closest("[data-destination-switch]");
-            if (switchButton) {
-                switchCardDestination(switchButton.dataset.groupId, switchButton.dataset.destinationSwitch);
-                return;
-            }
-
+        trackContainer.addEventListener("click", (event) => {
             const selectButton = event.target.closest("[data-select-destination]");
             if (selectButton) selectDestination(selectButton.dataset.selectDestination);
         });
 
         searchInput.addEventListener("input", () => {
             filterState.query = normalizeSearchText(searchInput.value);
-            renderDestinationGroups();
+            renderDestinationCards();
         });
 
         mapFrame.addEventListener("load", () => setMapLoading(false));
@@ -367,9 +297,137 @@
         document.addEventListener("webkitfullscreenchange", syncFullscreenButton);
 
         setMapLoading(true);
-        renderDestinationGroups();
+        renderDestinationCards();
         syncFullscreenButton();
         mapFrame.src = destinations[0].embedUrl;
+
+        horizontalScroll = setupHorizontalScroll(pinWrapper, trackContainer);
+    }
+
+    // ==================================================================
+    // SCROLL HORIZONTAL DOS DESTINOS (GSAP + ScrollTrigger)
+    // ==================================================================
+    // Ideia geral: enquanto o usuário rola a página verticalmente, a seção
+    // ".explore-horizontal-pin" fica fixa na tela ("pin") e o trilho de
+    // cards (".explore-track") é deslocado horizontalmente (translateX) na
+    // mesma proporção do scroll ("scrub"). Cada card também recebe um fade
+    // suave de entrada/saída (ver updateCardFades) conforme se aproxima das
+    // bordas da área visível. Quando o último card passa, a seção se solta
+    // e o scroll vertical volta ao normal.
+    function setupHorizontalScroll(pinWrapper, track) {
+        if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
+            return null;
+        }
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        let scrollTween = null;
+
+        // Easing usado no fade dos cards (entrada pela direita / saída pela
+        // esquerda). "power1.inOut" deixa a transição de opacidade gradual,
+        // sem o corte abrupto que dava a sensação de "tela preta" quando um
+        // card saía do quadro exatamente na borda do overflow:hidden.
+        const fadeEase = gsap.parseEase("power1.inOut");
+        const FADE_ZONE_RATIO = 0.18; // 18% da largura visível em cada borda faz o fade
+
+        // Recalcula a opacidade de cada card com base na posição atual dele
+        // dentro da área visível (pinWrapper). Cards totalmente visíveis
+        // ficam com opacidade 1; ao se aproximarem da borda esquerda/direita
+        // (a "FADE_ZONE"), a opacidade cai suavemente até 0.
+        function updateCardFades() {
+            const wrapperRect = pinWrapper.getBoundingClientRect();
+            const fadeZone = wrapperRect.width * FADE_ZONE_RATIO;
+
+            track.querySelectorAll(".destination-card").forEach((card) => {
+                const cardRect = card.getBoundingClientRect();
+                const cardCenter = cardRect.left + cardRect.width / 2 - wrapperRect.left;
+
+                let opacity = 1;
+                if (cardCenter < fadeZone) {
+                    opacity = fadeEase(Math.max(cardCenter, 0) / fadeZone);
+                } else if (cardCenter > wrapperRect.width - fadeZone) {
+                    const distanceFromEdge = wrapperRect.width - cardCenter;
+                    opacity = fadeEase(Math.max(distanceFromEdge, 0) / fadeZone);
+                }
+
+                card.style.opacity = opacity;
+            });
+        }
+
+        // Distância horizontal que o trilho precisa percorrer: largura total
+        // do conteúdo menos a largura visível da área pinada. Recalculada
+        // dinamicamente, então funciona com qualquer quantidade de cards.
+        function getHorizontalDistance() {
+            return Math.max(track.scrollWidth - pinWrapper.clientWidth, 0);
+        }
+
+        function destroyTween() {
+            if (!scrollTween) return;
+            if (scrollTween.scrollTrigger) scrollTween.scrollTrigger.kill();
+            scrollTween.kill();
+            scrollTween = null;
+            gsap.set(track, { clearProps: "transform" });
+            track.querySelectorAll(".destination-card").forEach((card) => {
+                card.style.opacity = "";
+            });
+        }
+
+        function createTween() {
+            destroyTween();
+
+            const distance = getHorizontalDistance();
+            if (distance <= 0) return;
+
+            scrollTween = gsap.to(track, {
+                x: () => -getHorizontalDistance(),
+                ease: "none",
+                onUpdate: updateCardFades, // recalcula o fade dos cards a cada tick do scrub
+                scrollTrigger: {
+                    trigger: pinWrapper,      // elemento observado para disparar a animação
+                    start: "top top",         // começa quando o topo da seção encosta no topo da viewport
+                    end: () => `+=${getHorizontalDistance()}`, // distância de scroll = largura a percorrer
+                    pin: true,                 // fixa a seção na tela enquanto dura a animação
+                    scrub: 1,                  // acompanha a velocidade do scroll (com suavização de ~1s)
+                    invalidateOnRefresh: true, // recalcula "x", "end" e o fade a cada resize/refresh
+                    anticipatePin: 1,
+                    onRefresh: updateCardFades
+                }
+            });
+
+            updateCardFades();
+        }
+
+        // matchMedia do próprio ScrollTrigger: liga o efeito só em telas
+        // maiores e quando o usuário não pediu "prefers-reduced-motion".
+        // Em telas pequenas ou com reduced-motion, os cards ficam em scroll
+        // vertical normal (ver media query em explore.css).
+        const mm = gsap.matchMedia();
+        mm.add(
+            {
+                isDesktop: "(min-width: 701px)",
+                reduceMotion: "(prefers-reduced-motion: reduce)"
+            },
+            (context) => {
+                const { isDesktop, reduceMotion } = context.conditions;
+                if (isDesktop && !reduceMotion) {
+                    createTween();
+                } else {
+                    destroyTween();
+                }
+                return () => destroyTween();
+            }
+        );
+
+        window.addEventListener("resize", () => ScrollTrigger.refresh());
+
+        return {
+            // Para ajustar a velocidade do scroll: mude o valor de "scrub" acima
+            // (número maior = movimento mais "atrasado"/suave em relação ao mouse;
+            // "true" = acompanha o scroll instantaneamente).
+            refresh() {
+                window.requestAnimationFrame(() => ScrollTrigger.refresh());
+            }
+        };
     }
 
     if (document.readyState === "loading") {
