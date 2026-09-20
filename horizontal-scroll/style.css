@@ -1,0 +1,106 @@
+:root{
+  --bodyFont: "Oswald", sans-serif;
+  --brandColor: #bbbb4f;
+}
+
+* {
+  outline: none;
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+body {
+  background: #121200;
+  font-family: var(--bodyFont);
+  color: #fff;
+  text-align: center;
+  overflow-x: hidden;
+}
+
+.intro, footer{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  height: 100vh;
+  padding: 4rem;
+}
+
+.heading{
+  font-size: 8vw;
+  line-height: 1.1;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.heading span, .content span{
+  color: var(--brandColor);
+}
+
+.content{
+  font-size: 32px;
+  text-align: right;
+}
+
+/* horizontal scroll */
+#horizontal-scroll{
+  padding: 160px 0;
+}
+
+.horizontal-scroll-wrapper {
+  overflow: hidden;
+  height: 55vh;
+}
+
+.horizontal {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 45vw;
+}
+
+.horizontal > div {
+  padding: 0 4vw;
+}
+
+.horizontal .card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 28vw;
+  padding: 50px 40px;
+  border: 2px solid #fff;
+  color: #f6f2e8;
+}
+
+.card h2 {
+  font-size: 3vw;
+  font-weight: 300;
+}
+
+.card .count {
+  color: var(--brandColor);
+  font-size: 7vw;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.horizontal > div:last-child {
+  padding: 0 6vw 0 4vw;
+}
+
+
+
+
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; 
+  background: #121200;
+}
