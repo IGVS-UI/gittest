@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../css/rep/footer.css">
     <link rel="stylesheet" href="../css/rep/nav_barblack.css">
     <link rel="stylesheet" href="../../sistema_de_login/css/auth-nav.css">
+    <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.8/dist/lenis.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Condiment&display=swap" rel="stylesheet">
@@ -379,9 +380,13 @@
         src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js">
     </script>
 
-    <!-- GSAP + ScrollTrigger (via CDN) — usados no trilho horizontal de destinos em explore.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- GSAP + ScrollTrigger + Lenis - precisam carregar ANTES de explore.js,
+         que monta o trilho horizontal de destinos. Mantenha uma unica versao de
+         cada lib: dois GSAP na mesma pagina criam tickers concorrentes e o
+         ScrollTrigger deixa de recalcular o pin. -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/lenis@1.3.8/dist/lenis.min.js"></script>
 
     <script src="../js/back_menu.js"></script>
     <script src="../js/Card.js"></script>
@@ -390,10 +395,5 @@
     <script src="../js/model/modelo_3d.js"></script>
     <script src="../js/explore.js"></script>
     <script type="module" src="../../sistema_de_login/js/auth-nav.js"></script>
-      <!-- gsap cdn -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-  <!-- lenis -->
-  <script src="https://unpkg.com/lenis@1.3.8/dist/lenis.min.js"></script>
 </body>
 </html>

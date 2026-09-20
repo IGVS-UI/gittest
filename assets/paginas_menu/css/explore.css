@@ -1059,8 +1059,14 @@ main{
 .destination-horizontal-viewport {
     --destination-viewport-pad: clamp(20px, 5vw, 80px);
     --destination-gap: clamp(14px, 1.8vw, 28px);
-    width: 100vw;
-    margin-left: calc(50% - 50vw);
+    /* Largura de sangria. O padrao 100vw e so o fallback: 100vw conta a barra
+       de rolagem, entao um trilho com essa largura sobra ~7px para fora da
+       area visivel de cada lado e corta as cartas das pontas. O JS mede a
+       largura realmente visivel e sobrescreve esta variavel - ver
+       syncBleedWidth() em explore.js. */
+    --destination-bleed: 100vw;
+    width: var(--destination-bleed);
+    margin-left: calc(50% - (var(--destination-bleed) / 2));
     padding: 4px var(--destination-viewport-pad) 24px;
     overflow-x: auto;
     overflow-y: hidden;
@@ -1083,7 +1089,8 @@ main{
     display: flex;
     width: max-content;
     gap: var(--destination-gap, clamp(18px, 2.2vw, 36px));
-    transform: translate3d(var(--destination-track-x, 0px), 0, 0);
+    /* O deslocamento horizontal e escrito pelo GSAP direto no transform
+       inline do trilho - ver createHorizontalDestinationController(). */
     will-change: transform;
 }
 
@@ -1184,25 +1191,33 @@ main{
         overflow-x: clip;
     }
 
+    /* Quem prende a secao e o ScrollTrigger (pin), nao position: sticky:
+       o GSAP embrulha a secao num pin-spacer com a distancia exata do
+       trilho, por isso aqui a altura e so uma tela - sem a soma manual de
+       --destination-scroll-distance que a versao anterior precisava. */
     body.destination-horizontal-enabled .destination-selector {
-        height: calc(100vh + var(--destination-scroll-distance, 0px));
+        height: 100vh;
         padding: 0;
     }
 
+    /* Sem overflow aqui de proposito. O painel e filho de .map-explore, que e
+       limitado a 1600px e centrado, entao qualquer recorte neste elemento
+       cortaria o trilho de volta para a largura do painel - o trilho sangra
+       para a largura da tela por margem negativa, e um ancestral que recorta
+       anula essa sangria. Quem contem as cartas e a propria
+       .destination-horizontal-viewport (overflow: hidden), e quem impede o
+       scroll horizontal da pagina e o overflow-x: clip no body, logo acima. */
     body.destination-horizontal-enabled .destination-sticky-panel {
-        position: sticky;
-        top: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
-        height: 100vh;
+        height: 100%;
         padding: clamp(14px, 2.5vh, 40px) 0;
-        overflow: hidden;
     }
 
     body.destination-horizontal-enabled .destination-selector-heading {
         gap: 6px;
-        margin-bottom: clamp(20px, 3.5vh, 48px);
+        margin-bottom: clamp(14px, 2vh, 30px);
     }
 
     body.destination-horizontal-enabled .destination-selector-heading h3 {
@@ -1213,11 +1228,21 @@ main{
         min-height: 50px;
     }
 
+    /* Respiro entre a busca e o trilho: separa o que e controle do que e
+       conteudo, em vez de deixar as cartas nascendo coladas no campo. */
     body.destination-horizontal-enabled .destination-search-status {
-        margin: 6px auto clamp(16px, 2.5vh, 32px);
+        margin: 6px auto clamp(28px, 5vh, 64px);
     }
 
+    /* A secao das cartas ocupa 100% da largura da tela: respiro lateral zero,
+       trilho encostando nas duas bordas. Combinado com --destination-bleed
+       (que desconta a barra de rolagem), a area util da secao fica igual a
+       largura visivel da janela, nem um pixel a menos nem a mais. Este valor
+       enquadra a secao e nada mais - a largura da carta e calculada a parte
+       (ver a regra da carta abaixo), entao mexer aqui nunca as redimensiona. */
     body.destination-horizontal-enabled .destination-horizontal-viewport {
+        --destination-viewport-pad: 0px;
+
         flex: 0 0 auto;
         padding-bottom: 8px;
         overflow: hidden;
@@ -1225,9 +1250,33 @@ main{
         scroll-behavior: auto;
     }
 
+    /* O palco preso tem uma tela inteira: as cartas sao o assunto da secao e
+       devem ocupa-la. Duas por tela, e a largura sai de duas travas:
+
+       1. "duas cabem na tela" - metade do espaco util, com 10% de folga, de
+          modo que sempre sobre uma tira da terceira carta como dica de que
+          o trilho anda. O teto fixo de 420px que existia aqui antes furava
+          essa conta em telas largas: em 1440px ele deixava entrar 2 cartas
+          inteiras mais um pedaco de 20px da terceira, e era esse toco que
+          parecia carta cortada.
+       2. proporcao - a carta nao passa de 1.25x a propria altura, senao em
+          telas muito largas ela esticaria e as imagens dos destinos
+          achatariam. */
     body.destination-horizontal-enabled .destination-card {
-        height: clamp(200px, 28vh, 320px);
+        --destination-card-height: clamp(240px, 56vh, 620px);
+
+        height: var(--destination-card-height);
         min-height: 0;
+        /* Largura original da carta (fator 0.82, teto de 420px). O recuo de
+           referencia abaixo e fixo de proposito, e nao
+           var(--destination-viewport-pad): a secao agora sangra para a largura
+           da tela com respiro zero, e amarrar as duas coisas no mesmo valor
+           faria o enquadramento da secao redimensionar as cartas. */
+        flex-basis: clamp(
+            240px,
+            calc(((100vw - (2 * clamp(20px, 5vw, 80px)) - var(--destination-gap)) / 2) * 0.82),
+            380px
+        );
     }
 
     body.destination-horizontal-enabled .destination-card-copy p {
