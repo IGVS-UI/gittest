@@ -106,7 +106,6 @@
     const destinationById = new Map(destinations.map((destination) => [destination.id, destination]));
     const filterState = { query: "" };
     let selectedDestinationId = destinations[0].id;
-    let horizontalScroll = null;
 
     function normalizeSearchText(value) {
         return String(value)
@@ -179,7 +178,14 @@
 
         let maxTranslate = 0;
         let currentProgress = 0;
+        let targetProgress = 0;
         let animationFrameId = null;
+        let smoothFrameId = null;
+
+        // Fator de suavização do "lerp": quanto menor, mais fluido/atrasado o
+        // movimento do trilho fica em relação ao scroll real da página.
+        const SMOOTHING = 0.15;
+        const SMOOTHING_EPSILON = 0.0008;
 
         function clamp(value, min, max) {
             return Math.min(Math.max(value, min), max);
@@ -202,15 +208,42 @@
             return document.body.classList.contains("destination-horizontal-enabled");
         }
 
+        function stopSmoothProgress() {
+            if (smoothFrameId === null) return;
+            window.cancelAnimationFrame(smoothFrameId);
+            smoothFrameId = null;
+        }
+
+        function smoothProgressStep() {
+            smoothFrameId = null;
+            const delta = targetProgress - currentProgress;
+
+            if (Math.abs(delta) < SMOOTHING_EPSILON) {
+                setProgress(targetProgress);
+                return;
+            }
+
+            setProgress(currentProgress + delta * SMOOTHING);
+            smoothFrameId = window.requestAnimationFrame(smoothProgressStep);
+        }
+
+        function requestSmoothProgress() {
+            if (smoothFrameId !== null) return;
+            smoothFrameId = window.requestAnimationFrame(smoothProgressStep);
+        }
+
         function updateFromPageScroll() {
             const scrollRange = Math.max(section.offsetHeight - window.innerHeight, 1);
             const sectionTop = section.getBoundingClientRect().top;
-            setProgress(-sectionTop / scrollRange);
+            targetProgress = clamp(-sectionTop / scrollRange, 0, 1);
+            requestSmoothProgress();
         }
 
         function updateFromNativeScroll() {
             const nativeRange = Math.max(viewport.scrollWidth - viewport.clientWidth, 0);
-            setProgress(nativeRange ? viewport.scrollLeft / nativeRange : 0);
+            targetProgress = nativeRange ? viewport.scrollLeft / nativeRange : 0;
+            stopSmoothProgress();
+            setProgress(targetProgress);
         }
 
         function update() {
@@ -229,6 +262,7 @@
         }
 
         function disableEnhancedScroll() {
+            stopSmoothProgress();
             document.body.classList.remove("destination-horizontal-enabled");
             section.style.removeProperty("--destination-scroll-distance");
             track.style.removeProperty("--destination-track-x");
@@ -248,9 +282,12 @@
                 return;
             }
 
+            stopSmoothProgress();
             document.body.classList.add("destination-horizontal-enabled");
             viewport.scrollLeft = 0;
             track.style.setProperty("--destination-track-x", "0px");
+            currentProgress = 0;
+            targetProgress = 0;
 
             maxTranslate = Math.max(viewport.scrollWidth - viewport.clientWidth, 0);
             if (!maxTranslate) {
@@ -327,7 +364,6 @@
 
     function initializeDestinationExplorer() {
         const trackContainer = document.querySelector("#destination-cards");
-        const pinWrapper = document.querySelector("#explore-horizontal-pin");
         const searchInput = document.querySelector("#destination-search-input");
         const searchStatus = document.querySelector("#destination-search-status");
         const emptyMessage = document.querySelector("#destination-empty");
@@ -343,7 +379,7 @@
         const horizontalViewport = document.querySelector("#destination-horizontal-viewport");
         const horizontalProgress = document.querySelector("#destination-horizontal-progress");
 
-        if (!trackContainer || !pinWrapper || !searchInput || !searchStatus || !emptyMessage || !mapViewer ||
+        if (!trackContainer || !searchInput || !searchStatus || !emptyMessage || !mapViewer ||
             !mapFrame || !mapLoading || !destinationName || !destinationLocation ||
             !destinationDescription || !externalLink || !expandButton || !destinationSection ||
             !horizontalViewport || !horizontalProgress) {
@@ -354,7 +390,7 @@
         const horizontalController = createHorizontalDestinationController({
             section: destinationSection,
             viewport: horizontalViewport,
-            track: cardsContainer,
+            track: trackContainer,
             progressBar: horizontalProgress
         });
 
@@ -379,11 +415,7 @@
             });
 
 // O conteúdo do trilho mudou (busca filtrou cards): recalcula a distância do scroll horizontal.
-if (typeof horizontalScroll !== 'undefined' && horizontalScroll) horizontalScroll.refresh();
-
-if (typeof horizontalController !== 'undefined' && horizontalController && typeof horizontalController.refresh === 'function') {
-    window.requestAnimationFrame(function () { horizontalController.refresh(); });
-}
+window.requestAnimationFrame(() => horizontalController.refresh());
         }
 
         function createPlaceholderElement(destination) {
@@ -472,134 +504,6 @@ if (typeof horizontalController !== 'undefined' && horizontalController && typeo
         renderDestinationCards();
         syncFullscreenButton();
         mapFrame.src = destinations[0].embedUrl;
-
-        horizontalScroll = setupHorizontalScroll(pinWrapper, trackContainer);
-    }
-
-    // ==================================================================
-    // SCROLL HORIZONTAL DOS DESTINOS (GSAP + ScrollTrigger)
-    // ==================================================================
-    // Ideia geral: enquanto o usuário rola a página verticalmente, a seção
-    // ".explore-horizontal-pin" fica fixa na tela ("pin") e o trilho de
-    // cards (".explore-track") é deslocado horizontalmente (translateX) na
-    // mesma proporção do scroll ("scrub"). Cada card também recebe um fade
-    // suave de entrada/saída (ver updateCardFades) conforme se aproxima das
-    // bordas da área visível. Quando o último card passa, a seção se solta
-    // e o scroll vertical volta ao normal.
-    function setupHorizontalScroll(pinWrapper, track) {
-        if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") {
-            return null;
-        }
-
-        gsap.registerPlugin(ScrollTrigger);
-
-        let scrollTween = null;
-
-        // Easing usado no fade dos cards (entrada pela direita / saída pela
-        // esquerda). "power1.inOut" deixa a transição de opacidade gradual,
-        // sem o corte abrupto que dava a sensação de "tela preta" quando um
-        // card saía do quadro exatamente na borda do overflow:hidden.
-        const fadeEase = gsap.parseEase("power1.inOut");
-        const FADE_ZONE_RATIO = 0.18; // 18% da largura visível em cada borda faz o fade
-
-        // Recalcula a opacidade de cada card com base na posição atual dele
-        // dentro da área visível (pinWrapper). Cards totalmente visíveis
-        // ficam com opacidade 1; ao se aproximarem da borda esquerda/direita
-        // (a "FADE_ZONE"), a opacidade cai suavemente até 0.
-        function updateCardFades() {
-            const wrapperRect = pinWrapper.getBoundingClientRect();
-            const fadeZone = wrapperRect.width * FADE_ZONE_RATIO;
-
-            track.querySelectorAll(".destination-card").forEach((card) => {
-                const cardRect = card.getBoundingClientRect();
-                const cardCenter = cardRect.left + cardRect.width / 2 - wrapperRect.left;
-
-                let opacity = 1;
-                if (cardCenter < fadeZone) {
-                    opacity = fadeEase(Math.max(cardCenter, 0) / fadeZone);
-                } else if (cardCenter > wrapperRect.width - fadeZone) {
-                    const distanceFromEdge = wrapperRect.width - cardCenter;
-                    opacity = fadeEase(Math.max(distanceFromEdge, 0) / fadeZone);
-                }
-
-                card.style.opacity = opacity;
-            });
-        }
-
-        // Distância horizontal que o trilho precisa percorrer: largura total
-        // do conteúdo menos a largura visível da área pinada. Recalculada
-        // dinamicamente, então funciona com qualquer quantidade de cards.
-        function getHorizontalDistance() {
-            return Math.max(track.scrollWidth - pinWrapper.clientWidth, 0);
-        }
-
-        function destroyTween() {
-            if (!scrollTween) return;
-            if (scrollTween.scrollTrigger) scrollTween.scrollTrigger.kill();
-            scrollTween.kill();
-            scrollTween = null;
-            gsap.set(track, { clearProps: "transform" });
-            track.querySelectorAll(".destination-card").forEach((card) => {
-                card.style.opacity = "";
-            });
-        }
-
-        function createTween() {
-            destroyTween();
-
-            const distance = getHorizontalDistance();
-            if (distance <= 0) return;
-
-            scrollTween = gsap.to(track, {
-                x: () => -getHorizontalDistance(),
-                ease: "none",
-                onUpdate: updateCardFades, // recalcula o fade dos cards a cada tick do scrub
-                scrollTrigger: {
-                    trigger: pinWrapper,      // elemento observado para disparar a animação
-                    start: "top top",         // começa quando o topo da seção encosta no topo da viewport
-                    end: () => `+=${getHorizontalDistance()}`, // distância de scroll = largura a percorrer
-                    pin: true,                 // fixa a seção na tela enquanto dura a animação
-                    scrub: 1,                  // acompanha a velocidade do scroll (com suavização de ~1s)
-                    invalidateOnRefresh: true, // recalcula "x", "end" e o fade a cada resize/refresh
-                    anticipatePin: 1,
-                    onRefresh: updateCardFades
-                }
-            });
-
-            updateCardFades();
-        }
-
-        // matchMedia do próprio ScrollTrigger: liga o efeito só em telas
-        // maiores e quando o usuário não pediu "prefers-reduced-motion".
-        // Em telas pequenas ou com reduced-motion, os cards ficam em scroll
-        // vertical normal (ver media query em explore.css).
-        const mm = gsap.matchMedia();
-        mm.add(
-            {
-                isDesktop: "(min-width: 701px)",
-                reduceMotion: "(prefers-reduced-motion: reduce)"
-            },
-            (context) => {
-                const { isDesktop, reduceMotion } = context.conditions;
-                if (isDesktop && !reduceMotion) {
-                    createTween();
-                } else {
-                    destroyTween();
-                }
-                return () => destroyTween();
-            }
-        );
-
-        window.addEventListener("resize", () => ScrollTrigger.refresh());
-
-        return {
-            // Para ajustar a velocidade do scroll: mude o valor de "scrub" acima
-            // (número maior = movimento mais "atrasado"/suave em relação ao mouse;
-            // "true" = acompanha o scroll instantaneamente).
-            refresh() {
-                window.requestAnimationFrame(() => ScrollTrigger.refresh());
-            }
-        };
     }
 
     if (document.readyState === "loading") {
