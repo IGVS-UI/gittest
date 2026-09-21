@@ -25,7 +25,7 @@
             country: "Índia",
             description: "Admire a simetria e os detalhes em mármore de um dos maiores símbolos de amor do mundo.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
-            image:"../img/taj_mahal.png ",
+            image: "../img/taj_mahal.png",
             imageAlt: "Vista do Taj Mahal",
             embedUrl: "https://www.google.com/maps?q=Taj+Mahal,+Agra,+India&output=embed",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Taj+Mahal+Agra+India"
@@ -36,7 +36,7 @@
             city: "Roma",
             country: "Itália",
             description: "Observe de perto a arquitetura do anfiteatro que marcou a história do Império Romano.",
-            image: "../img/ai-generated-ancient-colosseum-structure-free-png 1.png",
+            image: "../img/coliseu.png",
             imageAlt: "Ilustração do Coliseu de Roma",
             embedUrl: "https://www.google.com/maps/embed?pb=!4v1776799049750!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJQ0VqYzdTRWc.!2m2!1d41.8902101706461!2d12.49223093463763!3f318.7032!4f0!5f0.7820865974627469",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Colosseum+Rome+Italy"
@@ -48,7 +48,7 @@
             country: "Austrália",
             description: "Aprecie as conchas brancas que se tornaram o símbolo arquitetônico da Austrália.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
-            image: null,
+            image: "../img/opera_sydney.png",
             imageAlt: "Vista da Ópera de Sydney",
             embedUrl: "https://www.google.com/maps?q=Sydney+Opera+House,+Sydney,+Australia&output=embed",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sydney+Opera+House+Australia"
@@ -60,7 +60,7 @@
             country: "Japão",
             description: "Contemple o vulcão mais alto do Japão, cercado por lagos e vilarejos tradicionais.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
-            image: null,
+            image: "../img/monte_fuji.png",
             imageAlt: "Vista do Monte Fuji",
             embedUrl: "https://www.google.com/maps?q=Mount+Fuji,+Japan&output=embed",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Mount+Fuji+Japan"
@@ -72,7 +72,7 @@
             country: "Peru",
             description: "Explore caminhos, terraços e construções da histórica cidadela inca entre as montanhas.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
-            image: null,
+            image: "../img/machu_pichu.png",
             imageAlt: "Vista de Machu Picchu",
             embedUrl: "https://www.google.com/maps/embed?pb=!4v1787590000000!6m8!1m7!1smD4ThA4SthLifTAdt0lb4A!2m2!1d-13.1650709!2d-72.5447154!3f329.33!4f-12.19!5f0.7820865974627469",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Machu+Picchu+Cusco+Peru"
@@ -84,7 +84,7 @@
             country: "Estados Unidos",
             description: "Conheça o monumento que recebe visitantes na baía de Nova York há mais de um século.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
-            image: null,
+            image: "../img/estatua_liberdade.png",
             imageAlt: "Vista da Estátua da Liberdade",
             embedUrl: "https://www.google.com/maps?q=Statue+of+Liberty,+New+York&output=embed",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Statue+of+Liberty+New+York"
@@ -96,7 +96,7 @@
             country: "Egito",
             description: "Viaje até o planalto de Gizé e conheça de perto as últimas maravilhas do mundo antigo.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
-            image: null,
+            image: "../img/piramides_gize.png",
             imageAlt: "Vista das Pirâmides de Gizé",
             embedUrl: "https://www.google.com/maps?q=Pyramids+of+Giza,+Egypt&output=embed",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Pyramids+of+Giza+Egypt"
