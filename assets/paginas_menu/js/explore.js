@@ -275,6 +275,23 @@
         gsapLib.registerPlugin(scrollTriggerLib);
         setupSmoothScroll();
 
+        // Por padrao o ScrollTrigger remede TUDO sozinho a cada "resize" da
+        // janela, no instante em que o evento dispara - inclusive no meio de
+        // um arrasto de redimensionamento, e sem passar pela rebobinada de
+        // rewindToSectionStart() abaixo. Se isso acontece com o scroll parado
+        // DENTRO do trilho preso, o pin (que acabou de mudar de tamanho por
+        // causa do novo layout) fica dessincronizado da posicao real de
+        // scroll - o efeito visto e a secao de destinos "quebrando" e
+        // aparecendo no topo/rodape da pagina. ignoreMobileResize evita o
+        // mesmo problema quando a barra de endereco do celular abre/fecha
+        // durante o scroll (o navegador conta isso como resize tambem). Quem
+        // assume o refresh no resize agora e o listener proprio mais abaixo,
+        // que rebobina a posicao antes de remedir.
+        scrollTriggerLib.config({
+            autoRefreshEvents: "visibilitychange,DOMContentLoaded,load",
+            ignoreMobileResize: true
+        });
+
         // "refreshInit" roda antes de cada medicao do ScrollTrigger, inclusive
         // as automaticas de resize: garante que a sangria ja esta certa quando
         // a distancia do trilho for calculada.
@@ -283,13 +300,56 @@
 
         const media = gsapLib.matchMedia();
 
+        // Aviso de dev: o breakpoint que decide o modo preso e definido em
+        // dois lugares que precisam ficar iguais - HORIZONTAL_PINNED_QUERY
+        // aqui em cima e o media query equivalente em explore.css (bloco
+        // "DESTINOS - SCROLL VERTICAL CONVERTIDO EM HORIZONTAL"). Se so um
+        // dos dois for editado, o JS pode prender a secao num tamanho de
+        // tela em que o CSS ainda nao aplicou o layout do modo preso (ou
+        // vice-versa), e o trilho quebra visualmente. O CSS marca esse
+        // breakpoint numa custom property so para isto; se ela discordar do
+        // matchMedia do JS, avisamos no console em vez de falhar em
+        // silencio.
+        function warnIfBreakpointMismatch() {
+            const cssSaysPinned = window.getComputedStyle(document.documentElement)
+                .getPropertyValue("--destination-breakpoint-sync")
+                .trim() === "1";
+            const jsSaysPinned = window.matchMedia(HORIZONTAL_PINNED_QUERY).matches;
+
+            if (cssSaysPinned !== jsSaysPinned) {
+                console.warn(
+                    "[explore] O breakpoint do trilho horizontal de destinos esta " +
+                    "dessincronizado entre explore.css e explore.js (HORIZONTAL_PINNED_QUERY / " +
+                    "HORIZONTAL_NATIVE_QUERY). Atualize os dois juntos."
+                );
+            }
+        }
+
+        warnIfBreakpointMismatch();
+        window.addEventListener("resize", warnIfBreakpointMismatch);
+
         // Preenchido so enquanto o modo preso esta valendo; serve de sinal de
         // "o GSAP esta no comando" para refresh().
         let activeTrigger = null;
         let activeHorizontalTween = null;
         let cardReveals = [];
         let pendingRefresh = 0;
-        let lastTrackWidth = 0;
+        let lastGeometry = "";
+
+        // Quem ocupa o lugar da secao no fluxo: com o pin ativo a secao sai
+        // para "fixed" e quem segura o espaco e o pin-spacer que o GSAP criou
+        // em volta dela. Medir o elemento errado devolve a posicao da secao
+        // colada na viewport, nao a posicao dela no documento.
+        function getPinHolder() {
+            return section.parentElement
+                && section.parentElement.classList.contains("pin-spacer")
+                ? section.parentElement
+                : section;
+        }
+
+        function getSectionTop() {
+            return Math.round(getPinHolder().getBoundingClientRect().top + window.scrollY);
+        }
 
         /* ----------------------------------------------------------------
            SURGIMENTO DAS CARTAS
@@ -354,23 +414,19 @@
         // inicio da secao ANTES de remedir resolve os dois - e ainda mostra
         // o resultado filtrado desde a primeira carta.
         function rewindToSectionStart() {
-            if (!activeTrigger) return;
+            // So vale a pena rebobinar quando o scroll esta DE FATO dentro do
+            // pin agora (isActive): e so nesse caso que remedir por cima de
+            // uma geometria que acabou de mudar (menos cartas, janela
+            // redimensionada) deixa a posicao atual fora do novo intervalo e
+            // a pagina pula para o rodape ou para o topo. Fora do pin - antes
+            // dele ou ja rolado bem depois, la pelo rodape - remedir e
+            // inofensivo, entao nao mexemos no scroll do usuario a toa.
+            if (!activeTrigger || !activeTrigger.isActive) return;
 
             // Medimos a secao agora em vez de confiar em activeTrigger.start:
             // o valor guardado envelhece quando o layout mexeu depois da
-            // ultima medicao (modelo 3D que carrega, fonte que troca). Com o
-            // pin ativo, quem ocupa o lugar da secao no fluxo e o pin-spacer.
-            const holder = section.parentElement
-                && section.parentElement.classList.contains("pin-spacer")
-                ? section.parentElement
-                : section;
-
-            const sectionStart = Math.max(
-                0,
-                Math.round(holder.getBoundingClientRect().top + window.scrollY)
-            );
-
-            if (window.scrollY <= sectionStart) return;
+            // ultima medicao (modelo 3D que carrega, fonte que troca).
+            const sectionStart = Math.max(0, getSectionTop());
 
             // O scroll nativo vale na hora - e e isso que o ScrollTrigger le
             // ao remedir em seguida. O Lenis recebe a mesma posicao para nao
@@ -463,37 +519,126 @@
             if (!activeTrigger) syncNativeProgress();
         }
 
-        return {
-            // ScrollTrigger.refresh() remede a pagina inteira e a busca chama
-            // um render por tecla digitada, entao no maximo um refresh por
-            // quadro - as demais chamadas caem no mesmo agendamento.
-            refresh() {
-                if (pendingRefresh) return;
+        /* Assinatura da geometria de que o pin depende. Sao quatro medidas, e
+           cada uma cobre um jeito diferente de a secao sair do lugar:
 
-                pendingRefresh = window.requestAnimationFrame(() => {
-                    pendingRefresh = 0;
+           1. track.scrollWidth  - a distancia horizontal a percorrer, que e o
+              comprimento do pin (end = start + distancia).
+           2. track.offsetHeight - a altura das cartas (var(--destination-card-height)
+              e 56vh), que empurra o resto do painel.
+           3. getSectionTop()    - a posicao vertical REAL da secao no documento.
+              E o ponto decisivo: o "start" do pin e essa posicao, e ela muda
+              sempre que qualquer coisa ACIMA da secao muda de altura - o mapa
+              tem aspect-ratio 16/9, os paddings de .map-explore sao em vw, os
+              titulos sao clamp() em vw, as fontes do Google chegam depois. Nada
+              disso mexe na largura do trilho.
+           4. window.innerHeight - os respiros do painel preso sao em vh.
 
-                    // Vem antes da checagem de largura de proposito: escolher
-                    // um destino nao muda a geometria, mas recria as cartas,
-                    // e sem isto os gatilhos ficariam orfaos e o surgimento
-                    // pararia de acontecer depois do primeiro clique.
-                    buildCardReveals();
+           A versao anterior comparava so (1). Como o pin e ancorado em (3), todo
+           resize/edicao de CSS que mudava a altura da pagina sem mudar a largura
+           do trilho passava batido: o ScrollTrigger seguia com o start medido no
+           layout antigo. Dai os sintomas - a secao prendia cedo demais (ainda em
+           "Explore o mundo"), tarde demais (perto do rodape), ou deixava um vao
+           entre o mapa e os destinos. E acontecia justamente nas telas largas,
+           onde a carta bate no teto de 380px e o gap no de 28px e (1) para de
+           variar de vez.
 
-                    // Escolher um destino re-renderiza o trilho, mas so troca
-                    // classes: a geometria fica identica. Remedir ali seria
-                    // trabalho jogado fora - e pior, cairia bem no caso em que
-                    // a secao esta presa, que e quando o ScrollTrigger mede a
-                    // secao ainda "fixed" e crava um start errado. Sem mudanca
-                    // de tamanho, nao ha nada para remedir.
-                    const trackWidth = track.scrollWidth;
-                    if (trackWidth === lastTrackWidth) return;
+           Comparar a assinatura inteira - em vez de simplesmente remedir sempre -
+           preserva o motivo pelo qual o guarda existe: escolher um destino recria
+           as cartas trocando so classes, a geometria fica identica, e remedir ali
+           (com a secao presa e "fixed") cravaria um start errado e jogaria a
+           pagina para o rodape. */
+        function readGeometrySignature() {
+            return [
+                track.scrollWidth,
+                track.offsetHeight,
+                getSectionTop(),
+                window.innerHeight
+            ].join("|");
+        }
 
-                    lastTrackWidth = trackWidth;
+        // ScrollTrigger.refresh() remede a pagina inteira e a busca chama um
+        // render por tecla digitada, entao no maximo um refresh por quadro -
+        // as demais chamadas (inclusive as do ResizeObserver abaixo) caem no
+        // mesmo agendamento.
+        function scheduleRefresh() {
+            if (pendingRefresh) return;
 
-                    rewindToSectionStart();
-                    applyRefresh();
-                });
+            pendingRefresh = window.requestAnimationFrame(() => {
+                pendingRefresh = 0;
+
+                // Vem antes da checagem de geometria de proposito: escolher
+                // um destino nao muda a geometria, mas recria as cartas,
+                // e sem isto os gatilhos ficariam orfaos e o surgimento
+                // pararia de acontecer depois do primeiro clique.
+                buildCardReveals();
+
+                const geometry = readGeometrySignature();
+                if (geometry === lastGeometry) return;
+
+                lastGeometry = geometry;
+
+                rewindToSectionStart();
+                applyRefresh();
+
+                // Remedir move a secao (o pin-spacer ganha/perde altura), entao
+                // a assinatura de agora e outra. Guardamos a posterior para o
+                // proximo agendamento nao achar que ainda ha o que corrigir e
+                // entrar em ciclo.
+                lastGeometry = readGeometrySignature();
+            });
+        }
+
+        // O resize da janela e coberto pelo listener logo abaixo - mas uma
+        // edicao de CSS (padding, gap, largura das cartas), um hot-reload de
+        // CSS no editor/dev server, ou uma fonte/imagem que carrega depois
+        // mudam o scrollWidth do trilho SEM disparar um "resize" da janela.
+        // Sem isto, a distancia do pin calculada antes da mudanca fica
+        // desatualizada e o scroll horizontal trava ou pula no meio do
+        // caminho. Observar o proprio trilho cobre esses casos de uma vez,
+        // sem precisar de um listener por causa.
+        if (window.ResizeObserver) {
+            const geometryObserver = new window.ResizeObserver(scheduleRefresh);
+            geometryObserver.observe(track);
+
+            // O trilho sozinho so conta metade da historia: ele avisa quando a
+            // DISTANCIA do pin muda, nunca quando o PONTO DE PARTIDA muda. E o
+            // ponto de partida e a soma das alturas de tudo que vem antes da
+            // secao - o titulo "Mapa Interativo" e o visor do mapa, que tem
+            // aspect-ratio 16/9 e por isso muda de altura sozinho. Uma edicao de
+            // padding em .map-explore, um hot-reload de CSS ou um titulo que
+            // reflui empurram a secao para baixo sem tocar no trilho. Observar
+            // os irmaos anteriores cobre isso pela estrutura (quem esta acima
+            // define o start), sem depender de conhecer cada regra de CSS.
+            for (let sibling = getPinHolder().previousElementSibling;
+                sibling;
+                sibling = sibling.previousElementSibling) {
+                geometryObserver.observe(sibling);
             }
+        }
+
+        // As fontes do Google (Inter/Orbitron/Condiment) chegam depois do
+        // "load". Quando trocam, os titulos acima da secao refluem e a secao
+        // inteira desce alguns pixels - com o start ja medido na fonte de
+        // fallback. Um refresh aqui alinha a medicao ao layout definitivo.
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(scheduleRefresh);
+        }
+
+        // A config() la em cima desligou o auto-refresh do ScrollTrigger no
+        // resize de proposito - quem cobre esse caso agora e este listener,
+        // com debounce para nao rebobinar/remedir a cada pixel enquanto o
+        // usuario ainda esta arrastando a borda da janela (ou girando o
+        // celular). scheduleRefresh() ja chama rewindToSectionStart() antes
+        // de remedir, que e o que evita a secao pular de lugar.
+        let resizeDebounce = null;
+        window.addEventListener("resize", () => {
+            window.clearTimeout(resizeDebounce);
+            resizeDebounce = window.setTimeout(scheduleRefresh, 150);
+        });
+
+        return {
+            refresh: scheduleRefresh
         };
     }
 

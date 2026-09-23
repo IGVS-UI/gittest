@@ -449,7 +449,6 @@ main{
     display: flex;
     justify-content: center;
     position: relative;
-
     grid-column: 1 / -1;
     color: #b16ff1;
     font: 900 "Orbitron", sans-serif;
@@ -604,10 +603,32 @@ main{
 }
 
 .destination-selector-heading h3 {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.06em;
+    width: 100%;
     margin: 0;
-    font: 780 clamp(2rem, 4.2vw, 4.8rem)/1 "Inter", sans-serif;
-    letter-spacing: -0.055em;
-    text-transform: uppercase;
+    color: #ffffff;
+    font: 600 clamp(2.25rem, 13vw, 9rem)/0.82 "Inter", sans-serif;
+    letter-spacing: -0.085em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.destination-title-accent {
+    color: #b16ff1;
+    font-weight: 600;
+}
+
+.destination-title-script {
+    display: inline-block;
+    margin-right: 10px;
+    font-family: "Condiment", cursive;
+    font-size: 1em;
+    font-weight: 400;
+    letter-spacing: -0.08em;
+    transform: translateY(0.04em);
 }
 
 @media (max-width: 1000px) {
@@ -674,10 +695,6 @@ main{
     text-align: center;
 }
 
-.map-explorer-heading > span,
-.destination-selector-heading > span {
-    font: 800 0.78rem/1 "Orbitron", sans-serif;
-}
 
 .map-explorer-heading h2 {
     display: flex;
@@ -719,6 +736,7 @@ main{
 .map-viewer {
     position: relative;
     background: #151219;
+    margin-bottom: clamp(40px, 6vw, 88px);
     scroll-margin-top: 110px;
 }
 
@@ -1027,6 +1045,26 @@ main{
    DESTINOS — SCROLL VERTICAL CONVERTIDO EM HORIZONTAL
 ================================================== */
 
+/* Para medir onde cada seção começa, o GSAP ScrollTrigger leva o scroll da
+   página para 0 e lê as posições na MESMA passada síncrona, devolvendo o
+   scroll logo em seguida. Com "scroll-behavior: smooth" no elemento raiz
+   (vem de rep/nav_barblack.css, compartilhado com as outras páginas) esse
+   scroll vira animação: nada se move a tempo da leitura, e o ScrollTrigger
+   grava o "start" do pin com o scroll atual embutido como erro —
+   start = posição real − scrollY. Por isso a seção só ficava no lugar
+   quando a página era medida no topo: qualquer remedição feita com a página
+   rolada (resize, edição de CSS, busca, troca de fonte) deslocava
+   "Destinos em destaque" exatamente o tanto que o usuário havia rolado.
+
+   Usamos :root (0,1,0) em vez de html (0,0,1) de propósito: nav_barblack.css
+   é carregado DEPOIS deste arquivo, então empatar na especificidade perderia
+   pela ordem. Nada de suavidade se perde — quem dá inércia ao scroll aqui é
+   o Lenis, e os scrolls suaves intencionais do explore.js pedem
+   behavior: "smooth" explicitamente, o que continua valendo sobre o CSS. */
+:root {
+    scroll-behavior: auto;
+}
+
 .destination-selector {
     position: relative;
     padding: clamp(96px, 10vw, 160px) 0 clamp(88px, 9vw, 140px);
@@ -1046,8 +1084,6 @@ main{
 
 .destination-selector-heading h3 {
     max-width: 1100px;
-    font-size: clamp(2.4rem, 5.2vw, 5.8rem);
-    line-height: 0.94;
 }
 
 .destination-selector-heading p {
@@ -1187,6 +1223,15 @@ main{
 }
 
 @media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+    /* So existe para o JS conferir se o breakpoint dos dois arquivos ainda
+       bate (ver warnIfBreakpointMismatch() em explore.js). Fica dentro deste
+       mesmo bloco de proposito: se o "min-width" acima mudar, o valor abaixo
+       acompanha sozinho - nao ha um terceiro numero para lembrar de manter
+       igual. */
+    :root {
+        --destination-breakpoint-sync: 1;
+    }
+
     body.destination-horizontal-enabled {
         overflow-x: clip;
     }
@@ -1221,7 +1266,7 @@ main{
     }
 
     body.destination-horizontal-enabled .destination-selector-heading h3 {
-        font-size: clamp(2.1rem, 3.8vw, 4.5rem);
+        font-size: clamp(2.25rem, 13vw, 9rem);
     }
 
     body.destination-horizontal-enabled .destination-search {
