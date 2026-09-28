@@ -676,37 +676,6 @@ button {
     background: #000;
 }
 
-/*responsividade nasa*/
-/* Simulador NASA — notebooks */
-@media screen and (min-width: 1024px) and (max-width: 1440px) {
-    .nasa-simulator-frame {
-        height: 560px;
-    }
-}
-
-/* Simulador NASA — celulares e tablets */
-@media screen and (max-width: 767px) {
-    .nasa-simulator {
-        padding-bottom: 90px;
-    }
-
-    .nasa-simulator-topline {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .nasa-simulator-frame {
-        height: 420px;
-    }
-}
-
-/* Simulador NASA — celulares pequenos */
-@media screen and (max-width: 420px) {
-    .nasa-simulator-frame {
-        height: 320px;
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
 

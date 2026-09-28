@@ -390,10 +390,3 @@
             width: 50px;
             height: auto;
         }
-
-        @media (hover: none), (pointer: coarse) {
-            .menu-card-column {
-                transform: none !important;
-                will-change: auto;
-            }
-        }

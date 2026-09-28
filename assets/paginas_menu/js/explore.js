@@ -183,8 +183,8 @@
        nativo + scroll-snap definidos em explore.css.
     ================================================================== */
 
-    // Mesmos breakpoints do bloco "DESTINOS - SCROLL VERTICAL CONVERTIDO EM
-    // HORIZONTAL" em explore.css. Se mudar aqui, mude la.
+    // Mesmos breakpoints do bloco "DESTINOS EM DESTAQUE - TRILHO HORIZONTAL"
+    // em responsividade/explore_responsivo.css. Se mudar aqui, mude la.
     const HORIZONTAL_PINNED_QUERY = "(min-width: 901px) and (prefers-reduced-motion: no-preference)";
     const HORIZONTAL_NATIVE_QUERY = "(max-width: 900px), (prefers-reduced-motion: reduce)";
 
@@ -302,8 +302,9 @@
 
         // Aviso de dev: o breakpoint que decide o modo preso e definido em
         // dois lugares que precisam ficar iguais - HORIZONTAL_PINNED_QUERY
-        // aqui em cima e o media query equivalente em explore.css (bloco
-        // "DESTINOS - SCROLL VERTICAL CONVERTIDO EM HORIZONTAL"). Se so um
+        // aqui em cima e o media query equivalente em
+        // responsividade/explore_responsivo.css (bloco "DESTINOS EM
+        // DESTAQUE - TRILHO HORIZONTAL"). Se so um
         // dos dois for editado, o JS pode prender a secao num tamanho de
         // tela em que o CSS ainda nao aplicou o layout do modo preso (ou
         // vice-versa), e o trilho quebra visualmente. O CSS marca esse
@@ -319,7 +320,7 @@
             if (cssSaysPinned !== jsSaysPinned) {
                 console.warn(
                     "[explore] O breakpoint do trilho horizontal de destinos esta " +
-                    "dessincronizado entre explore.css e explore.js (HORIZONTAL_PINNED_QUERY / " +
+                    "dessincronizado entre explore_responsivo.css e explore.js (HORIZONTAL_PINNED_QUERY / " +
                     "HORIZONTAL_NATIVE_QUERY). Atualize os dois juntos."
                 );
             }
