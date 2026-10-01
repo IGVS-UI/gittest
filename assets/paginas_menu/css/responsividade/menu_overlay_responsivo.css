@@ -25,13 +25,17 @@
     /* "EXPLORE" em BBH Bartle 25px ocupa ~234px: em telas estreitas empurrava
        o botão de menu para fora e espremia o logo central até sumir. */
     .nav-left h1 {
-        font-size: clamp(13px, 4.2vw, 25px);
+        font-size: clamp(15px, 3.2vw, 20px);
     }
 
     /* interaçoes.css não zera o padding padrão da lista (as outras páginas
        zeram via reset global); no celular esses 40px empurravam o header. */
     .nav-left ul {
         padding-left: 0;
+    }
+    .auth-nav-login {
+       width: auto;
+       padding: 14px;
     }
 }
 

@@ -190,6 +190,22 @@
 
     let smoothScroll = null;
 
+    // Preenchido so no modo nativo (telas estreitas): a viewport do trilho,
+    // que ali rola sozinha na horizontal.
+    let nativeHorizontalArea = null;
+
+    // O Lenis escuta todo "wheel"/"touchmove" da janela e cancela o gesto
+    // assim que ele tem QUALQUER componente vertical - e um deslize de
+    // trackpad ou de dedo sobre as cartas quase nunca e 100% horizontal.
+    // Resultado: o gesto virava scroll da pagina e o trilho nao saia do
+    // lugar. Gestos predominantemente horizontais sobre o trilho nativo
+    // ficam com o navegador.
+    function shouldLenisHandle({ deltaX, deltaY, event }) {
+        if (!nativeHorizontalArea || !nativeHorizontalArea.contains(event.target)) return true;
+
+        return Math.abs(deltaX) <= Math.abs(deltaY);
+    }
+
     // O Lenis da inercia ao scroll vertical. Como o trilho horizontal e
     // "scrubbado" por esse mesmo scroll, os dois precisam andar no mesmo
     // relogio - por isso o Lenis e alimentado pelo ticker do GSAP em vez de
@@ -199,7 +215,7 @@
         if (!window.Lenis || !window.gsap || !window.ScrollTrigger) return null;
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
 
-        smoothScroll = new window.Lenis();
+        smoothScroll = new window.Lenis({ virtualScroll: shouldLenisHandle });
         smoothScroll.on("scroll", window.ScrollTrigger.update);
         window.gsap.ticker.add((time) => smoothScroll.raf(time * 1000));
         window.gsap.ticker.lagSmoothing(0);
@@ -506,10 +522,51 @@
         });
 
         media.add(HORIZONTAL_NATIVE_QUERY, () => {
+            let wheelLockUntil = 0;
+
+            // Aqui nao ha pin para converter o scroll vertical em horizontal,
+            // entao a roda do mouse sobre as cartas so rolava a pagina. Cada
+            // "giro" vertical sobre o trilho avanca uma carta; nas pontas o
+            // evento segue para a pagina normalmente. O bloqueio curto evita
+            // que a rajada de eventos de um trackpad pule varias cartas.
+            function handleNativeWheel(event) {
+                if (event.ctrlKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+
+                const direction = Math.sign(event.deltaY);
+                const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+                const canMove = direction > 0
+                    ? viewport.scrollLeft < maxScroll - 1
+                    : viewport.scrollLeft > 1;
+
+                if (!canMove) return;
+
+                event.preventDefault();
+                // Impede o Lenis de rolar a pagina com este mesmo evento.
+                event.lenisStopPropagation = true;
+
+                const now = performance.now();
+                if (now < wheelLockUntil) return;
+                wheelLockUntil = now + 450;
+
+                const firstCard = track.firstElementChild;
+                const gap = parseFloat(window.getComputedStyle(track).columnGap) || 0;
+                const step = firstCard
+                    ? firstCard.getBoundingClientRect().width + gap
+                    : viewport.clientWidth * 0.8;
+
+                viewport.scrollBy({ left: direction * step });
+            }
+
+            nativeHorizontalArea = viewport;
             viewport.addEventListener("scroll", syncNativeProgress, { passive: true });
+            viewport.addEventListener("wheel", handleNativeWheel, { passive: false });
             syncNativeProgress();
 
-            return () => viewport.removeEventListener("scroll", syncNativeProgress);
+            return () => {
+                nativeHorizontalArea = null;
+                viewport.removeEventListener("scroll", syncNativeProgress);
+                viewport.removeEventListener("wheel", handleNativeWheel);
+            };
         });
 
         // invalidateOnRefresh remede a distancia do pin sozinho; no modo
