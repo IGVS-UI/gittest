@@ -234,7 +234,7 @@
             <p>
                 Conheça lugares incríveis e viva experiências imersivas através da realidade virtual.
             </p>
-      </div>
+       </div>
 
     </section>
 </main>
@@ -274,7 +274,7 @@
                 <iframe
                     id="map-frame"
                     title="Visualização 360 graus do Coliseu, em Roma"
-                    src="https://www.google.com/maps/embed?pb=!4v1776799049750!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJQ0VqYzdTRWc.!2m2!1d41.8902101706461!2d12.49223093463763!3f318.7032!4f0!5f0.7820865974627469"
+                    src="https://www.google.com/maps/embed?pb=!4v1776799049750!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJQ0VqYzdTRWc.!2m2!1d41.8902101706461!2d12.49223093463763!3f318.7032!4f0!5f0.7820865[...]"
                     loading="lazy"
                     allowfullscreen
                     referrerpolicy="no-referrer-when-downgrade">
@@ -336,12 +336,13 @@
     class="destination-horizontal-viewport"
     id="destination-horizontal-viewport"
     tabindex="0"
-    aria-label="Destinos disponíveis. Use o scroll da página ou as setas do teclado para navegar horizontalmente.">
+    data-active-label="COLISEU"
+    aria-label="Cena de destinos. Continue rolando a página ou use as setas do teclado para avançar entre as paisagens.">
     <div class="destination-cards" id="destination-cards"></div>
 </div>
 
 <div class="destination-horizontal-footer">
-    <span aria-hidden="true">ROLE PARA EXPLORAR</span>
+    <span class="destination-scene-counter" id="destination-scene-counter" aria-live="polite">01 / 03</span>
     <div
         class="destination-horizontal-progress"
         id="destination-horizontal-progress"
@@ -352,6 +353,7 @@
         aria-valuenow="0">
         <span></span>
     </div>
+    <span class="destination-scene-instruction" aria-hidden="true">ROLE PARA EXPLORAR</span>
 </div>
 
 <p class="destination-empty" id="destination-empty" role="status" hidden>
