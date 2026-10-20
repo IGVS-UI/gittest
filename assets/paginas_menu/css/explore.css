@@ -902,9 +902,7 @@ main{
 }
 
 /* ==================================================
-   DESTINOS — SCROLL VERTICAL CONVERTIDO EM HORIZONTAL
-   (o modo "preso" e os tamanhos por tela ficam em
-   responsividade/explore_responsivo.css)
+   DESTINOS — CENA HORIZONTAL GUIADA PELO SCROLL
 ================================================== */
 
 /* Para medir onde cada seção começa, o GSAP ScrollTrigger leva o scroll da
@@ -929,7 +927,10 @@ main{
 
 .destination-selector {
     position: relative;
-    padding: clamp(96px, 10vw, 160px) 0 clamp(88px, 9vw, 140px);
+    isolation: isolate;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    padding: clamp(82px, 9vw, 140px) 0 clamp(72px, 8vw, 120px);
 }
 
 .destination-sticky-panel {
@@ -940,7 +941,8 @@ main{
 .destination-selector-heading {
     align-items: center;
     max-width: 1180px;
-    margin: 0 auto clamp(36px, 4.5vw, 64px);
+    margin: 0 auto clamp(24px, 3vw, 42px);
+    padding: 0 clamp(20px, 5vw, 80px);
     text-align: center;
 }
 
@@ -948,24 +950,10 @@ main{
     max-width: 1100px;
 }
 
-.destination-selector-heading p {
-    margin: 2px 0 0;
-    color: #b16ff1;
-    font: 500 clamp(1rem, 1.65vw, 1.45rem)/1.4 "Inter", sans-serif;
-}
-
 .destination-horizontal-viewport {
-    --destination-viewport-pad: clamp(20px, 5vw, 80px);
-    --destination-gap: clamp(14px, 1.8vw, 28px);
-    /* Largura de sangria. O padrao 100vw e so o fallback: 100vw conta a barra
-       de rolagem, entao um trilho com essa largura sobra ~7px para fora da
-       area visivel de cada lado e corta as cartas das pontas. O JS mede a
-       largura realmente visivel e sobrescreve esta variavel - ver
-       syncBleedWidth() em explore.js. */
-    --destination-bleed: 100vw;
-    width: var(--destination-bleed);
-    margin-left: calc(50% - (var(--destination-bleed) / 2));
-    padding: 4px var(--destination-viewport-pad) 24px;
+    position: relative;
+    width: 100%;
+    padding: 6px clamp(20px, 5vw, 80px) 24px;
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-inline: contain;
@@ -986,10 +974,7 @@ main{
 .destination-cards {
     display: flex;
     width: max-content;
-    gap: var(--destination-gap, clamp(18px, 2.2vw, 36px));
-    /* O deslocamento horizontal e escrito pelo GSAP direto no transform
-       inline do trilho - ver createHorizontalDestinationController(). */
-    will-change: transform;
+    gap: clamp(18px, 2.2vw, 36px);
 }
 
 .destination-card {
@@ -1008,14 +993,24 @@ main{
    continua no DOM (o JS usa a barra de progresso internamente), só não
    é mais exibido. */
 .destination-horizontal-footer {
-    display: none;
+    display: grid;
+    grid-template-columns: auto minmax(80px, 160px) auto;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    width: min(calc(100% - 40px), 1180px);
+    margin: 14px auto 0;
 }
 
 .destination-horizontal-footer > span {
-    flex: 0 0 auto;
     color: rgba(255, 255, 255, 0.52);
-    font: 700 0.66rem/1 "Orbitron", sans-serif;
-    letter-spacing: 0.15em;
+    font: 700 0.64rem/1 "Orbitron", sans-serif;
+    letter-spacing: 0.14em;
+    white-space: nowrap;
+}
+
+.destination-scene-counter {
+    color: #b16ff1 !important;
 }
 
 .destination-horizontal-progress {
@@ -1032,16 +1027,186 @@ main{
     background: linear-gradient(90deg, #6939d2, #b16ff1);
     transform: scaleX(var(--destination-progress, 0));
     transform-origin: left center;
-    transition: transform 80ms linear;
+}
+
+@media (min-width: 780px) {
+    .destination-card {
+        flex-basis: clamp(720px, 78vw, 1160px);
+        min-height: 440px;
+    }
+
+    .destination-card-stage {
+        display: grid;
+        grid-template-columns: minmax(300px, 0.96fr) minmax(340px, 1.04fr);
+    }
+
+    .destination-card-image {
+        min-height: 0;
+        height: 100%;
+    }
+
+    .destination-card-image img {
+        width: 90%;
+        height: 82%;
+        max-height: 420px;
+    }
+
+    .destination-card-copy {
+        justify-content: center;
+        padding: clamp(30px, 4vw, 58px);
+    }
+
+    .destination-card-copy strong {
+        font-size: clamp(2rem, 3.6vw, 4rem);
+    }
+
+    .destination-card-controls {
+        position: absolute;
+        right: clamp(30px, 4vw, 58px);
+        bottom: 24px;
+        z-index: 3;
+        padding: 0;
+    }
+}
+
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+    body.destination-horizontal-enabled {
+        overflow-x: clip;
+    }
+
+    body.destination-horizontal-enabled .destination-selector {
+        height: 100vh;
+        height: 100svh;
+        padding: 0;
+    }
+
+    body.destination-horizontal-enabled .destination-sticky-panel {
+        position: relative;
+        display: grid;
+        grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+        width: 100vw;
+        height: 100vh;
+        height: 100svh;
+        padding: clamp(14px, 2.2vh, 30px) 0 clamp(12px, 2vh, 26px);
+        overflow: hidden;
+        background:
+            radial-gradient(circle at 50% 72%, rgba(105, 57, 210, 0.16), transparent 36%),
+            linear-gradient(180deg, #100d13 0%, #141019 58%, #100d13 100%);
+    }
+
+    body.destination-horizontal-enabled .destination-selector-heading {
+        gap: 5px;
+        margin-bottom: clamp(7px, 1.1vh, 14px);
+    }
+
+    body.destination-horizontal-enabled .destination-selector-heading h3 {
+        font-size: clamp(2rem, 3.5vw, 4.2rem);
+    }
+
+    body.destination-horizontal-enabled .destination-search {
+        min-height: 48px;
+    }
+
+    body.destination-horizontal-enabled .destination-search-status {
+        margin: 5px auto 4px;
+    }
+
+    body.destination-horizontal-enabled .destination-horizontal-viewport {
+        min-height: 0;
+        padding: 0;
+        overflow: hidden;
+        scroll-snap-type: none;
+        scroll-behavior: auto;
+    }
+
+    body.destination-horizontal-enabled .destination-cards {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: max-content;
+        height: 100%;
+        padding: 0 14vw;
+        gap: clamp(28px, 4vw, 68px);
+        box-sizing: content-box;
+        will-change: transform;
+    }
+
+    body.destination-horizontal-enabled .destination-card {
+        position: relative;
+        flex: 0 0 min(72vw, 1080px);
+        height: clamp(330px, 47vh, 510px);
+        min-height: 0;
+        border-color: rgba(255, 255, 255, 0.14);
+        border-radius: clamp(22px, 2.2vw, 34px);
+        transform-origin: center;
+        scroll-snap-align: none;
+        will-change: transform, opacity;
+        transition: border-color 220ms ease, box-shadow 220ms ease;
+    }
+
+    body.destination-horizontal-enabled .destination-card:hover,
+    body.destination-horizontal-enabled .destination-card:focus-within,
+    body.destination-horizontal-enabled .destination-card.is-selected {
+        border-color: rgba(177, 111, 241, 0.68);
+        box-shadow: 0 34px 110px rgba(0, 0, 0, 0.5), 0 0 80px rgba(105, 57, 210, 0.14);
+    }
+
+    body.destination-horizontal-enabled .destination-card-stage {
+        height: 100%;
+    }
+
+    body.destination-horizontal-enabled .destination-card:hover .destination-card-image img,
+    body.destination-horizontal-enabled .destination-card:focus-visible .destination-card-image img {
+        transform: scale(1.035);
+    }
+
+    body.destination-horizontal-enabled .destination-card-copy {
+        padding: clamp(28px, 3.1vw, 52px);
+    }
+
+    body.destination-horizontal-enabled .destination-card-copy strong {
+        font-size: clamp(2rem, 3.4vw, 3.8rem);
+    }
+
+    body.destination-horizontal-enabled .destination-card-copy p {
+        margin: 12px 0 18px;
+    }
+
+    body.destination-horizontal-enabled .destination-card-controls {
+        right: clamp(28px, 3.1vw, 52px);
+        bottom: 18px;
+    }
+
+    body.destination-horizontal-enabled .destination-horizontal-footer {
+        margin-top: clamp(5px, 0.8vh, 10px);
+    }
+}
+
+@media (max-width: 779px) {
+    .destination-selector-heading h3 {
+        font-size: clamp(2.25rem, 11vw, 4.3rem);
+    }
+
+    .destination-horizontal-footer {
+        grid-template-columns: auto minmax(70px, 1fr) auto;
+    }
+
+    .destination-scene-instruction {
+        font-size: 0 !important;
+    }
+
+    .destination-scene-instruction::after {
+        content: "DESLIZE";
+        font-size: 0.6rem;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .destination-cards {
+    .destination-card,
+    .destination-card-image img,
+    .destination-card-placeholder,
+    .destination-card-copy {
         transform: none !important;
-        will-change: auto;
-    }
-
-    .destination-horizontal-progress > span {
-        transition: none;
+        will-change: auto !important;
     }
 }
