@@ -1,0 +1,27 @@
+/* ══════════════════════════════════════════════════════
+   PÁGINA INICIAL (HOME) — RESPONSIVIDADE
+   Carregar DEPOIS de pt.css (último <link> do index.html).
+   Header e menu ficam em menu_overlay_responsivo.css (compartilhado).
+
+   Breakpoints do projeto (desktop-first):
+     > 1440px      desktop / telas grandes  → estilos base de pt.css
+     1024–1440px   notebooks                → @media (max-width: 1440px)
+     768–1023px    tablets                  → @media (max-width: 1023px)
+     481–767px     celulares grandes        → @media (max-width: 767px)
+     ≤ 480px       celulares pequenos       → @media (max-width: 480px)
+══════════════════════════════════════════════════════ */
+
+
+/* ══════════════════════════════════════════════════════
+   HERO (canvas com efeito de máscara)
+   hero_mask.js grava a altura do canvas inline como
+   window.innerHeight - 80px. Em navegadores móveis 100vh é maior que a
+   área visível (barra de endereço), então a altura mínima em vh deixava
+   uma faixa escura abaixo do canvas. Aqui a seção passa a ter a altura
+   do próprio canvas.
+══════════════════════════════════════════════════════ */
+@media (max-width: 1023px) {
+    .hero-section {
+        min-height: 0;
+    }
+}

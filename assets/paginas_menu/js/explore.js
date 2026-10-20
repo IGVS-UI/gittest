@@ -1,131 +1,128 @@
 (function () {
     "use strict";
 
+    // Ordem e dados definidos a partir do design do Figma do projeto (seção ".map-explore").
+    // Para adicionar um novo destino no futuro: basta incluir um novo objeto neste array,
+    // com uma imagem quadrada (~608x608px) em "image". O trilho horizontal (GSAP ScrollTrigger)
+    // recalcula automaticamente a largura total e a distância de scroll — nenhum outro ajuste
+    // de código é necessário além de fornecer a imagem.
     const destinations = Object.freeze([
-        {
-            id: "coliseu-roma",
-            name: "Coliseu",
-            city: "Roma",
-            country: "Itália",
-            category: "História",
-            keywords: ["anfiteatro", "romano", "monumento", "roma antiga"],
-            description: "Observe de perto a arquitetura do anfiteatro que marcou a história do Império Romano.",
-            image: "../img/ai-generated-ancient-colosseum-structure-free-png 1.png",
-            imageAlt: "Ilustração do Coliseu de Roma",
-            gradient: "radial-gradient(circle at 50% 36%, #8055a7 0%, #30213d 52%, #100d13 100%)",
-            embedUrl: "https://www.google.com/maps/embed?pb=!4v1776799049750!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJQ0VqYzdTRWc.!2m2!1d41.8902101706461!2d12.49223093463763!3f318.7032!4f0!5f0.7820865974627469",
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Colosseum+Rome+Italy"
-        },
         {
             id: "cristo-redentor-rio",
             name: "Cristo Redentor",
             city: "Rio de Janeiro",
             country: "Brasil",
-            category: "Arquitetura",
-            keywords: ["corcovado", "cristo", "maravilha do mundo", "rio"],
             description: "Contemple o Rio de Janeiro a partir de um de seus cartões-postais mais reconhecidos.",
-            image: "../img/pngtree-christ-the-redeemer-png-jesus-christ-statue-in-rio-de-janeiro-png-image_20950810 1.png",
+            image: "../img/rio_de_janeiro.png",
             imageAlt: "Ilustração do Cristo Redentor",
-            gradient: "radial-gradient(circle at 50% 34%, #376d82 0%, #182b3d 52%, #0d1117 100%)",
             embedUrl: "https://www.google.com/maps?layer=c&cbll=-22.951916,-43.210487&cbp=11,28,0,0,0&output=svembed",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Christ+the+Redeemer+Rio+de+Janeiro+Brazil"
         },
         {
-            id: "torre-eiffel-paris",
-            name: "Torre Eiffel",
-            city: "Paris",
-            country: "França",
-            category: "Arquitetura",
-            keywords: ["eiffel", "torre", "champ de mars", "paris"],
-            description: "Passeie pelos arredores do monumento que se tornou símbolo de Paris e da França.",
-            image: "../img/eiffel-tower-in-paris-france-close-up-free-png 1.png",
-            imageAlt: "Ilustração da Torre Eiffel",
-            gradient: "radial-gradient(circle at 50% 34%, #71537d 0%, #2d2336 52%, #100d13 100%)",
-            embedUrl: "https://www.google.com/maps/embed?pb=!4v1787590000000!6m8!1m7!1sf-ouK7bxmBzLT9S9-tKCQw!2m2!1d48.858363!2d2.2946418!3f310.66!4f0.35!5f0.7820865974627469",
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Eiffel+Tower+Paris+France"
+            id: "taj-mahal-agra",
+            name: "Taj Mahal",
+            city: "Angra",
+            country: "Índia",
+            description: "Admire a simetria e os detalhes em mármore de um dos maiores símbolos de amor do mundo.",
+            // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
+            image: "../img/taj_mahal.png",
+            imageAlt: "Vista do Taj Mahal",
+            embedUrl: "https://www.google.com/maps?q=Taj+Mahal,+Agra,+India&output=embed",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Taj+Mahal+Agra+India"
+        },
+        {
+            id: "coliseu-roma",
+            name: "Coliseu",
+            city: "Roma",
+            country: "Itália",
+            description: "Observe de perto a arquitetura do anfiteatro que marcou a história do Império Romano.",
+            image: "../img/coliseu.png",
+            imageAlt: "Ilustração do Coliseu de Roma",
+            embedUrl: "https://www.google.com/maps/embed?pb=!4v1776799049750!6m8!1m7!1sCAoSFkNJSE0wb2dLRUlDQWdJQ0VqYzdTRWc.!2m2!1d41.8902101706461!2d12.49223093463763!3f318.7032!4f0!5f0.7820865974627469",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Colosseum+Rome+Italy"
+        },
+        {
+            id: "opera-sydney",
+            name: "Ópera de Sydney",
+            city: "Sydney",
+            country: "Austrália",
+            description: "Aprecie as conchas brancas que se tornaram o símbolo arquitetônico da Austrália.",
+            // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
+            image: "../img/opera_sydney.png",
+            imageAlt: "Vista da Ópera de Sydney",
+            embedUrl: "https://www.google.com/maps?q=Sydney+Opera+House,+Sydney,+Australia&output=embed",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Sydney+Opera+House+Australia"
+        },
+        {
+            id: "monte-fuji-japao",
+            name: "Monte Fuji",
+            city: "Honshu",
+            country: "Japão",
+            description: "Contemple o vulcão mais alto do Japão, cercado por lagos e vilarejos tradicionais.",
+            // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
+            image: "../img/monte_fuji.png",
+            imageAlt: "Vista do Monte Fuji",
+            embedUrl: "https://www.google.com/maps?q=Mount+Fuji,+Japan&output=embed",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Mount+Fuji+Japan"
         },
         {
             id: "machu-picchu-cusco",
-            name: "Machu Picchu",
+            name: "Machu Pichu",
             city: "Cusco",
             country: "Peru",
-            category: "História",
-            keywords: ["inca", "andes", "ruínas", "patrimônio mundial"],
             description: "Explore caminhos, terraços e construções da histórica cidadela inca entre as montanhas.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
-            image: null,
+            image: "../img/machu_pichu.png",
             imageAlt: "Vista de Machu Picchu",
-            gradient: "linear-gradient(145deg, #5f7441 0%, #283c2e 48%, #121613 100%)",
             embedUrl: "https://www.google.com/maps/embed?pb=!4v1787590000000!6m8!1m7!1smD4ThA4SthLifTAdt0lb4A!2m2!1d-13.1650709!2d-72.5447154!3f329.33!4f-12.19!5f0.7820865974627469",
             mapsUrl: "https://www.google.com/maps/search/?api=1&query=Machu+Picchu+Cusco+Peru"
         },
         {
-            id: "times-square-nova-york",
-            name: "Times Square",
+            id: "estatua-liberdade-ny",
+            name: "Estátua da Liberdade",
             city: "Nova York",
             country: "Estados Unidos",
-            category: "Cultura",
-            keywords: ["manhattan", "broadway", "nova york", "luzes", "cidade"],
-            description: "Entre no ritmo de Manhattan em um dos cruzamentos urbanos mais vibrantes do mundo.",
+            description: "Conheça o monumento que recebe visitantes na baía de Nova York há mais de um século.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
-            image: null,
-            imageAlt: "Vista da Times Square",
-            gradient: "linear-gradient(145deg, #9b2e81 0%, #31256d 48%, #101023 100%)",
-            embedUrl: "https://www.google.com/maps?layer=c&cbll=40.758000,-73.985500&cbp=11,5,0,0,0&output=svembed",
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Times+Square+New+York+USA"
+            image: "../img/estatua_liberdade.png",
+            imageAlt: "Vista da Estátua da Liberdade",
+            embedUrl: "https://www.google.com/maps?q=Statue+of+Liberty,+New+York&output=embed",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Statue+of+Liberty+New+York"
         },
         {
-            id: "cataratas-iguacu-parana",
-            name: "Cataratas do Iguaçu",
-            city: "Paraná",
-            country: "Brasil",
-            category: "Natureza",
-            keywords: ["cataratas", "iguaçu", "cachoeira", "parque nacional", "foz do iguaçu"],
-            description: "Aproxime-se da força das quedas-d'água em uma das paisagens naturais mais impressionantes do Brasil.",
+            id: "piramides-gize",
+            name: "Pirâmides de Gizé",
+            city: "Gizé",
+            country: "Egito",
+            description: "Viaje até o planalto de Gizé e conheça de perto as últimas maravilhas do mundo antigo.",
             // Substitua null por "../img/nome-do-arquivo.png" quando a imagem for adicionada.
-            image: null,
-            imageAlt: "Vista das Cataratas do Iguaçu",
-            gradient: "linear-gradient(145deg, #187a73 0%, #244c47 48%, #0d1716 100%)",
-            embedUrl: "https://www.google.com/maps?layer=c&cbll=-25.695300,-54.436700&cbp=11,30,0,0,0&output=svembed",
-            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Iguazu+Falls+Parana+Brazil"
+            image: "../img/piramides_gize.png",
+            imageAlt: "Vista das Pirâmides de Gizé",
+            embedUrl: "https://www.google.com/maps?q=Pyramids+of+Giza,+Egypt&output=embed",
+            mapsUrl: "https://www.google.com/maps/search/?api=1&query=Pyramids+of+Giza+Egypt"
         }
     ]);
 
-    const destinationGroups = Object.freeze([
-        { id: "historical-icons", destinationIds: ["coliseu-roma", "cristo-redentor-rio"] },
-        { id: "world-landmarks", destinationIds: ["torre-eiffel-paris", "machu-picchu-cusco"] },
-        { id: "city-and-nature", destinationIds: ["times-square-nova-york", "cataratas-iguacu-parana"] }
-    ]);
-
     const destinationById = new Map(destinations.map((destination) => [destination.id, destination]));
-    const filterState = { query: "", category: "all" };
-    const activeDestinationByGroup = new Map(
-        destinationGroups.map((group) => [group.id, group.destinationIds[0]])
-    );
-    const switchTimers = new Map();
+    const filterState = { query: "" };
     let selectedDestinationId = destinations[0].id;
 
     function normalizeSearchText(value) {
         return String(value)
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[̀-ͯ]/g, "")
             .toLocaleLowerCase("pt-BR")
             .trim();
     }
 
     function destinationMatchesFilters(destination) {
-        const matchesCategory = filterState.category === "all" || destination.category === filterState.category;
-        if (!matchesCategory) return false;
-
         if (!filterState.query) return true;
 
         const searchableText = normalizeSearchText([
             destination.id,
             destination.name,
             destination.city,
-            destination.country,
-            destination.category,
-            ...destination.keywords
+            destination.country
         ].join(" "));
 
         return searchableText.includes(filterState.query);
@@ -142,32 +139,19 @@
             </div>`;
     }
 
-    function createImageMarkup(destination) {
+    function createMediaMarkup(destination) {
         if (!destination.image) return createPlaceholderMarkup(destination);
 
         return `<img src="${destination.image}" alt="${destination.imageAlt}" loading="lazy">`;
     }
 
-    function createCardMarkup(group, groupIndex, destination, visibleDestinations) {
+    function createCardMarkup(destination) {
         const isSelected = destination.id === selectedDestinationId;
-        const selectionLabel = isSelected ? "PAISAGEM SELECIONADA" : "VER PAISAGEM EM 360°";
-        const indicators = visibleDestinations.map((item) => {
-            const isActive = item.id === destination.id;
-            return `
-                <button
-                    class="destination-card-dot${isActive ? " is-active" : ""}"
-                    type="button"
-                    data-destination-switch="${item.id}"
-                    data-group-id="${group.id}"
-                    aria-label="Exibir ${item.name} neste card"
-                    aria-pressed="${isActive}">
-                </button>`;
-        }).join("");
 
         return `
-            <article
+            <button
+                type="button"
                 class="destination-card${isSelected ? " is-selected" : ""}"
-                data-group-card="${group.id}"
                 data-destination-id="${destination.id}"
                 data-destination-name="${destination.name}"
                 data-scene-index="${groupIndex}"
@@ -191,21 +175,50 @@
                         </button>
                     </div>
                 </div>
-                <div class="destination-card-controls" role="group" aria-label="Paisagens do card ${groupIndex + 1}">
-                    ${indicators}
-                </div>
-            </article>`;
+            </button>`;
     }
 
     function createHorizontalDestinationController({ section, viewport, track, progressBar, counter }) {
         const noOpController = { refresh: function () {} };
 
-        if (!section || !viewport || !track || !progressBar) return noOpController;
+    /*gsap code Scroll horizontal*/
 
-        const horizontalMedia = window.matchMedia(
-            "(min-width: 901px) and (prefers-reduced-motion: no-preference)"
-        );
-        const progressFill = progressBar.querySelector("span");
+    /* ==================================================================
+       TRILHO HORIZONTAL DE DESTINOS  (GSAP ScrollTrigger + Lenis)
+       ------------------------------------------------------------------
+       A secao "#destination-selector" fica presa na tela (pin) enquanto o
+       scroll vertical da pagina e convertido em deslocamento horizontal do
+       trilho "#destination-cards". A distancia percorrida sai da largura
+       real do trilho, entao acrescentar destinos ou filtrar pela busca nao
+       exige ajuste manual - basta chamar refresh().
+
+       Fora do modo GSAP (telas estreitas, "prefers-reduced-motion" ou CDN
+       fora do ar) o trilho continua utilizavel com o scroll horizontal
+       nativo + scroll-snap definidos em explore.css.
+    ================================================================== */
+
+    // Mesmos breakpoints do bloco "DESTINOS EM DESTAQUE - TRILHO HORIZONTAL"
+    // em responsividade/explore_responsivo.css. Se mudar aqui, mude la.
+    const HORIZONTAL_PINNED_QUERY = "(min-width: 901px) and (prefers-reduced-motion: no-preference)";
+    const HORIZONTAL_NATIVE_QUERY = "(max-width: 900px), (prefers-reduced-motion: reduce)";
+
+    let smoothScroll = null;
+
+    // Preenchido so no modo nativo (telas estreitas): a viewport do trilho,
+    // que ali rola sozinha na horizontal.
+    let nativeHorizontalArea = null;
+
+    // O Lenis escuta todo "wheel"/"touchmove" da janela e cancela o gesto
+    // assim que ele tem QUALQUER componente vertical - e um deslize de
+    // trackpad ou de dedo sobre as cartas quase nunca e 100% horizontal.
+    // Resultado: o gesto virava scroll da pagina e o trilho nao saia do
+    // lugar. Gestos predominantemente horizontais sobre o trilho nativo
+    // ficam com o navegador.
+    function shouldLenisHandle({ deltaX, deltaY, event }) {
+        if (!nativeHorizontalArea || !nativeHorizontalArea.contains(event.target)) return true;
+
+        return Math.abs(deltaX) <= Math.abs(deltaY);
+    }
 
         let sceneCards = [];
         let horizontalTween = null;
@@ -213,8 +226,10 @@
         let refreshFrameId = null;
         let activeSceneIndex = -1;
 
-        function clamp(value, min, max) {
-            return Math.min(Math.max(value, min), max);
+    function scrollWindowTo(position) {
+        if (smoothScroll) {
+            smoothScroll.scrollTo(position);
+            return;
         }
 
         function enhancedScrollIsActive() {
@@ -380,31 +395,78 @@
             }
         }
 
-        viewport.addEventListener("keydown", (event) => {
-            if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+            activeTrigger = horizontalTween.scrollTrigger;
+            activeHorizontalTween = horizontalTween;
 
-            event.preventDefault();
+            // A viewport e focavel e o aria-label promete navegacao por
+            // setas; como aqui ela nao rola sozinha (overflow: hidden),
+            // traduzimos cada seta em um passo de scroll vertical.
+            function handleArrowKeys(event) {
+                if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+                if (!activeTrigger) return;
 
-            if (!enhancedScrollIsActive()) {
-                const direction = event.key === "ArrowLeft" || event.key === "Home" ? -1 : 1;
-                const destination = event.key === "Home"
-                    ? 0
-                    : event.key === "End"
-                        ? viewport.scrollWidth
-                        : viewport.scrollLeft + viewport.clientWidth * 0.78 * direction;
+                event.preventDefault();
 
-                viewport.scrollTo({ left: destination, behavior: "smooth" });
-                return;
+                const firstCard = track.firstElementChild;
+                const step = firstCard ? firstCard.getBoundingClientRect().width : 320;
+                const direction = event.key === "ArrowRight" ? 1 : -1;
+
+                scrollWindowTo(Math.min(
+                    activeTrigger.end,
+                    Math.max(activeTrigger.start, window.scrollY + (direction * step))
+                ));
             }
 
-            if (event.key === "Home") {
-                scrollToProgress(0);
-                return;
-            }
+            viewport.addEventListener("keydown", handleArrowKeys);
 
-            if (event.key === "End") {
-                scrollToProgress(1);
-                return;
+            // Cleanup do gsap.matchMedia: roda ao cruzar o breakpoint.
+            return () => {
+                killCardReveals();
+                activeTrigger = null;
+                activeHorizontalTween = null;
+                viewport.removeEventListener("keydown", handleArrowKeys);
+                document.body.classList.remove("destination-horizontal-enabled");
+                horizontalTween.scrollTrigger?.kill();
+                horizontalTween.kill();
+                gsapLib.set(track, { clearProps: "transform" });
+                setProgress(0);
+            };
+        });
+
+        media.add(HORIZONTAL_NATIVE_QUERY, () => {
+            let wheelLockUntil = 0;
+
+            // Aqui nao ha pin para converter o scroll vertical em horizontal,
+            // entao a roda do mouse sobre as cartas so rolava a pagina. Cada
+            // "giro" vertical sobre o trilho avanca uma carta; nas pontas o
+            // evento segue para a pagina normalmente. O bloqueio curto evita
+            // que a rajada de eventos de um trackpad pule varias cartas.
+            function handleNativeWheel(event) {
+                if (event.ctrlKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+
+                const direction = Math.sign(event.deltaY);
+                const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+                const canMove = direction > 0
+                    ? viewport.scrollLeft < maxScroll - 1
+                    : viewport.scrollLeft > 1;
+
+                if (!canMove) return;
+
+                event.preventDefault();
+                // Impede o Lenis de rolar a pagina com este mesmo evento.
+                event.lenisStopPropagation = true;
+
+                const now = performance.now();
+                if (now < wheelLockUntil) return;
+                wheelLockUntil = now + 450;
+
+                const firstCard = track.firstElementChild;
+                const gap = parseFloat(window.getComputedStyle(track).columnGap) || 0;
+                const step = firstCard
+                    ? firstCard.getBoundingClientRect().width + gap
+                    : viewport.clientWidth * 0.8;
+
+                viewport.scrollBy({ left: direction * step });
             }
 
             const lastCardIndex = Math.max(track.children.length - 1, 1);
@@ -441,11 +503,26 @@
             resizeObserver.observe(track);
         }
 
-        return { refresh };
+        // A config() la em cima desligou o auto-refresh do ScrollTrigger no
+        // resize de proposito - quem cobre esse caso agora e este listener,
+        // com debounce para nao rebobinar/remedir a cada pixel enquanto o
+        // usuario ainda esta arrastando a borda da janela (ou girando o
+        // celular). scheduleRefresh() ja chama rewindToSectionStart() antes
+        // de remedir, que e o que evita a secao pular de lugar.
+        let resizeDebounce = null;
+        window.addEventListener("resize", () => {
+            window.clearTimeout(resizeDebounce);
+            resizeDebounce = window.setTimeout(scheduleRefresh, 150);
+        });
+
+        return {
+            refresh: scheduleRefresh
+        };
     }
 
+
     function initializeDestinationExplorer() {
-        const cardsContainer = document.querySelector("#destination-cards");
+        const trackContainer = document.querySelector("#destination-cards");
         const searchInput = document.querySelector("#destination-search-input");
         const searchStatus = document.querySelector("#destination-search-status");
         const emptyMessage = document.querySelector("#destination-empty");
@@ -462,7 +539,7 @@
         const horizontalProgress = document.querySelector("#destination-horizontal-progress");
         const sceneCounter = document.querySelector("#destination-scene-counter");
 
-        if (!cardsContainer || !searchInput || !searchStatus || !emptyMessage || !mapViewer ||
+        if (!trackContainer || !searchInput || !searchStatus || !emptyMessage || !mapViewer ||
             !mapFrame || !mapLoading || !destinationName || !destinationLocation ||
             !destinationDescription || !externalLink || !expandButton || !destinationSection ||
             !horizontalViewport || !horizontalProgress) {
@@ -478,43 +555,28 @@
             counter: sceneCounter
         });
 
-        function renderDestinationGroups() {
+        function renderDestinationCards() {
             const matchedDestinations = destinations.filter(destinationMatchesFilters);
-            const markup = destinationGroups.map((group, groupIndex) => {
-                const visibleDestinations = group.destinationIds
-                    .map((id) => destinationById.get(id))
-                    .filter((destination) => destination && destinationMatchesFilters(destination));
+            trackContainer.innerHTML = matchedDestinations.map(createCardMarkup).join("");
 
-                if (!visibleDestinations.length) return "";
-
-                let activeId = activeDestinationByGroup.get(group.id);
-                if (!visibleDestinations.some((destination) => destination.id === activeId)) {
-                    activeId = visibleDestinations[0].id;
-                    activeDestinationByGroup.set(group.id, activeId);
-                }
-
-                return createCardMarkup(
-                    group,
-                    groupIndex,
-                    destinationById.get(activeId),
-                    visibleDestinations
-                );
-            }).join("");
-
-            cardsContainer.innerHTML = markup;
             emptyMessage.hidden = matchedDestinations.length !== 0;
             searchStatus.textContent = filterState.query
                 ? `${matchedDestinations.length} ${matchedDestinations.length === 1 ? "destino encontrado" : "destinos encontrados"}`
                 : `${destinations.length} destinos disponíveis`;
 
-            cardsContainer.querySelectorAll(".destination-card-image img").forEach((image) => {
+            trackContainer.querySelectorAll(".destination-card-media img").forEach((image) => {
                 image.addEventListener("error", () => {
                     const destination = destinationById.get(image.closest("[data-destination-id]")?.dataset.destinationId);
-                    if (destination) image.replaceWith(createPlaceholderElement(destination));
+                    if (destination) {
+                        const overlay = image.nextElementSibling;
+                        image.replaceWith(createPlaceholderElement(destination));
+                        if (overlay) image.closest(".destination-card-media")?.appendChild(overlay);
+                    }
                 }, { once: true });
             });
 
-            window.requestAnimationFrame(horizontalController.refresh);
+// O conteúdo do trilho mudou (busca filtrou cards): recalcula a distância do scroll horizontal.
+window.requestAnimationFrame(() => horizontalController.refresh());
         }
 
         function createPlaceholderElement(destination) {
@@ -529,6 +591,13 @@
         }
 
         function scrollToViewer() {
+            // Com o Lenis ativo o scroll nativo e o suave brigariam pelo
+            // mesmo gesto, entao delegamos a ele quando existe.
+            if (smoothScroll && !reduceMotion.matches) {
+                smoothScroll.scrollTo(mapViewer, { offset: -24 });
+                return;
+            }
+
             mapViewer.scrollIntoView({
                 behavior: reduceMotion.matches ? "auto" : "smooth",
                 block: "start"
@@ -552,32 +621,8 @@
                 mapFrame.src = destination.embedUrl;
             }
 
-            renderDestinationGroups();
+            renderDestinationCards();
             window.requestAnimationFrame(scrollToViewer);
-        }
-
-        function switchCardDestination(groupId, destinationId) {
-            const group = destinationGroups.find((item) => item.id === groupId);
-            if (!group || !group.destinationIds.includes(destinationId)) return;
-            if (activeDestinationByGroup.get(groupId) === destinationId) return;
-
-            const card = cardsContainer.querySelector(`[data-group-card="${groupId}"]`);
-            const previousTimer = switchTimers.get(groupId);
-            if (previousTimer) window.clearTimeout(previousTimer);
-
-            if (reduceMotion.matches || !card) {
-                activeDestinationByGroup.set(groupId, destinationId);
-                renderDestinationGroups();
-                return;
-            }
-
-            card.classList.add("is-changing");
-            const timer = window.setTimeout(() => {
-                activeDestinationByGroup.set(groupId, destinationId);
-                switchTimers.delete(groupId);
-                renderDestinationGroups();
-            }, 180);
-            switchTimers.set(groupId, timer);
         }
 
         function getFullscreenElement() {
@@ -608,20 +653,14 @@
             }
         }
 
-        cardsContainer.addEventListener("click", (event) => {
-            const switchButton = event.target.closest("[data-destination-switch]");
-            if (switchButton) {
-                switchCardDestination(switchButton.dataset.groupId, switchButton.dataset.destinationSwitch);
-                return;
-            }
-
+        trackContainer.addEventListener("click", (event) => {
             const selectButton = event.target.closest("[data-select-destination]");
             if (selectButton) selectDestination(selectButton.dataset.selectDestination);
         });
 
         searchInput.addEventListener("input", () => {
             filterState.query = normalizeSearchText(searchInput.value);
-            renderDestinationGroups();
+            renderDestinationCards();
         });
 
         mapFrame.addEventListener("load", () => setMapLoading(false));
@@ -630,7 +669,7 @@
         document.addEventListener("webkitfullscreenchange", syncFullscreenButton);
 
         setMapLoading(true);
-        renderDestinationGroups();
+        renderDestinationCards();
         syncFullscreenButton();
         mapFrame.src = destinations[0].embedUrl;
     }

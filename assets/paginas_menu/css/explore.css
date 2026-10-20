@@ -344,88 +344,10 @@ main{
     color: white;
 }
 /* ==================================================
-   TABLETS
-================================================== */
-
-@media (max-width: 1000px) {
-    .vr-intro {
-        grid-template-columns: 48% 52%;
-        min-height: 540px;
-    }
-
-    .vr-model-area,
-    .vr-intro-text {
-        min-height: 540px;
-    }
-
-    .vr-model {
-        height: 500px;
-    }
-
-    .vr-intro-text {
-        padding: 60px 45px;
-    }
-}
-
-/* ==================================================
-   CELULARES
-================================================== */
-
-@media (max-width: 768px) {
-    .vr-intro {
-        grid-template-columns: 1fr;
-    }
-
-    .vr-model-area {
-        min-height: 430px;
-    }
-
-    .vr-model {
-        width: 100%;
-        height: 420px;
-    }
-
-    .vr-model-area::before {
-        width: 320px;
-        height: 320px;
-    }
-
-    .vr-intro-text {
-        min-height: auto;
-        padding: 70px 25px;
-    }
-
-    .vr-intro-text h2 {
-        margin-bottom: 25px;
-        font-size: clamp(2.8rem, 13vw, 5rem);
-        line-height: 0.95;
-    }
-
-    .vr-intro-text p {
-        font-size: 1rem;
-    }
-}
-
-/* Celulares menores */
-@media (max-width: 480px) {
-    .vr-model-area {
-        min-height: 350px;
-    }
-
-    .vr-model {
-        height: 350px;
-    }
-
-    .vr-intro-text {
-        padding: 55px 20px;
-    }
-}
-
-/* ==================================================
    EXPLORADOR DE DESTINOS COM GOOGLE MAPS
 ================================================== */
 
-.map-explorer {
+.map-explore {
     position: relative;
     top: -500px;
     z-index: 0;
@@ -433,7 +355,7 @@ main{
     margin: 0 auto;
     padding: clamp(72px, 9vw, 150px) clamp(20px, 5vw, 80px);
     color: #ffffff;
-    
+
 }
 
 .map-explorer-heading {
@@ -449,7 +371,6 @@ main{
     display: flex;
     justify-content: center;
     position: relative;
-
     grid-column: 1 / -1;
     color: #b16ff1;
     font: 900 "Orbitron", sans-serif;
@@ -604,174 +525,36 @@ main{
 }
 
 .destination-selector-heading h3 {
-    margin: 0;
-    font: 780 clamp(2rem, 4.2vw, 4.8rem)/1 "Inter", sans-serif;
-    letter-spacing: -0.055em;
-    text-transform: uppercase;
-}
-
-.destination-cards {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(16px, 2vw, 30px);
-}
-
-.destination-card {
-    min-width: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 22px;
-    background: #17141b;
-    color: #ffffff;
-    text-align: left;
-    cursor: pointer;
-    transition: border-color 240ms ease, transform 240ms ease,
-        box-shadow 240ms ease;
-}
-
-.destination-card:hover,
-.destination-card:focus-visible {
-    border-color: rgba(177, 111, 241, 0.8);
-    outline: none;
-    transform: translateY(-8px);
-}
-
-.destination-card.is-selected {
-    border-color: #b16ff1;
-    box-shadow: 0 20px 60px rgba(105, 57, 210, 0.28);
-}
-
-.destination-card-image {
-    position: relative;
-    display: grid;
-    place-items: center;
-    min-height: 300px;
-    overflow: hidden;
-    background: radial-gradient(circle at 50% 42%, #56367c 0%, #201729 58%, #100d13 100%);
-}
-
-.destination-card-image::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(10, 8, 12, 0.66), transparent 55%);
-    pointer-events: none;
-}
-
-.destination-card-image img {
-    position: relative;
-    z-index: 1;
-    width: 86%;
-    height: 280px;
-    object-fit: contain;
-    filter: drop-shadow(0 22px 24px rgba(0, 0, 0, 0.5));
-    transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.destination-card:hover .destination-card-image img,
-.destination-card:focus-visible .destination-card-image img {
-    transform: scale(1.08) rotate(-1.5deg);
-}
-
-.destination-card-number {
-    position: absolute;
-    z-index: 2;
-    top: 20px;
-    left: 22px;
-    color: rgba(255, 255, 255, 0.66);
-    font: 700 0.76rem/1 "Orbitron", sans-serif;
-    letter-spacing: 0.12em;
-}
-
-.destination-card-copy {
     display: flex;
-    flex-direction: column;
-    padding: 24px;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.06em;
+    width: 100%;
+    margin: 0;
+    color: #ffffff;
+    font: 600 clamp(2.25rem, 13vw, 9rem)/0.82 "Inter", sans-serif;
+    letter-spacing: -0.085em;
+    text-align: center;
+    white-space: nowrap;
 }
 
-.destination-card-copy strong {
-    font: 750 clamp(1.3rem, 2vw, 2rem)/1.05 "Inter", sans-serif;
-    letter-spacing: -0.035em;
-}
-
-.destination-card-copy > span {
-    margin-top: 8px;
-    color: rgba(255, 255, 255, 0.58);
-    font: 450 0.9rem/1.4 "Inter", sans-serif;
-}
-
-.destination-card-copy small {
-    margin-top: 28px;
+.destination-title-accent {
     color: #b16ff1;
-    font: 700 0.68rem/1 "Orbitron", sans-serif;
-    letter-spacing: 0.08em;
+    font-weight: 600;
 }
 
-@media (max-width: 1000px) {
-    .map-explorer-heading {
-        grid-template-columns: 1fr;
-    }
-
-    .map-explorer-heading > span {
-        grid-column: auto;
-    }
-
-    .destination-cards {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .destination-card:last-child {
-        grid-column: 1 / -1;
-    }
-}
-
-@media (max-width: 700px) {
-    .map-explorer {
-        padding-right: 16px;
-        padding-left: 16px;
-    }
-
-    .map-viewer {
-        border-radius: 18px;
-    }
-
-    .map-frame-shell {
-        min-height: 440px;
-        aspect-ratio: 4 / 5;
-    }
-
-    .map-viewer-toolbar,
-    .map-viewer-footer {
-        align-items: flex-start;
-        padding: 18px;
-    }
-
-    .map-viewer-footer {
-        flex-direction: column;
-    }
-
-    .destination-cards {
-        grid-template-columns: 1fr;
-    }
-
-    .destination-card:last-child {
-        grid-column: auto;
-    }
-
-    .destination-card-image {
-        min-height: 250px;
-    }
-
-    .destination-card-image img {
-        height: 230px;
-    }
+.destination-title-script {
+    display: inline-block;
+    margin-right: 10px;
+    font-family: "Condiment", cursive;
+    font-size: 1em;
+    font-weight: 400;
+    letter-spacing: -0.08em;
+    transform: translateY(0.04em);
 }
 
 @media (prefers-reduced-motion: reduce) {
     .map-expand-button,
-    .destination-card,
-    .destination-card-image img,
     .map-loading {
         transition: none;
     }
@@ -782,11 +565,11 @@ main{
 ================================================== */
 
 .vr-intro,
-.map-explorer {
+.map-explore {
     top: auto;
 }
 
-.map-explorer {
+.map-explore {
     padding-bottom: clamp(90px, 10vw, 160px);
 }
 
@@ -798,10 +581,6 @@ main{
     text-align: center;
 }
 
-.map-explorer-heading > span,
-.destination-selector-heading > span {
-    font: 800 0.78rem/1 "Orbitron", sans-serif;
-}
 
 .map-explorer-heading h2 {
     display: flex;
@@ -843,6 +622,7 @@ main{
 .map-viewer {
     position: relative;
     background: #151219;
+    margin-bottom: clamp(40px, 6vw, 88px);
     scroll-margin-top: 110px;
 }
 
@@ -986,32 +766,88 @@ main{
     text-align: center;
 }
 
+/* ==================================================
+   CARTAS DE DESTINO — estilos base do conteúdo interno
+   (tamanho/posição de cada cartão vêm da seção de layout
+   "DESTINOS — SCROLL VERTICAL CONVERTIDO EM HORIZONTAL" abaixo)
+================================================== */
+
 .destination-card {
+    position: relative;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: #ffffff;
+    text-align: left;
+    cursor: pointer;
+    appearance: none;
+}
+
+.destination-card-media {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 28px;
+    background: radial-gradient(circle at 50% 42%, #56367c 0%, #201729 58%, #100d13 100%);
+    transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), opacity 120ms linear;
+}
+
+.destination-card:hover .destination-card-media,
+.destination-card:focus-visible .destination-card-media {
+    transform: scale(1.02);
+}
+
+.destination-card:focus-visible {
+    outline: none;
+}
+
+.destination-card:focus-visible .destination-card-media {
+    box-shadow: 0 0 0 4px rgba(177, 111, 241, 0.65);
+}
+
+.destination-card.is-selected .destination-card-media {
+    box-shadow: 0 0 0 4px #b16ff1;
+}
+
+.destination-card-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.destination-card-overlay {
+    position: absolute;
+    inset: 0;
     display: flex;
     flex-direction: column;
-    cursor: default;
+    justify-content: flex-end;
+    padding: 0 20px 22px;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0) 16%,
+        rgba(0, 0, 0, 0.92) 92%
+    );
 }
 
-.destination-card-stage {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    opacity: 1;
-    transform: translateX(0);
-    transition: opacity 180ms ease, transform 180ms ease;
+.destination-card-name {
+    font: 600 clamp(1.3rem, 2vw, 1.8rem)/1.1 "Inter", sans-serif;
+    letter-spacing: -0.03em;
+    color: #ffffff;
 }
 
-.destination-card.is-changing .destination-card-stage {
-    opacity: 0;
-    transform: translateX(14px);
-}
-
-.destination-card-image {
-    background: var(--card-gradient, radial-gradient(circle at 50% 42%, #56367c 0%, #201729 58%, #100d13 100%));
+.destination-card-place {
+    margin-top: 4px;
+    font: 400 clamp(0.85rem, 1.1vw, 1rem)/1.2 "Inter", sans-serif;
+    letter-spacing: -0.01em;
+    color: #ffffff;
 }
 
 .destination-card-placeholder {
-    position: relative;
+    position: absolute;
+    inset: 0;
     z-index: 1;
     display: grid;
     place-items: center;
@@ -1034,82 +870,11 @@ main{
     text-transform: uppercase;
 }
 
-.destination-card-copy {
-    flex: 1;
-}
 
-.destination-card-copy .destination-card-category {
-    order: -1;
-    margin: 0 0 12px;
-    color: #b16ff1;
-    font: 700 0.64rem/1 "Orbitron", sans-serif;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-}
-
-.destination-card-copy .destination-card-location {
-    margin-top: 8px;
-    color: rgba(255, 255, 255, 0.58);
-    font: 450 0.9rem/1.4 "Inter", sans-serif;
-}
-
-.destination-card-copy p {
-    margin: 18px 0 24px;
-    color: rgba(255, 255, 255, 0.68);
-    font: 450 0.9rem/1.6 "Inter", sans-serif;
-}
-
-.destination-select-button {
-    width: 100%;
-    min-height: 46px;
-    margin-top: auto;
-    padding: 12px 16px;
-    border: 1px solid rgba(177, 111, 241, 0.62);
-    border-radius: 999px;
-    background: rgba(105, 57, 210, 0.14);
-    color: #ffffff;
-    font: 750 0.66rem/1.2 "Orbitron", sans-serif;
-    letter-spacing: 0.07em;
-    cursor: pointer;
-    transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
-}
-
-.destination-select-button:hover,
-.destination-select-button:focus-visible {
-    border-color: #b16ff1;
-    background: #6939d2;
-    outline: none;
-    transform: translateY(-2px);
-}
-
-.destination-card-controls {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    padding: 0 24px 22px;
-}
-
-.destination-card-dot {
-    width: 28px;
-    height: 8px;
-    padding: 0;
-    border: 0;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-    transition: width 180ms ease, background-color 180ms ease;
-}
-
-.destination-card-dot:hover,
-.destination-card-dot:focus-visible {
-    background: rgba(177, 111, 241, 0.62);
-    outline: 2px solid rgba(177, 111, 241, 0.3);
-    outline-offset: 3px;
-}
-
-.destination-card-dot.is-active {
-    width: 42px;
-    background: #b16ff1;
+@media (prefers-reduced-motion: reduce) {
+    .destination-card-media {
+        transition: none;
+    }
 }
 
 .destination-empty {
@@ -1126,36 +891,7 @@ main{
     display: none;
 }
 
-@media (max-width: 700px) {
-    .map-explorer-heading h2 {
-        gap: 0.03em;
-        font-size: clamp(2.25rem, 13vw, 4.8rem);
-    }
-
-    .destination-search {
-        min-height: 56px;
-        padding: 0 18px;
-    }
-
-    .map-expand-button {
-        position: absolute;
-        right: 18px;
-    }
-
-    .map-viewer-place {
-        padding-right: 58px;
-    }
-
-    .map-viewer-footer a {
-        width: 100%;
-        text-align: center;
-    }
-}
-
 @media (prefers-reduced-motion: reduce) {
-    .destination-card-stage,
-    .destination-card-dot,
-    .destination-select-button,
     .map-viewer-footer a {
         transition: none;
     }
@@ -1168,6 +904,26 @@ main{
 /* ==================================================
    DESTINOS — CENA HORIZONTAL GUIADA PELO SCROLL
 ================================================== */
+
+/* Para medir onde cada seção começa, o GSAP ScrollTrigger leva o scroll da
+   página para 0 e lê as posições na MESMA passada síncrona, devolvendo o
+   scroll logo em seguida. Com "scroll-behavior: smooth" no elemento raiz
+   (vem de rep/nav_barblack.css, compartilhado com as outras páginas) esse
+   scroll vira animação: nada se move a tempo da leitura, e o ScrollTrigger
+   grava o "start" do pin com o scroll atual embutido como erro —
+   start = posição real − scrollY. Por isso a seção só ficava no lugar
+   quando a página era medida no topo: qualquer remedição feita com a página
+   rolada (resize, edição de CSS, busca, troca de fonte) deslocava
+   "Destinos em destaque" exatamente o tanto que o usuário havia rolado.
+
+   Usamos :root (0,1,0) em vez de html (0,0,1) de propósito: nav_barblack.css
+   é carregado DEPOIS deste arquivo, então empatar na especificidade perderia
+   pela ordem. Nada de suavidade se perde — quem dá inércia ao scroll aqui é
+   o Lenis, e os scrolls suaves intencionais do explore.js pedem
+   behavior: "smooth" explicitamente, o que continua valendo sobre o CSS. */
+:root {
+    scroll-behavior: auto;
+}
 
 .destination-selector {
     position: relative;
@@ -1192,8 +948,6 @@ main{
 
 .destination-selector-heading h3 {
     max-width: 1100px;
-    font-size: clamp(2.4rem, 5.2vw, 5.8rem);
-    line-height: 0.94;
 }
 
 .destination-horizontal-viewport {
@@ -1225,8 +979,8 @@ main{
 
 .destination-card {
     position: relative;
-    flex: 0 0 min(86vw, 440px);
-    min-height: 520px;
+    flex: 0 0 min(70vw, 320px);
+    min-height: 300px;
     scroll-snap-align: center;
     scroll-snap-stop: always;
 }
@@ -1235,6 +989,9 @@ main{
     min-height: 0;
 }
 
+/* Barra "ROLE PARA EXPLORAR" removida do visual a pedido — o elemento
+   continua no DOM (o JS usa a barra de progresso internamente), só não
+   é mais exibido. */
 .destination-horizontal-footer {
     display: grid;
     grid-template-columns: auto minmax(80px, 160px) auto;

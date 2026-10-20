@@ -1,0 +1,364 @@
+/* ══════════════════════════════════════════════════════
+   TECNOLOGIAS — RESPONSIVIDADE
+   Carregar DEPOIS de tecnologias.css (último <link> do tecnologias.html).
+
+   Breakpoints do projeto (desktop-first, em cascata):
+     > 1440px      desktop / telas grandes  → estilos base de tecnologias.css
+     1024–1440px   notebooks                → @media (max-width: 1440px)
+     768–1023px    tablets                  → @media (max-width: 1023px)
+     481–767px     celulares grandes        → @media (max-width: 767px)
+     ≤ 480px       celulares pequenos       → @media (max-width: 480px)
+══════════════════════════════════════════════════════ */
+
+
+/* ══════════════════════════════════════════════════════
+   NOTEBOOKS (≤ 1440px)
+══════════════════════════════════════════════════════ */
+@media (max-width: 1440px) {
+    /* Seção VR: o modelo de 800px + o texto de 600px não cabem lado a lado. */
+    .vr > div:first-child {
+        width: min(800px, 46vw);
+        height: min(800px, 46vw);
+    }
+
+    .linevr {
+        width: 100%;
+    }
+
+    /* Grade de cards da VR: a imagem encolhe junto com a coluna para o
+       texto ao lado não ser espremido para fora do card. */
+    .vr-grid {
+        column-gap: 50px;
+    }
+
+    .vr-card .vr-image {
+        width: clamp(180px, 18vw, 250px);
+        height: auto;
+        aspect-ratio: 25 / 23;
+    }
+
+    .vr-text p {
+        font-size: 13px;
+        line-height: 1.35;
+    }
+
+    .card-2 {
+        margin-left: clamp(0px, 3.5vw, 50px);
+    }
+
+    /* Seção MR: a composição (holograma 50vw, deslocamentos em %) escala
+       com a largura da tela; a frase passa a escalar junto. 3.3vw ≈ 4rem
+       em 1920px, o mesmo tamanho do desktop.
+       O .mr-visual é deslocado para a direita de propósito; o recorte
+       horizontal fica na própria seção (igual ao que o body já fazia), para
+       tablets touch não alargarem a viewport. */
+    .MR {
+        overflow-x: clip;
+    }
+
+    .frase-destaque2 {
+        font-size: clamp(2rem, 3.3vw, 4rem);
+    }
+}
+
+
+/* ══════════════════════════════════════════════════════
+   TABLETS (≤ 1023px)
+   Todas as seções de duas colunas passam a empilhar.
+══════════════════════════════════════════════════════ */
+@media (max-width: 1023px) {
+    /* Hero */
+    .hero-tec {
+        grid-template-columns: 1fr;
+        margin-bottom: 12vh;
+    }
+
+    .hero-tec .caixa_de_texto {
+        width: auto;
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 48px clamp(18px, 5vw, 40px);
+    }
+
+    .Mulher_vr {
+        right: 0;
+        display: flex;
+        justify-content: center;
+        height: clamp(380px, 80vw, 780px);
+    }
+
+    .Mulher_vr img {
+        width: auto;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* Frase destaque */
+    .frase-destaque {
+        padding: 80px clamp(18px, 5vw, 40px);
+        margin-bottom: 12vh;
+    }
+
+    .fd-italic {
+        font-size: clamp(2.75rem, 12vw, 8rem);
+    }
+
+    /* Seção VR */
+    .vr {
+        flex-direction: column;
+        padding: 64px 28px;
+        gap: 32px;
+    }
+
+    .vr > div:first-child {
+        width: min(88vw, 500px);
+        height: min(88vw, 500px);
+    }
+
+    .vr .caixa_de_texto {
+        width: min(100%, 600px);
+        margin-left: 0;
+        padding: 28px 0;
+    }
+
+    /* Grade de cards da VR */
+    .realidade-virtual {
+        padding: 50px 30px;
+    }
+
+    .vr-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+        padding: 60px 0;
+        margin-bottom: 12vh;
+    }
+
+    .card-1,
+    .card-2,
+    .card-3,
+    .card-4 {
+        grid-column: auto;
+        grid-row: auto;
+        margin: 0;
+    }
+
+    .vr-card .vr-image {
+        width: 300px;
+        height: 250px;
+    }
+
+    .vr-text p {
+        max-width: none;
+    }
+
+    /* Seção AR */
+    .AR {
+        flex-direction: column;
+        gap: 48px;
+        padding: 0 clamp(18px, 5vw, 40px);
+        margin-bottom: 12vh;
+    }
+
+    .vr-image_AR {
+        width: min(360px, 70vw);
+    }
+
+    /* Seção AR — explorando o mundo */
+    .ARs {
+        grid-template-columns: 1fr;
+        gap: 56px;
+        padding: 80px 28px;
+        margin-bottom: 12vh;
+    }
+
+    .imgs {
+        width: min(100%, 680px);
+        min-height: 520px;
+    }
+
+    .caixa_de_texto_ARs {
+        margin-inline: auto;
+    }
+
+    /* Seção MR: o texto sai do posicionamento absoluto e a composição
+       (holograma + frase) desce para baixo dele, centralizada. */
+    .MR {
+        min-height: 0;
+        padding: 40px clamp(18px, 5vw, 40px) 80px;
+    }
+
+    .caixa_de_texto_MR {
+        position: static;
+        width: auto;
+        max-width: 640px;
+        margin: 0 auto 48px;
+    }
+
+    .mr-visual {
+        right: 0;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .Holograma {
+        width: min(100%, 560px);
+    }
+
+    .frase-destaque2 {
+        top: 0;
+        right: 0;
+        font-size: clamp(2rem, 7vw, 3.5rem);
+    }
+}
+
+
+/* ══════════════════════════════════════════════════════
+   CELULARES GRANDES (≤ 767px)
+══════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+    /* Hero */
+    .paragraph_small {
+        font-size: 1.125rem;
+        text-align: left;
+    }
+
+    /* Seção VR */
+    .vr {
+        padding: 48px 20px;
+    }
+
+    .vr > div:first-child {
+        width: min(100%, 360px);
+        height: 340px;
+    }
+
+    .vr .caixa_de_texto h1 {
+        padding-bottom: 24px;
+    }
+
+    .vr .caixa_de_texto p {
+        line-height: 1.35;
+        text-align: left;
+    }
+
+    /* Grade de cards da VR */
+    .realidade-virtual {
+        padding: 40px 20px;
+    }
+
+    .vr-grid {
+        gap: 50px;
+        padding: 40px 0;
+    }
+
+    .vr-card {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 20px;
+    }
+
+    .vr-card .vr-image {
+        width: 100%;
+        height: 280px;
+    }
+
+    .vr-text {
+        padding: 15px 0;
+        border: none !important;
+    }
+
+    .vr-text p {
+        font-size: 15px;
+        line-height: 1.5;
+    }
+
+    /* Seção AR */
+    .caixa_de_texto_AR h1 {
+        padding-bottom: 24px;
+    }
+
+    .caixa_de_texto_AR p {
+        line-height: 1.35;
+        text-align: left;
+    }
+
+    /* Seção AR — explorando o mundo */
+    .ARs {
+        gap: 40px;
+        padding: 60px 20px;
+    }
+
+    .imgs {
+        min-height: 390px;
+    }
+
+    .AR-image1 {
+        left: 0;
+        bottom: 68px;
+    }
+
+    .AR-image1 img {
+        height: clamp(180px, 48vw, 260px);
+    }
+
+    .AR-image2 {
+        bottom: 72px;
+    }
+
+    .AR-image2 img {
+        width: clamp(220px, 70vw, 360px);
+    }
+
+    .AR-image3 {
+        right: 0;
+        bottom: 68px;
+    }
+
+    .AR-image3 img {
+        height: clamp(210px, 55vw, 300px);
+    }
+
+    .btn-Explorar {
+        width: 160px;
+        height: 48px;
+    }
+
+    .caixa_de_texto_ARs h1 {
+        padding-bottom: 28px;
+    }
+
+    .caixa_de_texto_ARs p {
+        line-height: 1.35;
+        margin-top: 24px;
+        text-align: left;
+    }
+
+    /* Seção MR */
+    .caixa_de_texto_MR h1 {
+        padding-bottom: 24px;
+    }
+
+    .caixa_de_texto_MR .mr-description {
+        line-height: 1.35;
+        text-align: left;
+    }
+}
+
+
+/* ══════════════════════════════════════════════════════
+   CELULARES PEQUENOS (≤ 480px)
+══════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+    .vr > div:first-child {
+        height: 300px;
+    }
+
+    .vr-card .vr-image {
+        height: 220px;
+    }
+
+    .imgs {
+        min-height: 330px;
+    }
+}

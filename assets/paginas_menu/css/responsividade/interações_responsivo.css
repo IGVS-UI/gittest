@@ -1,8 +1,25 @@
+/* ══════════════════════════════════════════════════════
+   INTERAÇÕES — RESPONSIVIDADE
+   Carregar DEPOIS de interaçoes.css (último <link> do interaçoes.html).
+
+   Breakpoints do projeto (desktop-first):
+     > 1440px      desktop / telas grandes  → estilos base de interaçoes.css
+     1024–1440px   notebooks                → faixa fechada (não vaza p/ baixo)
+     768–1023px    tablets                  → @media (max-width: 1023px)
+     481–767px     celulares grandes        → @media (max-width: 767px)
+     ≤ 480px       celulares pequenos       → @media (max-width: 480px)
+══════════════════════════════════════════════════════ */
+
+
+/* ══════════════════════════════════════════════════════
+   NOTEBOOKS (1024–1440px)
+══════════════════════════════════════════════════════ */
 @media screen and (min-width: 1024px) and (max-width: 1440px) {
     .page-shell {
         width: min(calc(100% - 40px), 1280px);
     }
 
+    /* Hero */
     .interactions-hero {
         min-height: 680px;
         padding-top: 104px;
@@ -29,6 +46,7 @@
         border-radius: 14px;
     }
 
+    /* O mundo VR */
     .vr-world {
         grid-template-columns: minmax(330px, .82fr) minmax(0, 1.18fr);
         min-height: 650px;
@@ -50,6 +68,7 @@
         padding: 16px 18px;
     }
 
+    /* Sala de jogos */
     .games-room {
         padding-block: 68px 100px;
     }
@@ -83,14 +102,25 @@
     .external-game {
         height: clamp(460px, 39vw, 560px);
     }
+
+    /* Simulador NASA */
+    .nasa-simulator-frame {
+        height: 560px;
+    }
 }
 
-@media screen and (max-width: 960px) {
+
+/* ══════════════════════════════════════════════════════
+   TABLETS (≤ 1023px)
+══════════════════════════════════════════════════════ */
+@media screen and (max-width: 1023px) {
+    /* Hero */
     .hero-content {
-        grid-template-columns: minmax(0, 1fr) minmax(340px, .8fr);
+        grid-template-columns: minmax(0, 1fr) minmax(300px, .8fr);
         gap: 22px;
     }
 
+    /* O mundo VR: modelo em cima, lista de recursos embaixo */
     .vr-world {
         grid-template-columns: 1fr;
         padding-block: 50px 90px;
@@ -111,6 +141,7 @@
         font-size: clamp(1rem, 2.2vw, 1.3rem);
     }
 
+    /* Sala de jogos */
     .game-tabs {
         gap: 12px;
     }
@@ -119,17 +150,41 @@
         grid-template-columns: 1fr;
         gap: 8px;
     }
+
+    .reflex-target {
+        width: min(46vw, 420px);
+        height: min(46vw, 420px);
+    }
+
+    .external-game {
+        height: clamp(420px, 60vw, 560px);
+    }
+
+    /* Simulador NASA */
+    .nasa-simulator-frame {
+        height: clamp(420px, 60vw, 560px);
+    }
 }
 
+
+/* ══════════════════════════════════════════════════════
+   CELULARES GRANDES (≤ 767px)
+══════════════════════════════════════════════════════ */
 @media screen and (max-width: 767px) {
     .page-shell {
         width: min(calc(100% - 28px), 680px);
     }
 
+    /* Hero */
     .interactions-hero {
         min-height: auto;
         padding-top: 104px;
         padding-bottom: 56px;
+    }
+
+    .interactions-marquee {
+        margin-top: 40px;
+        padding-bottom: 48px;
     }
 
     .hero-title {
@@ -157,6 +212,11 @@
         text-align: left;
     }
 
+    .eyebrow {
+        font-size: 1.125rem;
+        text-align: left;
+    }
+
     .primary-button {
         width: 100%;
         min-height: 54px;
@@ -165,6 +225,7 @@
         border-radius: 13px;
     }
 
+    /* O mundo VR */
     .vr-world {
         gap: 40px;
         padding-block: 44px 64px;
@@ -201,6 +262,7 @@
         content: "";
     }
 
+    /* Sala de jogos */
     .games-room {
         padding-block: 56px 80px;
     }
@@ -281,9 +343,27 @@
     .game-instruction {
         padding: 14px 18px 24px;
     }
+
+    /* Simulador NASA */
+    .nasa-simulator {
+        padding-bottom: 90px;
+    }
+
+    .nasa-simulator-topline {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nasa-simulator-frame {
+        height: 420px;
+    }
 }
 
-@media screen and (max-width: 420px) {
+
+/* ══════════════════════════════════════════════════════
+   CELULARES PEQUENOS (≤ 480px)
+══════════════════════════════════════════════════════ */
+@media screen and (max-width: 480px) {
     .hero-controller {
         min-height: 250px;
     }
@@ -300,5 +380,9 @@
     .external-game {
         min-height: 340px;
         margin: 8px;
+    }
+
+    .nasa-simulator-frame {
+        height: 320px;
     }
 }

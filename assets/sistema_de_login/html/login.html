@@ -9,7 +9,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../../animations.css">
-  <script type="module" src="https://unpkg.com/@splinetool/viewer@1.12.78/build/spline-viewer.js"></script>
+  <script
+    type="module"
+    src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.3.1/model-viewer.min.js"
+  ></script>
 </head>
 <body>
   <main class="login-shell">
@@ -17,13 +20,23 @@
       <section class="brand-panel" aria-label="Apresentacao institucional">
         <div class="brand-content">
           <div class="brand-visual" aria-hidden="true">
-            <spline-viewer
+            <model-viewer
               class="brand-spline"
-              url="https://prod.spline.design/sxqejvIpv73m5lC3/scene.splinecode"
-            ></spline-viewer>
+              src="../../paginas_menu/models/source/Quest3.glb"
+              alt="Modelo 3D do Meta Quest 3"
+              auto-rotate
+              auto-rotate-delay="0"
+              rotation-per-second="15deg"
+              camera-controls
+              camera-orbit="0deg 75deg auto"
+              environment-image="neutral"
+              shadow-intensity="1"
+              interaction-prompt="none"
+              loading="eager"
+            ></model-viewer>
           </div>
           <p class="brand-kicker">VR Explore</p>
-          <h1>Area do Aluno</h1>
+          <h1>Aréa do Aluno</h1>
           <p class="brand-description">
             Entre no portal para acessar experiências imersivas, acompanhar conteúdos
             e continuar sua jornada no universo da realidade virtual.
@@ -34,7 +47,7 @@
       <section class="form-panel" aria-label="Formulário de login">
         <div class="form-content">
           <p class="form-eyebrow">Portal de acesso</p>
-          <h2>Bem-vindo(a)!</h2>
+          <h2>Bem-vindo</h2>
           <p class="form-subtitle">
             Faça login com seu email e senha para continuar no ambiente do aluno.
           </p>
@@ -76,9 +89,6 @@
               </div>
             </div>
 
-            <div class="form-links">
-              <a href="#" class="forgot-password" id="forgotPasswordLink">Esqueci minha senha</a>
-            </div>
 
             <button type="submit" class="login-btn">Entrar</button>
           </form>
@@ -93,11 +103,11 @@
 
           <div class="social-container-btn">
             <button type="button" id="btnGoogle" class="social-btn google" aria-label="Entrar com Google">
-              <img src="../img/icons8-google.svg" alt="Google">
+              <img src="../img/pesquisa (1).png" alt="Google">
             </button>
 
             <button type="button" id="btnGithub" class="social-btn github" aria-label="Entrar com GitHub">
-              <img src="../img/github_icon.svg" alt="GitHub">
+              <img src="../img/github.png" alt="GitHub">
             </button>
           </div>
 
@@ -142,5 +152,7 @@
   </script>
   <script type="module" src="../js/auth.js"></script>
   <script type="module" src="../../../animations.js"></script>
+    <!-- Acessibilidade: tradutor VLibras (Libras) -->
+    <script src="../../acessibilidade/vlibras.js" defer></script>
 </body>
 </html>

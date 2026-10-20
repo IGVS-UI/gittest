@@ -1,0 +1,87 @@
+
+
+[C] CONTEXTO
+Este é o meu projeto de TCC, em HTML, CSS e JavaScript puro (sem framework/bundler). O repositório está organizado em uma pasta chamada "Páginas Menu", com subpastas separadas para HTML, CSS e JavaScript.
+
+Antes de qualquer alteração, explore a estrutura de pastas do repositório para localizar os arquivos exatos (os nomes abaixo podem ter pequenas variações de maiúsculas/minúsculas, acentos ou hífens):
+- HTML: "Páginas Menu/HTML/explore.html" — contém a seção ".map-explore", que tem duas partes:
+  1. Um mapa interativo (iframe) com uma barra de busca, atualmente ocupando a tela inteira.
+  2. Logo abaixo, a seção de "Destinos em destaque", com os cards de cada destino turístico.
+- JavaScript: "Páginas Menu/JavaScript/explore.js" — configura os cards de cada destino.
+- CSS correspondente a essa página, na pasta de CSS equivalente dentro de "Páginas Menu".
+
+Se algum nome não bater exatamente, procure pelo contexto (seção de destinos com cards de lugares turísticos + mapa interativo) e me avise no resumo final qual caminho real foi usado.
+
+Você (Claude Code) NÃO tem acesso a uma ferramenta/MCP do Figma neste ambiente. NÃO tente usar WebFetch nem qualquer outra ferramenta para abrir links do Figma — não vai funcionar. Todos os specs visuais necessários já estão descritos abaixo, extraídos diretamente do arquivo de design por mim.
+
+REJEITE ESTAS DUAS ABORDAGENS (já sugeridas por você antes e recusadas por mim):
+1. NÃO reestruture o grid de "3 slots com dot-switch" em um track horizontal genérico simplesmente removendo o comportamento de pares/dots sem seguir os specs abaixo.
+2. NÃO apenas mova o grid inteiro de 3 slots como um bloco único fixo (pin da seção inteira sem separar os cards) — isso não entrega "cada destino passando individualmente".
+
+---
+
+[O] OBJETIVO
+Quero 4 mudanças na seção ".map-explore":
+
+1. MAPA INTERATIVO MENOR
+   O iframe do mapa interativo (com a barra de busca) não deve mais ocupar a tela toda. Reduza para um tamanho de destaque proporcional (ex: ocupando uma faixa central/superior da seção, com margem ao redor), mantendo a barra de busca funcional por cima ou logo abaixo dele.
+
+2. SCROLL HORIZONTAL NOS CARDS DE DESTINO
+   Logo abaixo do mapa, a seção de "Destinos em destaque" deve ter os 8 cards de destino dispostos em um único track horizontal contínuo, em zigue-zague (staggered), todos visíveis/roláveis. Essa seção de cards deve ficar pinada (fixa) na tela enquanto o usuário rola o mouse verticalmente, e o track deve se deslocar horizontalmente (da direita para a esquerda) conforme esse scroll, até que todos os 8 cards tenham passado — só então a página volta ao scroll vertical normal.
+
+3. CARDS MENORES E CONTIDOS NA SEÇÃO
+   Reduza o tamanho dos cards (imagem + textos) proporcionalmente, para que caibam de forma mais compacta dentro da altura da seção pinada, sem cortar conteúdo e sem ultrapassar os limites verticais da viewport durante o pin.
+
+4. EFEITO DE FADE AO ENTRAR/SAIR
+   Cada card deve ter uma transição suave de opacidade: surgir com fade-in conforme entra na área visível da seção (vindo da direita) e sumir com fade-out conforme sai da área visível (saindo pela esquerda). Use o próprio GSAP/ScrollTrigger para isso (ex: animar opacity de 0 para 1 e de volta para 0 com base na posição horizontal do card em relação aos limites da viewport da seção).
+
+5. BOTÃO "VER NO MAPA" EM CADA CARD
+   Ao lado (ou sobre) cada card, adicione um botão/ícone (ex: "Ver no mapa") que, ao ser clicado, atualiza o iframe do mapa interativo (item 1) para centralizar/exibir a localização daquele destino específico. Use as coordenadas ou o nome do local para montar a URL do embed do mapa (ex: Google Maps Embed API), e implemente uma função JS reutilizável (ex: mostrarNoMapa(destino)) chamada pelo botão de cada card.
+
+DESTINOS (nesta ordem exata, da esquerda para a direita)
+1. Cristo Redentor — Rio de Janeiro, Brasil
+2. Taj Mahal — Angra, Índia
+3. Coliseu — Roma, Itália
+4. Ópera de Sydney — Sydney, Austrália
+5. Monte Fuji — Japão
+6. Machu Pichu — Cusco, Peru
+7. Estátua da Liberdade — Nova York, EUA
+8. Pirâmides de Gizé — Gizé, Egito
+
+Atualize (ou recrie) o array/objeto de destinos em explore.js com esses 8 itens (incluindo, se possível, latitude/longitude ou o texto de busca de cada local, para alimentar o botão "Ver no mapa").
+
+---
+
+[R] RESTRIÇÕES
+- Implementar a animação usando GSAP + o plugin ScrollTrigger, carregados via CDN (cdnjs ou unpkg) — não uso bundler/npm no projeto.
+- Registrar o plugin com gsap.registerPlugin(ScrollTrigger) no explore.js.
+- NÃO recriar a seção do zero sem necessidade: reaproveite o máximo possível da estrutura HTML/CSS/JS já existente, apenas ajustando o que for preciso para os 5 pontos do objetivo.
+- Remover qualquer lógica antiga de "dots"/alternância de pares em explore.js ou no CSS relacionada à seção antiga, já que não se aplica mais a este novo layout.
+- Especificações visuais dos cards (aplique fielmente, mas com os tamanhos reduzidos conforme o ponto 3 do objetivo):
+  - Fundo da seção: #111112.
+  - Imagem do card: quadrada com cantos arredondados (border-radius grande, proporcional ao tamanho do card), object-fit: cover.
+  - Overlay: gradiente linear de cima pra baixo, de transparente no topo até preto (~90% de opacidade) na base, para dar contraste ao texto.
+  - Título do destino: Inter Semibold, cor branca, letter-spacing bem apertado (negativo).
+  - Cidade/país: Inter Regular, cor branca, um pouco menor que o título, logo abaixo dele.
+  - Layout em zigue-zague: cards em posição ímpar (1º,3º,5º,7º) alinhados mais para cima; cards em posição par (2º,4º,6º,8º) deslocados verticalmente para baixo.
+- Imagens: ainda não tenho os arquivos finais de cada destino. Use placeholders de banco gratuito (ex: Unsplash) com busca pelo nome de cada destino, e deixe comentário indicando onde vou trocar pelas imagens finais.
+- Responsividade: a animação deve recalcular corretamente ao redimensionar a janela (ScrollTrigger.refresh()); em telas pequenas (mobile), avalie desativar o scroll horizontal e mostrar os cards em scroll vertical normal (use matchMedia do ScrollTrigger).
+- Acessibilidade: respeite "prefers-reduced-motion" — se ativado, desative ou simplifique as animações (scroll horizontal e fades).
+- Comente o JavaScript explicando cada parte da configuração do ScrollTrigger (trigger, start, end, pin, scrub) e da lógica do botão "Ver no mapa".
+
+---
+
+[P] PERSONA
+Atue como um desenvolvedor front-end sênior, especialista em animações de scroll e em JavaScript puro (sem frameworks), que também sabe explicar tecnicamente cada decisão de forma clara e didática — preciso entender e conseguir explicar essa implementação na defesa do meu TCC.
+
+---
+
+[O] OUTPUT ESPERADO
+1. explore.html com: (a) o iframe do mapa reduzido de tamanho, com a barra de busca; (b) a seção ".map-explore" reestruturada com os 8 cards em track horizontal, zigue-zague, tamanho reduzido, e um botão "Ver no mapa" em cada card.
+2. CSS ajustado (tamanho do iframe, tamanho dos cards, zigue-zague, gradiente, fade-in/fade-out, estilo do botão).
+3. explore.js atualizado com: os dados dos 8 destinos (incluindo dado para localizar no mapa), a configuração completa do GSAP ScrollTrigger (scroll horizontal + fade de entrada/saída), e a função que atualiza o iframe do mapa ao clicar em "Ver no mapa".
+4. Comentários no código explicando como ajustar a velocidade do scroll, o tamanho dos cards, e como adicionar novos destinos no futuro.
+5. Um resumo final (fora do código) informando quais arquivos foram alterados, os caminhos reais usados (se diferentes dos indicados), e onde estão os placeholders de imagem que preciso substituir
+
+
+
