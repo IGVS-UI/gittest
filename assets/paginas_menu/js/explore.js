@@ -153,33 +153,19 @@
                 type="button"
                 class="destination-card${isSelected ? " is-selected" : ""}"
                 data-destination-id="${destination.id}"
-                data-destination-name="${destination.name}"
-                data-scene-index="${groupIndex}"
-                style="--card-gradient: ${destination.gradient};">
-                <div class="destination-card-stage">
-                    <div class="destination-card-image">
-                        <span class="destination-card-number">0${groupIndex + 1}</span>
-                        ${createImageMarkup(destination)}
-                    </div>
-                    <div class="destination-card-copy">
-                        <span class="destination-card-category">${destination.category}</span>
-                        <strong>${destination.name}</strong>
-                        <span class="destination-card-location">${destination.city}, ${destination.country}</span>
-                        <p>${destination.description}</p>
-                        <button
-                            class="destination-select-button"
-                            type="button"
-                            data-select-destination="${destination.id}"
-                            ${isSelected ? "aria-current=\"true\"" : ""}>
-                            ${selectionLabel}
-                        </button>
+                data-select-destination="${destination.id}"
+                aria-label="Ver ${destination.name}, ${destination.city}, em 360°"
+                ${isSelected ? "aria-current=\"true\"" : ""}>
+                <div class="destination-card-media">
+                    ${createMediaMarkup(destination)}
+                    <div class="destination-card-overlay">
+                        <span class="destination-card-name">${destination.name}</span>
+                        <span class="destination-card-place">${destination.city}, ${destination.country}</span>
                     </div>
                 </div>
             </button>`;
     }
 
-    function createHorizontalDestinationController({ section, viewport, track, progressBar, counter }) {
-        const noOpController = { refresh: function () {} };
 
     /*gsap code Scroll horizontal*/
 
@@ -220,11 +206,22 @@
         return Math.abs(deltaX) <= Math.abs(deltaY);
     }
 
-        let sceneCards = [];
-        let horizontalTween = null;
-        let cardTweens = [];
-        let refreshFrameId = null;
-        let activeSceneIndex = -1;
+    // O Lenis da inercia ao scroll vertical. Como o trilho horizontal e
+    // "scrubbado" por esse mesmo scroll, os dois precisam andar no mesmo
+    // relogio - por isso o Lenis e alimentado pelo ticker do GSAP em vez de
+    // um requestAnimationFrame proprio.
+    function setupSmoothScroll() {
+        if (smoothScroll) return smoothScroll;
+        if (!window.Lenis || !window.gsap || !window.ScrollTrigger) return null;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
+
+        smoothScroll = new window.Lenis({ virtualScroll: shouldLenisHandle });
+        smoothScroll.on("scroll", window.ScrollTrigger.update);
+        window.gsap.ticker.add((time) => smoothScroll.raf(time * 1000));
+        window.gsap.ticker.lagSmoothing(0);
+
+        return smoothScroll;
+    }
 
     function scrollWindowTo(position) {
         if (smoothScroll) {
@@ -232,168 +229,259 @@
             return;
         }
 
-        function enhancedScrollIsActive() {
-            return document.body.classList.contains("destination-horizontal-enabled");
+        window.scrollTo({ top: position, behavior: "smooth" });
+    }
+
+    function createHorizontalDestinationController({ section, viewport, track, progressBar }) {
+        function setProgress(value) {
+            const clamped = Math.min(1, Math.max(0, value || 0));
+            progressBar.style.setProperty("--destination-progress", clamped.toFixed(4));
+            progressBar.setAttribute("aria-valuenow", String(Math.round(clamped * 100)));
         }
 
-        function readNativeProgress() {
-            const nativeRange = Math.max(viewport.scrollWidth - viewport.clientWidth, 0);
-            return nativeRange ? clamp(viewport.scrollLeft / nativeRange, 0, 1) : 0;
+        // Espaco util da viewport, ja descontado o respiro lateral: e contra
+        // ele que medimos o quanto o trilho ainda tem a percorrer.
+        function getViewportInnerWidth() {
+            const styles = window.getComputedStyle(viewport);
+
+            return viewport.clientWidth
+                - parseFloat(styles.paddingLeft)
+                - parseFloat(styles.paddingRight);
         }
 
-        function librariesAreReady() {
-            return Boolean(window.gsap && window.ScrollTrigger && window.Lenis);
+        function getHorizontalDistance() {
+            return Math.max(0, track.scrollWidth - getViewportInnerWidth());
         }
 
-        function initializeSmoothScroll() {
-            if (!librariesAreReady()) return false;
-
-            window.gsap.registerPlugin(window.ScrollTrigger);
-
-            if (!window.vrExploreLenis) {
-                const lenis = new window.Lenis({
-                    lerp: 0.085,
-                    smoothWheel: true,
-                    wheelMultiplier: 0.92
-                });
-
-                lenis.on("scroll", window.ScrollTrigger.update);
-                window.gsap.ticker.add((time) => lenis.raf(time * 1000));
-                window.gsap.ticker.lagSmoothing(0);
-                window.vrExploreLenis = lenis;
-            }
-
-            return true;
-        }
-
-        function updateProgress(progress) {
-            const normalizedProgress = clamp(progress, 0, 1);
-            const cardCount = sceneCards.length;
-            const lastCardIndex = Math.max(cardCount - 1, 1);
-            const nearestIndex = clamp(
-                Math.round(normalizedProgress * lastCardIndex),
-                0,
-                Math.max(cardCount - 1, 0)
+        // A secao sangra para a largura da tela. Usar 100vw para isso conta a
+        // barra de rolagem junto e sobra alguns pixels para fora da area
+        // visivel dos dois lados - o bastante para cortar a primeira e a
+        // ultima carta. Medimos a largura de fato visivel e entregamos ao CSS.
+        function syncBleedWidth() {
+            viewport.style.setProperty(
+                "--destination-bleed",
+                document.documentElement.clientWidth + "px"
             );
+        }
 
-            const activeCard = sceneCards[nearestIndex];
-            if (activeCard && nearestIndex !== activeSceneIndex) {
-                activeSceneIndex = nearestIndex;
-                viewport.dataset.activeLabel = activeCard.dataset.destinationName.toLocaleUpperCase("pt-BR");
-                if (counter) {
-                    counter.textContent = `${String(nearestIndex + 1).padStart(2, "0")} / ${String(cardCount).padStart(2, "0")}`;
+        function syncNativeProgress() {
+            const maxScroll = viewport.scrollWidth - viewport.clientWidth;
+            setProgress(maxScroll > 0 ? viewport.scrollLeft / maxScroll : 0);
+        }
+
+        const gsapLib = window.gsap;
+        const scrollTriggerLib = window.ScrollTrigger;
+
+        // Sem as libs o trilho nao deixa de funcionar: o CSS ja entrega
+        // scroll horizontal nativo, so falta manter a barra em dia.
+        if (!gsapLib || !scrollTriggerLib) {
+            syncBleedWidth();
+            window.addEventListener("resize", syncBleedWidth);
+            viewport.addEventListener("scroll", syncNativeProgress, { passive: true });
+            syncNativeProgress();
+
+            return {
+                refresh() {
+                    syncBleedWidth();
+                    syncNativeProgress();
                 }
-            }
+            };
+        }
 
-            progressBar.style.setProperty("--destination-progress", normalizedProgress.toFixed(4));
-            progressBar.setAttribute("aria-valuenow", String(Math.round(normalizedProgress * 100)));
-            if (progressFill) {
-                progressFill.style.setProperty("--destination-progress", normalizedProgress.toFixed(4));
+        gsapLib.registerPlugin(scrollTriggerLib);
+        setupSmoothScroll();
+
+        // Por padrao o ScrollTrigger remede TUDO sozinho a cada "resize" da
+        // janela, no instante em que o evento dispara - inclusive no meio de
+        // um arrasto de redimensionamento, e sem passar pela rebobinada de
+        // rewindToSectionStart() abaixo. Se isso acontece com o scroll parado
+        // DENTRO do trilho preso, o pin (que acabou de mudar de tamanho por
+        // causa do novo layout) fica dessincronizado da posicao real de
+        // scroll - o efeito visto e a secao de destinos "quebrando" e
+        // aparecendo no topo/rodape da pagina. ignoreMobileResize evita o
+        // mesmo problema quando a barra de endereco do celular abre/fecha
+        // durante o scroll (o navegador conta isso como resize tambem). Quem
+        // assume o refresh no resize agora e o listener proprio mais abaixo,
+        // que rebobina a posicao antes de remedir.
+        scrollTriggerLib.config({
+            autoRefreshEvents: "visibilitychange,DOMContentLoaded,load",
+            ignoreMobileResize: true
+        });
+
+        // "refreshInit" roda antes de cada medicao do ScrollTrigger, inclusive
+        // as automaticas de resize: garante que a sangria ja esta certa quando
+        // a distancia do trilho for calculada.
+        syncBleedWidth();
+        scrollTriggerLib.addEventListener("refreshInit", syncBleedWidth);
+
+        const media = gsapLib.matchMedia();
+
+        // Aviso de dev: o breakpoint que decide o modo preso e definido em
+        // dois lugares que precisam ficar iguais - HORIZONTAL_PINNED_QUERY
+        // aqui em cima e o media query equivalente em
+        // responsividade/explore_responsivo.css (bloco "DESTINOS EM
+        // DESTAQUE - TRILHO HORIZONTAL"). Se so um
+        // dos dois for editado, o JS pode prender a secao num tamanho de
+        // tela em que o CSS ainda nao aplicou o layout do modo preso (ou
+        // vice-versa), e o trilho quebra visualmente. O CSS marca esse
+        // breakpoint numa custom property so para isto; se ela discordar do
+        // matchMedia do JS, avisamos no console em vez de falhar em
+        // silencio.
+        function warnIfBreakpointMismatch() {
+            const cssSaysPinned = window.getComputedStyle(document.documentElement)
+                .getPropertyValue("--destination-breakpoint-sync")
+                .trim() === "1";
+            const jsSaysPinned = window.matchMedia(HORIZONTAL_PINNED_QUERY).matches;
+
+            if (cssSaysPinned !== jsSaysPinned) {
+                console.warn(
+                    "[explore] O breakpoint do trilho horizontal de destinos esta " +
+                    "dessincronizado entre explore_responsivo.css e explore.js (HORIZONTAL_PINNED_QUERY / " +
+                    "HORIZONTAL_NATIVE_QUERY). Atualize os dois juntos."
+                );
             }
         }
 
-        function updateFromNativeScroll() {
-            updateProgress(readNativeProgress());
+        warnIfBreakpointMismatch();
+        window.addEventListener("resize", warnIfBreakpointMismatch);
+
+        // Preenchido so enquanto o modo preso esta valendo; serve de sinal de
+        // "o GSAP esta no comando" para refresh().
+        let activeTrigger = null;
+        let activeHorizontalTween = null;
+        let cardReveals = [];
+        let pendingRefresh = 0;
+        let lastGeometry = "";
+
+        // Quem ocupa o lugar da secao no fluxo: com o pin ativo a secao sai
+        // para "fixed" e quem segura o espaco e o pin-spacer que o GSAP criou
+        // em volta dela. Medir o elemento errado devolve a posicao da secao
+        // colada na viewport, nao a posicao dela no documento.
+        function getPinHolder() {
+            return section.parentElement
+                && section.parentElement.classList.contains("pin-spacer")
+                ? section.parentElement
+                : section;
         }
 
-        function killHorizontalAnimation() {
-            cardTweens.forEach((tween) => {
-                if (tween.scrollTrigger) tween.scrollTrigger.kill();
+        function getSectionTop() {
+            return Math.round(getPinHolder().getBoundingClientRect().top + window.scrollY);
+        }
+
+        /* ----------------------------------------------------------------
+           SURGIMENTO DAS CARTAS
+           ----------------------------------------------------------------
+           Cada carta entra pela direita levemente encolhida, transparente e
+           deslocada para a esquerda - ou seja, sobreposta a carta anterior -
+           e vai assentando na propria vaga conforme atravessa a tela.
+
+           O gatilho usa "containerAnimation": em vez de um tempo proprio, ele
+           le a posicao HORIZONTAL da carta dentro do trilho. Isso e o que faz
+           a animacao andar junto com o dedo do usuario, para frente e para
+           tras, e ficar interrompivel no meio - se fosse um timeline solto a
+           carta continuaria animando depois que o scroll parasse.
+
+           Mexe so em transform e opacity (nada de layout), com transformOrigin
+           explicito para o scale nao puxar a carta para um canto. */
+        const CARD_REVEAL = Object.freeze({
+            opacity: 0.2,
+            scale: 0.92,
+            x: -52,
+            transformOrigin: "center center",
+            ease: "power2.out"
+        });
+
+        function killCardReveals() {
+            cardReveals.forEach((tween) => {
+                tween.scrollTrigger?.kill();
                 tween.kill();
             });
-            cardTweens = [];
+            cardReveals = [];
+            gsapLib.set(track.children, { clearProps: "opacity,transform" });
+        }
 
-            if (horizontalTween) {
-                if (horizontalTween.scrollTrigger) horizontalTween.scrollTrigger.kill(true);
-                horizontalTween.kill();
-                horizontalTween = null;
-            }
+        // O render recria as cartas por innerHTML, entao os gatilhos antigos
+        // ficam apontando para nos que sairam do documento: reconstruir e a
+        // unica saida, nao da para so atualizar.
+        function buildCardReveals() {
+            killCardReveals();
+            if (!activeHorizontalTween) return;
 
-            if (window.gsap) {
-                window.gsap.set(track, { clearProps: "transform" });
-                if (sceneCards.length) {
-                    window.gsap.set(sceneCards, { clearProps: "transform,opacity" });
-                }
+            Array.prototype.forEach.call(track.children, (card) => {
+                cardReveals.push(gsapLib.from(card, {
+                    ...CARD_REVEAL,
+                    scrollTrigger: {
+                        trigger: card,
+                        containerAnimation: activeHorizontalTween,
+                        // Da borda direita da tela ate 60% da travessia: a
+                        // carta chega ja assentada bem antes do centro.
+                        start: "left right",
+                        end: "left 60%",
+                        scrub: true
+                    }
+                }));
+            });
+        }
+
+        // Filtrar a busca muda o tamanho do trilho, e a busca fica dentro do
+        // painel preso. Remedir com a pagina parada no meio de um pin que
+        // acabou de encolher tem dois efeitos ruins: a secao se solta e a
+        // pagina pula para o rodape, e o ScrollTrigger mede a secao enquanto
+        // ela ainda esta "fixed" e crava um start errado. Voltar para o
+        // inicio da secao ANTES de remedir resolve os dois - e ainda mostra
+        // o resultado filtrado desde a primeira carta.
+        function rewindToSectionStart() {
+            // So vale a pena rebobinar quando o scroll esta DE FATO dentro do
+            // pin agora (isActive): e so nesse caso que remedir por cima de
+            // uma geometria que acabou de mudar (menos cartas, janela
+            // redimensionada) deixa a posicao atual fora do novo intervalo e
+            // a pagina pula para o rodape ou para o topo. Fora do pin - antes
+            // dele ou ja rolado bem depois, la pelo rodape - remedir e
+            // inofensivo, entao nao mexemos no scroll do usuario a toa.
+            if (!activeTrigger || !activeTrigger.isActive) return;
+
+            // Medimos a secao agora em vez de confiar em activeTrigger.start:
+            // o valor guardado envelhece quando o layout mexeu depois da
+            // ultima medicao (modelo 3D que carrega, fonte que troca).
+            const sectionStart = Math.max(0, getSectionTop());
+
+            // O scroll nativo vale na hora - e e isso que o ScrollTrigger le
+            // ao remedir em seguida. O Lenis recebe a mesma posicao para nao
+            // puxar a pagina de volta no tick seguinte.
+            window.scrollTo(0, sectionStart);
+
+            if (smoothScroll) {
+                smoothScroll.scrollTo(sectionStart, { immediate: true, force: true });
             }
         }
 
-        function disableEnhancedScroll() {
-            killHorizontalAnimation();
-            document.body.classList.remove("destination-horizontal-enabled");
-            activeSceneIndex = -1;
-            updateFromNativeScroll();
-        }
-
-        function refresh() {
-            killHorizontalAnimation();
-            sceneCards = Array.from(track.children);
-
-            const canPinSection = horizontalMedia.matches && sceneCards.length > 1 && initializeSmoothScroll();
-            if (!canPinSection) {
-                disableEnhancedScroll();
-                return;
-            }
-
+        media.add(HORIZONTAL_PINNED_QUERY, () => {
+            // A classe destrava o layout preso em explore.css e so entra
+            // quando o GSAP assumiu mesmo o controle do trilho.
             document.body.classList.add("destination-horizontal-enabled");
-            viewport.scrollLeft = 0;
 
-            const horizontalDistance = () => Math.max(
-                track.scrollWidth - viewport.clientWidth,
-                window.innerWidth * 0.75
-            );
-
-            horizontalTween = window.gsap.to(track, {
-                x: () => -horizontalDistance(),
+            const horizontalTween = gsapLib.to(track, {
+                x: () => -getHorizontalDistance(),
                 ease: "none",
                 scrollTrigger: {
                     trigger: section,
                     start: "top top",
-                    end: () => `+=${horizontalDistance()}`,
-                    pin: true,
+                    // O minimo de 1px evita um pin de comprimento zero quando
+                    // a busca deixa poucas cartas e nao ha trilho a percorrer.
+                    end: () => "+=" + Math.max(1, getHorizontalDistance()),
+                    pin: section,
                     pinSpacing: true,
-                    scrub: 1,
                     anticipatePin: 1,
+                    // scrub travado no scroll (true), nao com atraso (1): com
+                    // atraso o trilho ainda estava correndo quando a secao
+                    // soltava o pin no fim, e as ultimas cartas deslizavam com
+                    // a secao ja subindo. O Lenis ja da a suavidade.
+                    scrub: true,
                     invalidateOnRefresh: true,
-                    onUpdate: (self) => updateProgress(self.progress),
-                    onRefresh: (self) => updateProgress(self.progress)
+                    onUpdate: (self) => setProgress(self.progress),
+                    onRefresh: (self) => setProgress(self.progress)
                 }
             });
-
-            sceneCards.forEach((card) => {
-                const cardTween = window.gsap.fromTo(card,
-                    { y: 38, scale: 0.94, opacity: 0.56 },
-                    {
-                        y: 0,
-                        scale: 1,
-                        opacity: 1,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: card,
-                            containerAnimation: horizontalTween,
-                            start: "left 88%",
-                            end: "center center",
-                            scrub: true
-                        }
-                    }
-                );
-                cardTweens.push(cardTween);
-            });
-
-            window.ScrollTrigger.refresh();
-        }
-
-        function scrollToProgress(progress) {
-            if (!horizontalTween || !horizontalTween.scrollTrigger) return;
-
-            const trigger = horizontalTween.scrollTrigger;
-            const destination = trigger.start + (trigger.end - trigger.start) * clamp(progress, 0, 1);
-
-            if (window.vrExploreLenis) {
-                window.vrExploreLenis.scrollTo(destination, { duration: 1.05 });
-            } else {
-                window.scrollTo({ top: destination, behavior: "smooth" });
-            }
-        }
 
             activeTrigger = horizontalTween.scrollTrigger;
             activeHorizontalTween = horizontalTween;
@@ -469,38 +557,130 @@
                 viewport.scrollBy({ left: direction * step });
             }
 
-            const lastCardIndex = Math.max(track.children.length - 1, 1);
-            const currentProgress = horizontalTween && horizontalTween.scrollTrigger
-                ? horizontalTween.scrollTrigger.progress
-                : 0;
-            const activeCardIndex = Math.round(currentProgress * lastCardIndex);
-            const direction = event.key === "ArrowRight" ? 1 : -1;
-            const nextCardIndex = clamp(activeCardIndex + direction, 0, lastCardIndex);
-            scrollToProgress(nextCardIndex / lastCardIndex);
+            nativeHorizontalArea = viewport;
+            viewport.addEventListener("scroll", syncNativeProgress, { passive: true });
+            viewport.addEventListener("wheel", handleNativeWheel, { passive: false });
+            syncNativeProgress();
+
+            return () => {
+                nativeHorizontalArea = null;
+                viewport.removeEventListener("scroll", syncNativeProgress);
+                viewport.removeEventListener("wheel", handleNativeWheel);
+            };
         });
 
-        viewport.addEventListener("scroll", updateFromNativeScroll, { passive: true });
+        // invalidateOnRefresh remede a distancia do pin sozinho; no modo
+        // estreito quem cuida da barra e o scroll nativo da viewport.
+        function applyRefresh() {
+            scrollTriggerLib.refresh();
 
+            if (!activeTrigger) syncNativeProgress();
+        }
+
+        /* Assinatura da geometria de que o pin depende. Sao quatro medidas, e
+           cada uma cobre um jeito diferente de a secao sair do lugar:
+
+           1. track.scrollWidth  - a distancia horizontal a percorrer, que e o
+              comprimento do pin (end = start + distancia).
+           2. track.offsetHeight - a altura das cartas (var(--destination-card-height)
+              e 56vh), que empurra o resto do painel.
+           3. getSectionTop()    - a posicao vertical REAL da secao no documento.
+              E o ponto decisivo: o "start" do pin e essa posicao, e ela muda
+              sempre que qualquer coisa ACIMA da secao muda de altura - o mapa
+              tem aspect-ratio 16/9, os paddings de .map-explore sao em vw, os
+              titulos sao clamp() em vw, as fontes do Google chegam depois. Nada
+              disso mexe na largura do trilho.
+           4. window.innerHeight - os respiros do painel preso sao em vh.
+
+           A versao anterior comparava so (1). Como o pin e ancorado em (3), todo
+           resize/edicao de CSS que mudava a altura da pagina sem mudar a largura
+           do trilho passava batido: o ScrollTrigger seguia com o start medido no
+           layout antigo. Dai os sintomas - a secao prendia cedo demais (ainda em
+           "Explore o mundo"), tarde demais (perto do rodape), ou deixava um vao
+           entre o mapa e os destinos. E acontecia justamente nas telas largas,
+           onde a carta bate no teto de 380px e o gap no de 28px e (1) para de
+           variar de vez.
+
+           Comparar a assinatura inteira - em vez de simplesmente remedir sempre -
+           preserva o motivo pelo qual o guarda existe: escolher um destino recria
+           as cartas trocando so classes, a geometria fica identica, e remedir ali
+           (com a secao presa e "fixed") cravaria um start errado e jogaria a
+           pagina para o rodape. */
+        function readGeometrySignature() {
+            return [
+                track.scrollWidth,
+                track.offsetHeight,
+                getSectionTop(),
+                window.innerHeight
+            ].join("|");
+        }
+
+        // ScrollTrigger.refresh() remede a pagina inteira e a busca chama um
+        // render por tecla digitada, entao no maximo um refresh por quadro -
+        // as demais chamadas (inclusive as do ResizeObserver abaixo) caem no
+        // mesmo agendamento.
         function scheduleRefresh() {
-            if (refreshFrameId !== null) window.cancelAnimationFrame(refreshFrameId);
-            refreshFrameId = window.requestAnimationFrame(() => {
-                refreshFrameId = null;
-                refresh();
+            if (pendingRefresh) return;
+
+            pendingRefresh = window.requestAnimationFrame(() => {
+                pendingRefresh = 0;
+
+                // Vem antes da checagem de geometria de proposito: escolher
+                // um destino nao muda a geometria, mas recria as cartas,
+                // e sem isto os gatilhos ficariam orfaos e o surgimento
+                // pararia de acontecer depois do primeiro clique.
+                buildCardReveals();
+
+                const geometry = readGeometrySignature();
+                if (geometry === lastGeometry) return;
+
+                lastGeometry = geometry;
+
+                rewindToSectionStart();
+                applyRefresh();
+
+                // Remedir move a secao (o pin-spacer ganha/perde altura), entao
+                // a assinatura de agora e outra. Guardamos a posterior para o
+                // proximo agendamento nao achar que ainda ha o que corrigir e
+                // entrar em ciclo.
+                lastGeometry = readGeometrySignature();
             });
         }
 
-        window.addEventListener("resize", scheduleRefresh, { passive: true });
+        // O resize da janela e coberto pelo listener logo abaixo - mas uma
+        // edicao de CSS (padding, gap, largura das cartas), um hot-reload de
+        // CSS no editor/dev server, ou uma fonte/imagem que carrega depois
+        // mudam o scrollWidth do trilho SEM disparar um "resize" da janela.
+        // Sem isto, a distancia do pin calculada antes da mudanca fica
+        // desatualizada e o scroll horizontal trava ou pula no meio do
+        // caminho. Observar o proprio trilho cobre esses casos de uma vez,
+        // sem precisar de um listener por causa.
+        if (window.ResizeObserver) {
+            const geometryObserver = new window.ResizeObserver(scheduleRefresh);
+            geometryObserver.observe(track);
 
-        if (typeof horizontalMedia.addEventListener === "function") {
-            horizontalMedia.addEventListener("change", scheduleRefresh);
-        } else {
-            horizontalMedia.addListener(scheduleRefresh);
+            // O trilho sozinho so conta metade da historia: ele avisa quando a
+            // DISTANCIA do pin muda, nunca quando o PONTO DE PARTIDA muda. E o
+            // ponto de partida e a soma das alturas de tudo que vem antes da
+            // secao - o titulo "Mapa Interativo" e o visor do mapa, que tem
+            // aspect-ratio 16/9 e por isso muda de altura sozinho. Uma edicao de
+            // padding em .map-explore, um hot-reload de CSS ou um titulo que
+            // reflui empurram a secao para baixo sem tocar no trilho. Observar
+            // os irmaos anteriores cobre isso pela estrutura (quem esta acima
+            // define o start), sem depender de conhecer cada regra de CSS.
+            for (let sibling = getPinHolder().previousElementSibling;
+                sibling;
+                sibling = sibling.previousElementSibling) {
+                geometryObserver.observe(sibling);
+            }
         }
 
-        if ("ResizeObserver" in window) {
-            const resizeObserver = new ResizeObserver(scheduleRefresh);
-            resizeObserver.observe(viewport);
-            resizeObserver.observe(track);
+        // As fontes do Google (Inter/Orbitron/Condiment) chegam depois do
+        // "load". Quando trocam, os titulos acima da secao refluem e a secao
+        // inteira desce alguns pixels - com o start ja medido na fonte de
+        // fallback. Um refresh aqui alinha a medicao ao layout definitivo.
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(scheduleRefresh);
         }
 
         // A config() la em cima desligou o auto-refresh do ScrollTrigger no
@@ -537,7 +717,6 @@
         const destinationSection = document.querySelector("#destination-selector");
         const horizontalViewport = document.querySelector("#destination-horizontal-viewport");
         const horizontalProgress = document.querySelector("#destination-horizontal-progress");
-        const sceneCounter = document.querySelector("#destination-scene-counter");
 
         if (!trackContainer || !searchInput || !searchStatus || !emptyMessage || !mapViewer ||
             !mapFrame || !mapLoading || !destinationName || !destinationLocation ||
@@ -550,9 +729,8 @@
         const horizontalController = createHorizontalDestinationController({
             section: destinationSection,
             viewport: horizontalViewport,
-            track: cardsContainer,
-            progressBar: horizontalProgress,
-            counter: sceneCounter
+            track: trackContainer,
+            progressBar: horizontalProgress
         });
 
         function renderDestinationCards() {
